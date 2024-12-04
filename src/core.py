@@ -91,7 +91,7 @@ class NMRProcessor:
         
         return x_region, y_region
 
-    def normalize_data(self, x_data: np.ndarray, y_data: np.ndarray) -> Tuple[np.ndarray, np.ndarray, float, float]:
+    def normalize_data(self, x_data: np.ndarray, y_data: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         """
         Normalize the data for processing.
         
@@ -100,15 +100,17 @@ class NMRProcessor:
             y_data (np.ndarray): Y-axis data
             
         Returns:
-            Tuple containing normalized x and y data, ground level, and amplitude
+            Tuple containing normalized x and y data
         """
-        counts, bins = np.histogram(y_data.flatten())
+        # Convert to float type to avoid integer division issues
+        y_normalized = y_data.astype(float)
+        y_ground = np.min(y_normalized)
+        y_normalized = y_normalized - y_ground
+        y_amp = np.max(y_normalized)
         
-        baseline = bins[np.argmax(counts)]
-        
-        y_normalized = (y_data - baseline)/abs(baseline)
-        
-        
+        # Handle the case where all values are the same (y_amp would be 0)
+        if y_amp != 0:
+            y_normalized /= y_amp
         
         return x_data, y_normalized
 
@@ -430,7 +432,7 @@ class NMRProcessor:
                 file.write(f"Amplitude: {metrics['amplitude'][0]:.3f} ± {metrics['amplitude'][1]:.3f}\n")
                 file.write(f"Width: {metrics['width'][0]:.2f} ± {metrics['width'][1]:.2f} in ppm\n")
                 file.write(f"Width: {metrics['width'][0]*self.carrier_freq:.2f} ± {metrics['width'][1]*self.carrier_freq:.2f} in Hz\n")
-                file.write(f"Eta: {metrics['eta'][0]:.2f} ± {metrics['eta'][1]:.2f} in Hz\n")
+                file.write(f"Eta: {metrics['eta'][0]:.2f} ± {metrics['eta'][1]:.2f}\n")
                 file.write(f"Offset: {metrics['offset'][0]:.3f} ± {metrics['offset'][1]:.3f}\n")
                 file.write(f"Gaussian Area: {metrics['gaussian_area'][0]:.2f} ± {metrics['gaussian_area'][1]:.2f}\n")
                 file.write(f"Lorentzian Area: {metrics['lorentzian_area'][0]:.2f} ± {metrics['lorentzian_area'][1]:.2f}\n")

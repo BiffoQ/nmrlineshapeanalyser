@@ -90,32 +90,50 @@ class TestNMRProcessor(unittest.TestCase):
         self.assertEqual(len(x_region), len(self.processor.ppm))
 
     def test_normalize_data(self):
-        """Test data normalization functionality."""
-        x_data = self.test_ppm
-        y_data = self.test_data
-        
+        # Basic tests
+        x_data = np.array([1, 2, 3, 4, 5])
+        y_data = np.array([2, 4, 6, 8, 10])
         x_norm, y_norm = self.processor.normalize_data(x_data, y_data)
         
-        # Verify normalization
-        
-        assert x_norm.shape == x_data.shape, "X_axis should remain unchanged"
-        
-        assert y_norm.shape == y_data.shape, "Y_axis should remain unchanged"
-        
-        #Verify x_data remains unchanged
-        
-        np.testing.assert_array_equal(x_norm, x_data, "X_axis should remain unchanged")
-        
-        #Verify that the baseline was properly subtracted
-        
-        counts, bins = np.histogram(y_data.flatten())
-        
-        expected_baseline = bins[np.argmax(counts)]
-        
-        reconstructed = y_norm * np.abs(expected_baseline) + expected_baseline
-        
-        np.testing.assert_array_almost_equal(reconstructed, y_data, decimal=5, err_msg="Normalisation should be reversible")
-          
+        assert np.array_equal(x_norm, x_data)
+        assert np.min(y_norm) == 0
+        assert np.max(y_norm) == 1
+        assert x_norm.shape == x_data.shape
+        assert y_norm.shape == y_data.shape
+
+        # Test reversibility
+        y_ground = np.min(y_data)
+        y_amp = np.max(y_data) - y_ground
+        y_reconstructed = y_norm * y_amp + y_ground
+        np.testing.assert_array_almost_equal(y_reconstructed, y_data)
+
+        # Test negative values with reversibility
+        y_data = np.array([-5, 0, 5])
+        x_norm, y_norm = self.processor.normalize_data(x_data[:3], y_data)
+        y_ground = np.min(y_data)
+        y_amp = np.max(y_data) - y_ground
+        y_reconstructed = y_norm * y_amp + y_ground
+        np.testing.assert_array_almost_equal(y_reconstructed, y_data)
+
+        # Test constant values
+        y_data = np.array([5, 5, 5])
+        x_norm, y_norm = self.processor.normalize_data(x_data[:3], y_data)
+        assert np.array_equal(y_norm, np.zeros_like(y_data))
+
+        # Test empty arrays
+        try:
+            self.processor.normalize_data(np.array([]), np.array([]))
+            assert False, "Expected ValueError for empty arrays"
+        except ValueError:
+            pass
+
+        # Test input unmodified
+        x_data = np.array([1, 2, 3])
+        y_data = np.array([2, 4, 6])
+        x_copy, y_copy = x_data.copy(), y_data.copy()
+        self.processor.normalize_data(x_data, y_data)
+        assert np.array_equal(x_data, x_copy)
+        assert np.array_equal(y_data, y_copy)          
         
 
     def test_pseudo_voigt(self):
