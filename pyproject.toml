@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "nmrlineshapeanalyser"
-version = "0.1.0"
+version = "0.1.1"
 description = "ss-NMR peak deconvolution and lineshape analysis"
 readme = "README.md"
 requires-python = ">=3.10, <3.13"
@@ -57,7 +57,7 @@ ignore_missing_imports = true
 strict = true
 
 [tool.hatch]
-version = "0.1.0"
+version = "0.1.1"
 envs = {dev = ["pytest", "black", "isort", "mypy"]}
 
 [tool.hatch.build.targets.wheel]
