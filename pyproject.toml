@@ -56,6 +56,9 @@ multi_line_output = 3
 ignore_missing_imports = true
 strict = true
 
+[tool.hatch]
+packages = ["src/nmrlineshapeanalyser"]
+
 [project.urls]
 Homepage = "https://github.com/BiffoQ/nmrlineshapeanalyser"
 Documentation = "https://project.readthedocs.io/"

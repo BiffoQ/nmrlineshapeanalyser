@@ -9,9 +9,7 @@ import os
 import shutil
 import tempfile
 import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from src.core import NMRProcessor
+from nmrlineshapeanalyser.core import NMRProcessor
 from unittest.mock import mock_open
 import coverage
 
