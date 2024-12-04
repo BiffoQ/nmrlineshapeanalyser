@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<NMRFit>
+<FitParameters>
+	<timestamp>2023-10-02T14:00:59Z</timestamp>
+	<DMFitVersion>20220502</DMFitVersion>
+	<FitMode>0</FitMode>
+	<FitModeAsc>Fit 1D</FitModeAsc>
+	<Sdev>1100131.102</Sdev>
+	<ComputeParam>
+		<ShapeSize>4096</ShapeSize>
+		<npasab>64</npasab>
+		<ssbMax>10</ssbMax>
+		<QuadStep>5</QuadStep>
+		<EtaStep>5</EtaStep>
+		<CptThreshold>99</CptThreshold>
+		<CSAStep>15</CSAStep>
+		<MinCSAStep>50</MinCSAStep>
+		<GaussMult>0.75</GaussMult>
+		<SWMult>4</SWMult>
+	</ComputeParam>
+	<Dimension>F2
+		<nucleus>51V</nucleus>
+		<frequency>131.5566118</frequency>
+		<spinrate>10000</spinrate>
+		<line>
+			<ModelName>CSA mas</ModelName>
+			<amp>41903821.76</amp>
+			<pos  Unit="ppm">-576.85286</pos>
+			<wid  Unit="ppm">15.3246174</wid>
+			<gl>0</gl>
+			<dCS Fit="*"  Unit="ppm" Error="0.42157">-125.8681722</dCS>
+			<etaCS Fit="*"  Error="0.01110">0.9128266056</etaCS>
+		</line>
+		<line>
+			<ModelName>CSA mas</ModelName>
+			<amp Fit="*"  Error="73481.55244">13093554.5</amp>
+			<pos  Unit="ppm">-597.9868092</pos>
+			<wid  Unit="ppm">14.69449778</wid>
+			<gl>0</gl>
+			<dCS Fit="*"  Unit="ppm" Error="255.05326">-4.326184505</dCS>
+			<etaCS Fit="*"  Error="247.80189">4.020574311</etaCS>
+		</line>
+	</Dimension>
+</FitParameters>
+<GraphParameters>
+	<Dimensions>
+		<X>
+			<min>365744.4833</min>
+			<max>-516601.726</max>
+		</X>
+		<Amp>
+			<min>-2688147.825</min>
+			<max>43116933.2</max>
+		</Amp>
+	</Dimensions>
+</GraphParameters>
+<DataFile>
+	<FileName>1r</FileName>
+	<FileTitle>51V solidecho - A029 17O enriched - 3.2 mm (Iris) MAS 10 kHz 20230502 -  shim IrisSwapnaAug22</FileTitle>
+</DataFile>
+</NMRFit>

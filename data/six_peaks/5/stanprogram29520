@@ -1,0 +1,43 @@
+# 1 "/root/.topspin-BladeEpu/local_acqu/simulDirs/ppDirs/onepulse"
+# 1 "<built-in>"
+# 1 "<command-line>"
+# 1 "/root/.topspin-BladeEpu/local_acqu/simulDirs/ppDirs/onepulse"
+;onepulse (TopSpin 3.0)
+;
+; TS3 / 03.06.2011
+;
+;
+;checked by sewe 03.06.2011
+;
+;
+;Avance III version
+;parameters:
+;pl1 : power level for excitation pulse
+;p1 : excitation pulse length
+;d1 : recycle delay
+;acqt0 is used to backpredict the t=0 fid point
+;
+;
+;$CLASS=Solids
+;$DIM=1D
+;$TYPE=direct excitation
+;$SUBTYPE=simple 1D
+;$COMMENT=single pulse excitation, acquisition without decoupling
+
+prosol relations=<solids_default>
+
+# 26 "/root/.topspin-BladeEpu/local_acqu/simulDirs/ppDirs/onepulse"
+"acqt0=-p1/2"
+
+# 28 "/root/.topspin-BladeEpu/local_acqu/simulDirs/ppDirs/onepulse"
+1 ze
+2 d1
+  (p1 pl1 ph1):f1
+  go=2 ph31
+  wr #0
+exit
+
+ph1= 0 2 1 3
+ph31=0 2 1 3
+# 40 "/root/.topspin-BladeEpu/local_acqu/simulDirs/ppDirs/onepulse"
+;$Id: onepulse,v 1.8 2017/02/22 16:58:55 ber Exp $

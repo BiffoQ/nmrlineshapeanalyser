@@ -1,0 +1,62 @@
+# 1 "/root/.topspin-BladeEpu/local_acqu/ppDirs/solidecho"
+# 1 "<built-in>"
+# 1 "<command-line>"
+# 1 "/root/.topspin-BladeEpu/local_acqu/ppDirs/solidecho"
+;solidecho (TopSpin 2.0)
+;
+;TS3 / 03.06.2011
+;
+;checked by SEWE 03.06.2011
+;
+;
+;90-90 solid echo sequence for wide line observation
+;
+;set d6 to 5-100usec depending on dead time
+;set d7 shorter than d6 by 3usec plus 10 dw to make
+;sure the evolution of the echo is obvserved, then left shift
+;FID prior to ft to get smallest possible 1st order pohase correction
+;set receiver phase either with phcor0 or with HPCU receiver phase
+;to get maximum signal in ADC channel A and almost no signal in channel B
+;for minimum 0 order phase correction (no signal in channel B  is only
+;possible if O1 exactly in center and spectrum perfectly symmetric).
+;phase cycle will cancel deadtime partially, but not perfectly
+;
+;
+;parameters:
+;pl1 : X power level for 90
+;p1 : X 90 degree pulse
+;d1 : recycle delay
+;d6 : echo delay
+;d7 : =0, or no longer than d6-de
+;ns : = 8*n
+;
+;
+;$CLASS=Solids
+;$DIM=1D
+;$TYPE=direct excitation
+;$SUBTYPE=simple 1D
+;$COMMENT=90-90 solid echo sequence for wide line observation
+
+prosol relations=<solids_default>
+
+# 39 "/root/.topspin-BladeEpu/local_acqu/ppDirs/solidecho"
+;cnst11 : to adjust t=0 for acquisition, if digmod = baseopt
+"acqt0=0"
+
+# 42 "/root/.topspin-BladeEpu/local_acqu/ppDirs/solidecho"
+1 ze
+2 d1
+  (p1 pl1 ph1):f1
+  d6
+  (p1 ph2):f1
+  d7
+  go=2 ph31 
+  wr #0
+exit
+
+ph0=0
+ph1= 0 3 2 1 0 3 2 1
+ph2= 3 2 1 0 1 0 3 2
+ph31= 3 2 1 0 3 2 1 0
+# 59 "/root/.topspin-BladeEpu/local_acqu/ppDirs/solidecho"
+;$Id: solidecho,v 1.7 2017/02/22 16:58:55 ber Exp $

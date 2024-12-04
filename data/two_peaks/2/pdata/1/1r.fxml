@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<NMRFit>
+<FitParameters>
+	<timestamp>2023-07-27T15:02:03Z</timestamp>
+	<DMFitVersion>20220502</DMFitVersion>
+	<FitMode>0</FitMode>
+	<FitModeAsc>Fit 1D</FitModeAsc>
+	<Sdev>508173.2599</Sdev>
+	<ComputeParam>
+		<ShapeSize>4096</ShapeSize>
+		<npasab>64</npasab>
+		<ssbMax>10</ssbMax>
+		<QuadStep>5</QuadStep>
+		<EtaStep>5</EtaStep>
+		<CptThreshold>99</CptThreshold>
+		<CSAStep>15</CSAStep>
+		<MinCSAStep>50</MinCSAStep>
+		<GaussMult>0.75</GaussMult>
+		<SWMult>4</SWMult>
+	</ComputeParam>
+	<Dimension>F2
+		<nucleus>51V</nucleus>
+		<frequency>131.5566118</frequency>
+		<spinrate>10000</spinrate>
+		<line>
+			<ModelName>Quad 1st</ModelName>
+			<amp Fit="*" >40125654.62</amp>
+			<pos Fit="*"  Unit="ppm">-577.0721863</pos>
+			<wid Fit="*"  Unit="ppm">13.10506106</wid>
+			<gl>0</gl>
+			<tr>7</tr>
+			<CQ Fit="*" >702.8051459</CQ>
+			<etaQ Fit="*" >0.9639915736</etaQ>
+		</line>
+		<line>
+			<ModelName>Quad 1st</ModelName>
+			<amp Fit="*" >14293959.69</amp>
+			<pos Fit="*"  Unit="ppm">-595.97072</pos>
+			<wid Fit="*"  Unit="ppm">12.60733012</wid>
+			<gl>0</gl>
+			<tr>7</tr>
+			<CQ Fit="*" >1061.613919</CQ>
+			<etaQ Fit="*" >0.6374414499</etaQ>
+		</line>
+	</Dimension>
+</FitParameters>
+<GraphParameters>
+	<Dimensions>
+		<X>
+			<min>365744.4833</min>
+			<max>-516601.726</max>
+		</X>
+		<Amp>
+			<min>-2688147.825</min>
+			<max>43116933.2</max>
+		</Amp>
+	</Dimensions>
+</GraphParameters>
+<DataFile>
+	<FileName>1r</FileName>
+	<FileTitle>51V solidecho - A029 17O enriched - 3.2 mm (Iris) MAS 10 kHz 20230502 -  shim IrisSwapnaAug22</FileTitle>
+</DataFile>
+</NMRFit>

@@ -1,0 +1,481 @@
+##TITLE= Audit trail, TopSpin 4.0.6
+##JCAMPDX= 5.01
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmr
+$$ C:\Data\Pedro/220128_LAMOX_17O enriched_Daisy/5/pdata/1/auditp.txt
+##AUDIT TRAIL=  $$ (NUMBER, WHEN, WHO, WHERE, PROCESS, VERSION, WHAT)
+(   1,<2022-01-28 15:45:42.696 +0000>,<root>,<BladeEpu>,<go4>,<TopSpin 4.0.6>,
+      <created by zg on 'CAB AV4 500MHZ EXT' (CZC72773GJ) by user 'CZC72773GJ\nmr'
+       started at 2022-01-28 14:42:50.551 +0000, POWCHK enabled, PULCHK disabled,
+       terminated by command 'halt' at 2022-01-28 15:45:42.695 +0000
+       configuration hash MD5:
+       B3 BF 47 1F 78 52 4C 35 10 3E 39 E9 B9 74 74 12
+       double data hash MD5: 9374
+       DE 0A ED 65 25 60 A4 35 F5 BF 49 40 CD 7D 8B 66>)
+(   2,<2022-01-28 16:45:42.959 +0100>,<nmr>,<CZC72773GJ>,<proc1d>,<TopSpin 4.0.6>,
+      <Start of raw data processing
+       efp LB = 0 FT_mod = 6 PKNL = 1 PHC0 = 87.4677 PHC1 = -2112.4 SI = 128K 
+       data hash MD5: 128K
+       3C 1A 18 75 9F 86 2A 45 6B C4 7E 11 13 E0 46 5D>)
+$$ C:/Users/babdulkadirola/OneDrive - Delft University of Technology/Desktop/Inside Desktop/PhD_Project/Research Folder/NMR/NMR_DATA/Pedro/220128_LAMOX_17O enriched_Daisy/5/pdata/1/auditp.txt
+(   3,<2024-09-03 11:08:50.767 +0200>,<DASTUD\babdulkadirola>,<TUD260879>,<cprserver>,<TopSpin 4.1.4>,
+      <changed parameter F1 LB to 1000.00>)
+(   4,<2024-09-03 11:08:52.666 +0200>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       efp LB = 1000 FT_mod = 6 PKNL = 1 PHC0 = 87.4677 PHC1 = -2112.4 SI = 128K 
+       data hash MD5: 128K
+       D8 13 3A A2 29 8F 35 B6 9F E3 C3 88 B0 1F 93 17>)
+(   5,<2024-09-03 11:09:16.613 +0200>,<DASTUD\babdulkadirola>,<TUD260879>,<cprserver>,<TopSpin 4.1.4>,
+      <changed parameter F1 LB to 500.00>)
+(   6,<2024-09-03 11:09:16.957 +0200>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       efp LB = 500 FT_mod = 6 PKNL = 1 PHC0 = 87.4677 PHC1 = -2112.4 SI = 128K 
+       data hash MD5: 128K
+       52 61 AC 37 F2 CE 4D 64 8C 5D 0C 12 10 50 3B EA>)
+(   7,<2024-09-03 11:09:37.118 +0200>,<DASTUD\babdulkadirola>,<TUD260879>,<cprserver>,<TopSpin 4.1.4>,
+      <changed parameter F1 LB to 300.00>)
+(   8,<2024-09-03 11:09:37.373 +0200>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       efp LB = 300 FT_mod = 6 PKNL = 1 PHC0 = 87.4677 PHC1 = -2112.4 SI = 128K 
+       data hash MD5: 128K
+       C7 D1 8D 35 81 E2 F6 B5 7B EB 20 41 DA FA 7B 1A>)
+$$ C:/Users/babdulkadirola/OneDrive - Delft University of Technology/Desktop/Inside Desktop/PhD_Project/LAMOX_Publication/NMR_Data/Base_LAMOX/One_pulse_17O_meas/220128_LAMOX_17O enriched_Daisy/5/pdata/1/auditp.txt
+(   9,<2024-11-01 11:47:42.969 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -7.307985e+10 PHC1 = 1.479011e+11 
+       data hash MD5: 128K
+       77 AC E0 FE AE 1C 97 99 F0 D7 36 E2 20 A2 7B 55>)
+(  10,<2024-11-01 11:47:48.584 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       efp LB = 300 FT_mod = 6 PKNL = 1 PHC0 = -7.307985e+10 PHC1 = 1.479011e+11 SI = 128K 
+       data hash MD5: 128K
+       E3 72 B4 BD F2 77 FD 14 4B 47 DC 28 FF 9B 14 49>)
+(  11,<2024-11-01 11:47:57.047 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       efp LB = 300 FT_mod = 6 PKNL = 1 PHC0 = -7.307985e+10 PHC1 = 1.479011e+11 SI = 128K 
+       data hash MD5: 128K
+       E3 72 B4 BD F2 77 FD 14 4B 47 DC 28 FF 9B 14 49>)
+(  12,<2024-11-01 11:48:36.790 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <apk 
+       data hash MD5: 128K
+       2E 17 41 45 0A 0C 95 D6 FD FA BB 51 34 90 88 AE>)
+(  13,<2024-11-01 11:49:01.575 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<cprserver>,<TopSpin 4.1.4>,
+      <changed parameter F1 PHC1 to 0>)
+(  14,<2024-11-01 11:49:03.626 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       efp LB = 300 FT_mod = 6 PKNL = 1 PHC0 = -7.307985e+10 PHC1 = 0 SI = 128K 
+       data hash MD5: 128K
+       6D B3 AE CB 6D AE 7F D4 1C 1B 15 07 27 9F 34 A0>)
+(  15,<2024-11-01 11:49:51.026 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <apk 
+       data hash MD5: 128K
+       8B F5 1E E8 EB 11 AB C0 FC 4A 5B B6 B8 D3 31 4E>)
+(  16,<2024-11-01 11:49:54.394 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       efp LB = 300 FT_mod = 6 PKNL = 1 PHC0 = -160 PHC1 = -8.982319 SI = 128K 
+       data hash MD5: 128K
+       CF 8B CE 49 5D F6 EF A5 2C 38 CD 6E BE ED 5D DD>)
+(  17,<2024-11-01 11:50:00.958 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<cprserver>,<TopSpin 4.1.4>,
+      <changed parameter F1 PHC1 to 0>)
+(  18,<2024-11-01 11:50:03.669 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       efp LB = 300 FT_mod = 6 PKNL = 1 PHC0 = -160 PHC1 = 0 SI = 128K 
+       data hash MD5: 128K
+       6D B3 AE CB 6D AE 7F D4 1C 1B 15 07 27 9F 34 A0>)
+(  19,<2024-11-01 11:50:36.023 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 106.4098 PHC1 = -371.2 
+       data hash MD5: 128K
+       C3 98 D2 CB 7B 9F FE 01 09 74 D9 C2 E6 90 72 CB>)
+(  20,<2024-11-01 11:53:10.435 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 61.052 PHC1 = -104.6937 
+       data hash MD5: 128K
+       23 CA 61 A3 13 4F BF 8F 77 72 30 30 82 AB 8B FD>)
+(  21,<2024-11-01 11:55:41.650 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 19.79588 PHC1 = -40.25 
+       data hash MD5: 128K
+       8F 6C AB 64 A6 F4 FD C5 EE 7D D1 E5 11 2A 0C F4>)
+(  22,<2024-11-01 11:56:44.701 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 72.78438 PHC1 = 610.875 
+       data hash MD5: 128K
+       56 8B 1F 42 D5 BD 14 93 44 12 4B EB 95 E5 31 D9>)
+(  23,<2024-11-01 11:57:51.248 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -12.375 PHC1 = 0 
+       data hash MD5: 128K
+       CB 24 71 AB 8B 1A D9 A9 AB 9F 62 2D 15 3F CD 2D>)
+(  24,<2024-11-01 11:57:57.605 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<cprserver>,<TopSpin 4.1.4>,
+      <changed parameter F1 LB to 500.00>)
+(  25,<2024-11-01 11:57:59.430 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       efp LB = 500 FT_mod = 6 PKNL = 1 PHC0 = 87.6671 PHC1 = 94.73132 SI = 128K 
+       data hash MD5: 128K
+       60 49 2C F1 22 40 ED 16 E5 23 FC 2C B5 C5 DD F2>)
+(  26,<2024-11-01 11:58:08.575 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<cprserver>,<TopSpin 4.1.4>,
+      <changed parameter F1 LB to 1000.00>)
+(  27,<2024-11-01 11:58:09.979 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       efp LB = 1000 FT_mod = 6 PKNL = 1 PHC0 = 87.6671 PHC1 = 94.73132 SI = 128K 
+       data hash MD5: 128K
+       86 A1 A9 F5 59 F6 0B 7C E9 27 91 34 D8 DC EA 28>)
+(  28,<2024-11-01 11:58:15.750 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<cprserver>,<TopSpin 4.1.4>,
+      <changed parameter F1 LB to 800.00>)
+(  29,<2024-11-01 11:58:16.606 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       efp LB = 800 FT_mod = 6 PKNL = 1 PHC0 = 87.6671 PHC1 = 94.73132 SI = 128K 
+       data hash MD5: 128K
+       FE B9 2E 70 E5 F7 68 AB D3 C6 45 46 88 1A 08 89>)
+(  30,<2024-11-01 11:58:35.730 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<cprserver>,<TopSpin 4.1.4>,
+      <changed parameter F1 LB to 700.00>)
+(  31,<2024-11-01 11:58:38.125 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       efp LB = 700 FT_mod = 6 PKNL = 1 PHC0 = 87.6671 PHC1 = 94.73132 SI = 128K 
+       data hash MD5: 128K
+       7D 21 1E 38 6A 08 1A 80 77 CE 78 5C 87 F5 60 27>)
+(  32,<2024-11-01 11:58:48.798 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<cprserver>,<TopSpin 4.1.4>,
+      <changed parameter F1 LB to 650.00>)
+(  33,<2024-11-01 11:58:50.179 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       efp LB = 650 FT_mod = 6 PKNL = 1 PHC0 = 87.6671 PHC1 = 94.73132 SI = 128K 
+       data hash MD5: 128K
+       E1 83 82 08 0C A1 26 8D A2 38 EF 1C D9 E6 33 91>)
+(  34,<2024-11-01 11:59:23.316 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 13.45 PHC1 = 0 
+       data hash MD5: 128K
+       19 DC BD 25 E4 2D 75 08 95 D6 D1 A1 31 A3 5F 8D>)
+(  35,<2024-11-01 12:00:26.135 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -1.375 PHC1 = 0 
+       data hash MD5: 128K
+       10 79 FA 20 76 4D 76 EB 6B F0 5B F8 41 32 CD F9>)
+(  36,<2024-11-01 12:01:33.925 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 105.3557 PHC1 = -201.5 
+       data hash MD5: 128K
+       EE E7 EA 0E 88 72 05 F8 0A 43 A7 6A E1 01 A6 0F>)
+(  37,<2024-11-01 12:05:02.261 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 3.875 PHC1 = 0 
+       data hash MD5: 128K
+       56 53 7C 4C BE 04 DC CD 59 9C B0 7C 4E 70 22 6B>)
+(  38,<2024-11-01 12:06:02.363 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<cprserver>,<TopSpin 4.1.4>,
+      <changed parameter F1 LB to 500.00>)
+(  39,<2024-11-01 12:06:04.098 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       efp LB = 500 FT_mod = 6 PKNL = 1 PHC0 = 208.9728 PHC1 = -106.7687 SI = 128K 
+       data hash MD5: 128K
+       B2 AA 9F 87 8B 88 E9 6A 8C 5D 6A B8 99 C3 3F B4>)
+(  40,<2024-11-01 12:17:22.487 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -117.4776 PHC1 = 236.9 
+       data hash MD5: 128K
+       0C AC 91 45 CD 46 5F 3E 82 BF BF A5 A6 77 CA EF>)
+(  41,<2024-11-01 12:18:23.737 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 33.81321 PHC1 = -79.2 
+       data hash MD5: 128K
+       65 47 20 D3 A3 EE F8 93 3A 89 12 BA 33 DD 3E B3>)
+(  42,<2024-11-01 12:19:27.251 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 7.45 PHC1 = 0 
+       data hash MD5: 128K
+       03 83 2B 6F A9 36 54 6B 98 09 5A 97 FE BD 67 93>)
+(  43,<2024-11-01 12:20:21.268 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -120.9819 PHC1 = 250.7 
+       data hash MD5: 128K
+       1C 1F 88 BC CE C9 01 8D 04 E8 3D AB 7D 95 BA 66>)
+(  44,<2024-11-01 12:21:25.255 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -8.5 PHC1 = 0 
+       data hash MD5: 128K
+       70 40 5C BD 01 53 E3 67 5D A5 EE 2B C3 68 79 E2>)
+(  45,<2024-11-01 12:21:43.487 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 8.15 PHC1 = 0 
+       data hash MD5: 128K
+       99 FD 6C 9C 2C F6 28 C3 8C 54 74 38 76 6D 4C DD>)
+(  46,<2024-11-01 12:22:38.531 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 47.28915 PHC1 = -128.4 
+       data hash MD5: 128K
+       BC 47 AE FC EF BF B4 A7 B2 70 B5 AB 77 52 63 CB>)
+(  47,<2024-11-01 12:23:06.545 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 11.575 PHC1 = 0 
+       data hash MD5: 128K
+       38 DE F0 72 50 CF 7D E3 7A 90 35 9D 68 B5 78 FE>)
+(  48,<2024-11-01 12:23:48.635 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 131.5374 PHC1 = -260.6 
+       data hash MD5: 128K
+       D8 19 0E 53 0E C9 81 D2 C6 43 1C 28 86 E5 55 3F>)
+(  49,<2024-11-01 12:31:02.416 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -125.1114 PHC1 = 249.5 
+       data hash MD5: 128K
+       88 4E 91 64 CD AF BA 5A 22 D3 30 D4 6B 18 C6 B8>)
+(  50,<2024-11-01 12:32:01.387 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -101.4574 PHC1 = 223.5 
+       data hash MD5: 128K
+       A0 53 04 00 E8 8D C3 3C 9C B1 19 79 7C 0C B1 FE>)
+(  51,<2024-11-01 12:32:11.410 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<cprserver>,<TopSpin 4.1.4>,
+      <changed parameter F1 LB to 300.00>)
+(  52,<2024-11-01 12:32:14.645 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       efp LB = 300 FT_mod = 6 PKNL = 1 PHC0 = -24.74078 PHC1 = 385.6313 SI = 128K 
+       data hash MD5: 128K
+       4C AD E5 C6 D4 87 71 6A A7 90 12 7F D6 7F 1A BC>)
+(  53,<2024-11-01 12:33:12.373 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 88.59058 PHC1 = -196.7 
+       data hash MD5: 128K
+       AF D3 4E D9 CE 97 A9 57 E0 B9 A8 8B 22 C7 F8 F0>)
+(  54,<2024-11-01 12:34:41.647 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 3.575 PHC1 = 0 
+       data hash MD5: 128K
+       52 1B 31 47 82 FA 05 9D 7F C2 30 78 83 F6 12 DF>)
+(  55,<2024-11-01 12:35:32.017 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 3.1 PHC1 = 0 
+       data hash MD5: 128K
+       2D 3E 04 D0 B5 6E 13 52 19 AE 0A 58 0C 22 5B FA>)
+(  56,<2024-11-01 12:35:37.619 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<cprserver>,<TopSpin 4.1.4>,
+      <changed parameter F1 LB to 600.00>)
+(  57,<2024-11-01 12:35:41.274 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       efp LB = 600 FT_mod = 6 PKNL = 1 PHC0 = 70.5248 PHC1 = 188.9313 SI = 128K 
+       data hash MD5: 128K
+       9F 7B 05 CC D5 E3 56 4B A0 01 27 67 9E AD A4 45>)
+(  58,<2024-11-01 12:36:05.260 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 7.720657 PHC1 = -26.2 
+       data hash MD5: 128K
+       F4 17 AA 0B 34 80 9C 3E EE 23 A6 7F 58 C8 E5 8C>)
+(  59,<2024-11-01 12:42:57.889 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 3.275 PHC1 = 0 
+       data hash MD5: 128K
+       2A 8B 48 6B 92 77 72 D4 B9 59 F2 B1 0A A6 C8 D6>)
+(  60,<2024-11-01 12:43:27.513 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -8.675 PHC1 = 0 
+       data hash MD5: 128K
+       56 D4 F8 BC EF A9 64 BB AB 09 AE 4E 03 16 70 2B>)
+(  61,<2024-11-01 12:44:37.185 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 55.89908 PHC1 = -100.7 
+       data hash MD5: 128K
+       F6 A1 32 E3 60 FF 93 65 B2 EF 68 B9 7C 57 A3 48>)
+(  62,<2024-11-01 12:45:42.270 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -4.225 PHC1 = 0 
+       data hash MD5: 128K
+       39 9C C9 F6 26 EC 2B 12 87 6D 25 C9 47 D9 F5 8D>)
+(  63,<2024-11-01 12:46:27.077 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -79.35881 PHC1 = 171.1 
+       data hash MD5: 128K
+       2D 4D 57 A7 68 DC 32 6A 77 59 24 5C F3 9D 2D FA>)
+(  64,<2024-11-01 12:46:54.606 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -10.025 PHC1 = 0 
+       data hash MD5: 128K
+       C0 78 01 4D 3C A1 4E DC 16 5F D5 6B 56 CC 82 DF>)
+(  65,<2024-11-01 12:47:20.491 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 9.7 PHC1 = 0 
+       data hash MD5: 128K
+       B5 1D 24 3D DA EE D2 D4 64 37 DD B3 B5 7D E8 4E>)
+(  66,<2024-11-01 12:48:03.806 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 49.08951 PHC1 = -99.6 
+       data hash MD5: 128K
+       43 1B 45 2A 62 3C 65 4A E4 32 C7 CD 86 81 6B 51>)
+(  67,<2024-11-01 12:48:50.107 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 2.575 PHC1 = 0 
+       data hash MD5: 128K
+       94 60 C6 72 BF 34 F4 46 EC 46 51 43 F5 B2 B9 38>)
+(  68,<2024-11-01 12:48:56.332 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<cprserver>,<TopSpin 4.1.4>,
+      <changed parameter F1 LB to 300.00>)
+(  69,<2024-11-01 12:48:57.650 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       efp LB = 300 FT_mod = 6 PKNL = 1 PHC0 = 96.5002 PHC1 = 133.5313 SI = 128K 
+       data hash MD5: 128K
+       17 41 48 B5 70 D9 01 98 EB 00 E4 AB 33 DF 9D 05>)
+(  70,<2024-11-01 12:50:56.050 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -160.2163 PHC1 = -413.4 
+       data hash MD5: 128K
+       DF 26 E0 56 53 A6 74 02 B1 34 93 24 74 34 CB 62>)
+(  71,<2024-11-01 12:51:26.056 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 0 PHC1 = 0 
+       data hash MD5: 128K
+       DF 26 E0 56 53 A6 74 02 B1 34 93 24 74 34 CB 62>)
+(  72,<2024-11-01 12:52:09.869 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 163.3211 PHC1 = 394.4 
+       data hash MD5: 128K
+       E7 B1 85 89 08 22 6A 62 07 1A 32 68 2D 10 98 7E>)
+(  73,<2024-11-01 13:55:12.566 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 18.35 PHC1 = 0 
+       data hash MD5: 128K
+       A8 A9 94 72 B2 4D 8D 87 BB 68 D4 AC 7B 9C D8 42>)
+(  74,<2024-11-01 13:56:26.254 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -25.225 PHC1 = 0 
+       data hash MD5: 128K
+       67 DC 2A 2A B1 5D 20 61 D5 57 24 39 FB 27 3E 6F>)
+(  75,<2024-11-01 13:56:59.769 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 15.55 PHC1 = 0 
+       data hash MD5: 128K
+       E5 AD B7 96 3D 5B 0C 41 E0 B5 79 F9 18 25 B1 A3>)
+(  76,<2024-11-01 13:57:56.628 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 113.9609 PHC1 = -236.1 
+       data hash MD5: 128K
+       F5 7A EB 5D A8 AB D3 5F 19 F9 FA 54 AE AE D1 8D>)
+(  77,<2024-11-01 13:58:27.863 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -8.875 PHC1 = 0 
+       data hash MD5: 128K
+       F5 BE AA 07 BD AA 37 B5 B4 89 F9 30 05 34 7D F1>)
+(  78,<2024-11-01 14:08:44.895 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<cprserver>,<TopSpin 4.1.4>,
+      <changed parameter F1 PHC0 to 53.150>)
+(  79,<2024-11-01 14:08:55.190 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<cprserver>,<TopSpin 4.1.4>,
+      <changed parameter F1 PHC1 to 1801.220>)
+(  80,<2024-11-01 14:08:59.959 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       ef LB = 300 FT_mod = 6 PKNL = 1 SI = 128K 
+       data hash MD5: 128K
+       79 ED 30 C7 B0 81 EF ED 18 F4 2D 9C CC 09 26 B5>)
+(  81,<2024-11-01 14:09:07.507 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       efp LB = 300 FT_mod = 6 PKNL = 1 PHC0 = 53.15 PHC1 = 1801.22 SI = 128K 
+       data hash MD5: 128K
+       1C 3E 90 71 70 5D 02 C5 5F 6A 8F 82 E8 E9 74 30>)
+(  82,<2024-11-01 14:10:28.036 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <sab NZP = 1 
+       data hash MD5: 128K
+       1E 0D EB C4 22 95 4D 11 6A 84 7D 18 84 CA 46 44>)
+(  83,<2024-11-01 14:11:02.710 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       efp LB = 300 FT_mod = 6 PKNL = 1 PHC0 = 53.15 PHC1 = 1801.22 SI = 128K 
+       data hash MD5: 128K
+       1C 3E 90 71 70 5D 02 C5 5F 6A 8F 82 E8 E9 74 30>)
+(  84,<2024-11-01 14:12:07.322 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 37.43578 PHC1 = -1675.9 
+       data hash MD5: 128K
+       EF FA 58 3E B1 61 38 D3 0D DF E5 83 54 7B 80 7B>)
+(  85,<2024-11-01 14:13:32.935 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <sab NZP = 1 
+       data hash MD5: 128K
+       F9 97 CF FF 58 F1 7F C9 5F CB E2 C3 55 5E 4E 47>)
+(  86,<2024-11-01 14:13:55.627 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 10.05 PHC1 = 0 
+       data hash MD5: 128K
+       87 53 B8 F9 E4 E3 AC 0B 09 FE 22 6A D4 3D 37 23>)
+(  87,<2024-11-01 14:14:05.882 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <sab NZP = 1 
+       data hash MD5: 128K
+       24 5E 02 AC DB 80 7A 6F B7 EF 6B A3 4C D1 33 51>)
+(  88,<2024-11-01 14:14:24.830 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -3.453606 PHC1 = -17.8 
+       data hash MD5: 128K
+       D3 76 86 6A CE A8 60 A2 13 35 4F 4A 33 D5 28 41>)
+(  89,<2024-11-01 14:14:37.564 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <sab NZP = 1 
+       data hash MD5: 128K
+       EA 92 24 FE 8F 9E C3 A2 71 24 80 04 16 BC 1E 4E>)
+(  90,<2024-11-01 14:14:54.512 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <sab NZP = 1 
+       data hash MD5: 128K
+       37 5A 74 A3 F6 7C 2F C5 C7 00 99 C9 1D B6 04 DA>)
+(  91,<2024-11-01 14:15:05.026 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 0.5 PHC1 = 0 
+       data hash MD5: 128K
+       0D 1F 5C A2 65 FE 31 FE 6C 3C 47 9C AF 80 95 E0>)
+(  92,<2024-11-01 14:17:09.180 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<cprserver>,<TopSpin 4.1.4>,
+      <changed parameter F1 LB to 500.00>)
+(  93,<2024-11-01 14:17:14.633 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       efp LB = 500 FT_mod = 6 PKNL = 1 PHC0 = 97.6822 PHC1 = 107.5199 SI = 128K 
+       data hash MD5: 128K
+       BB C0 36 8E 9A 82 75 C0 94 C7 7F 11 66 6F 2F 9B>)
+(  94,<2024-11-01 14:17:20.190 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <sab NZP = 1 
+       data hash MD5: 128K
+       C6 E6 55 3A 4E CB E8 15 7D 26 43 05 8D 74 DA 49>)
+(  95,<2024-11-01 14:17:38.419 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <sab NZP = 1 
+       data hash MD5: 128K
+       C6 E6 55 3A 4E CB E8 15 7D 26 43 05 8D 74 DA 49>)
+(  96,<2024-11-01 14:18:07.542 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 12.17533 PHC1 = -24.1 
+       data hash MD5: 128K
+       E7 19 A6 C8 61 7F 54 A5 D4 06 83 66 9D 32 D5 3E>)
+(  97,<2024-11-01 14:25:32.124 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 163.5835 PHC1 = -354.1 
+       data hash MD5: 128K
+       1C 00 50 31 FF 90 01 A8 C0 AC 36 44 2F 41 4E 46>)
+(  98,<2024-11-01 14:26:20.593 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -147.0499 PHC1 = 313.9 
+       data hash MD5: 128K
+       08 A0 07 6A D1 F0 C0 1D E0 61 95 47 4B E6 27 21>)
+(  99,<2024-11-01 14:26:33.854 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 2.3 PHC1 = 0 
+       data hash MD5: 128K
+       CC 05 51 12 F9 FC 57 8F C9 CF 34 D7 B8 FE 00 01>)
+( 100,<2024-11-01 14:27:13.864 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -0.875 PHC1 = 0 
+       data hash MD5: 128K
+       4C 9C 84 8E 3D F2 1D CA 1A 1F 9B E5 8A 73 E4 58>)
+( 101,<2024-11-01 15:42:44.809 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <sab NZP = 1 
+       data hash MD5: 128K
+       A1 45 3C 0F 5E 90 DA C0 EE B9 7A A8 9A C2 E5 E1>)
+( 102,<2024-11-01 15:43:29.834 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -8.757342 PHC1 = 19.6 
+       data hash MD5: 128K
+       1D BE 99 2D 66 FC FF 2E A1 55 FE 05 A8 FD 5E 28>)
+( 103,<2024-11-06 23:11:13.131 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 19.15022 PHC1 = -50.4 
+       data hash MD5: 128K
+       D6 0C AA 5D D2 E1 76 CA 6C 55 05 92 82 79 B3 0B>)
+( 104,<2024-11-06 23:11:33.997 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 1.891013 PHC1 = 2.2 
+       data hash MD5: 128K
+       97 1D 7C 32 C3 6F D1 ED 13 DD 62 47 50 7D 0D C6>)
+( 105,<2024-11-06 23:11:55.529 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -13.0303 PHC1 = 29 
+       data hash MD5: 128K
+       25 B2 C2 CC 8C DA 45 B1 0C D9 3D AF 46 70 16 FA>)
+( 106,<2024-11-06 23:12:15.846 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<cprserver>,<TopSpin 4.1.4>,
+      <changed parameter F1 LB to 1000.00>)
+( 107,<2024-11-06 23:12:16.992 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       efp LB = 1000 FT_mod = 6 PKNL = 1 PHC0 = 127.0697 PHC1 = 43.61988 SI = 128K 
+       data hash MD5: 128K
+       CA F8 03 7E 9F 73 D6 50 CB FB 41 86 3E A2 8C D8>)
+( 108,<2024-11-06 23:12:27.675 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <sab NZP = 1 
+       data hash MD5: 128K
+       EB 5E 1E AF 89 67 7A C6 E6 43 2E 6B D0 12 FA 63>)
+( 109,<2024-11-06 23:12:39.809 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<cprserver>,<TopSpin 4.1.4>,
+      <changed parameter F1 LB to 800.00>)
+( 110,<2024-11-06 23:12:41.173 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       efp LB = 800 FT_mod = 6 PKNL = 1 PHC0 = 127.0697 PHC1 = 43.61988 SI = 128K 
+       data hash MD5: 128K
+       64 E1 5C A3 9A 3C A8 C2 4F C4 8E BB 73 96 A5 42>)
+( 111,<2024-11-06 23:12:47.258 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <sab NZP = 1 
+       data hash MD5: 128K
+       56 CD 4D 9B BB 99 99 0E 98 44 8D 43 E1 B9 F5 9E>)
+( 112,<2024-11-06 23:12:54.548 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <sab NZP = 1 
+       data hash MD5: 128K
+       56 CD 4D 9B BB 99 99 0E 98 44 8D 43 E1 B9 F5 9E>)
+( 113,<2024-11-06 23:13:39.823 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <sab NZP = 1 
+       data hash MD5: 128K
+       56 CD 4D 9B BB 99 99 0E 98 44 8D 43 E1 B9 F5 9E>)
+( 114,<2024-11-06 23:14:51.080 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 9.762383 PHC1 = -21.1875 
+       data hash MD5: 128K
+       E5 60 1F 9C C3 72 D3 47 E6 D5 9A 1F B5 B1 93 C9>)
+( 115,<2024-11-06 23:15:01.049 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<cprserver>,<TopSpin 4.1.4>,
+      <changed parameter F1 LB to 500.00>)
+( 116,<2024-11-06 23:15:01.202 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       efp LB = 500 FT_mod = 6 PKNL = 1 PHC0 = 136.8321 PHC1 = 22.43238 SI = 128K 
+       data hash MD5: 128K
+       5C 63 BD C7 A6 B3 7B 1C 0F 3C 24 BC 06 AD EE 30>)
+( 117,<2024-11-06 23:15:37.731 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <sab NZP = 1 
+       data hash MD5: 128K
+       EF 24 CB 25 6A 6C B8 8B B0 6F 18 C8 46 CC 7F C6>)
+( 118,<2024-11-06 23:20:29.984 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -10.28556 PHC1 = 20.875 
+       data hash MD5: 128K
+       18 BD 6E 70 F0 54 AC 8D 2A 22 56 A1 61 90 8E 33>)
+( 119,<2024-11-11 13:01:24.754 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 20.89139 PHC1 = -42.4 
+       data hash MD5: 128K
+       46 00 89 1D 11 00 B5 40 58 FD 66 32 0A 2D 17 00>)
+( 120,<2024-11-11 13:01:55.590 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -13.83932 PHC1 = 28.0875 
+       data hash MD5: 128K
+       C9 B0 6B 80 B2 75 0C F6 12 97 C2 B8 5F 37 B6 A3>)
+##END=
+
+$$ hash MD5
+$$ 8A 70 A6 37 39 ED 74 0C CC 07 0B C1 C0 22 55 45

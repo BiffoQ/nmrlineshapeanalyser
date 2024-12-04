@@ -1,0 +1,18 @@
+##TITLE= Audit trail, TopSpin 4.0.6
+##JCAMPDX= 5.01
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= root
+$$ /root/.topspin-BladeEpu/local_acqu/220128_LAMOX_17O enriched_Daisy/5/audita.txt
+##AUDIT TRAIL=  $$ (NUMBER, WHEN, WHO, WHERE, PROCESS, VERSION, WHAT)
+(   1,<2022-01-28 15:45:42.696 +0000>,<root>,<BladeEpu>,<go4>,<TopSpin 4.0.6>,
+      <created by zg on 'CAB AV4 500MHZ EXT' (CZC72773GJ) by user 'CZC72773GJ\nmr'
+       started at 2022-01-28 14:42:50.551 +0000, POWCHK enabled, PULCHK disabled,
+       terminated by command 'halt' at 2022-01-28 15:45:42.695 +0000
+       configuration hash MD5:
+       B3 BF 47 1F 78 52 4C 35 10 3E 39 E9 B9 74 74 12
+       double data hash MD5: 9374
+       DE 0A ED 65 25 60 A4 35 F5 BF 49 40 CD 7D 8B 66>)
+##END=
+
+$$ hash MD5
+$$ D2 8D 28 9D F4 34 92 25 90 9D 9C DA 67 0C 8F 1B

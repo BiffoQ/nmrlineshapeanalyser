@@ -1,0 +1,11 @@
+##TITLE= Parameter file, TopSpin 4.0.6
+##JCAMPDX= 5.0
+##DATATYPE= Parameter Values
+##NPOINTS= 5	$$ modification sequence number
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmr
+$$ 2024-04-24 14:47:42.984 +0200  nmr@CZC72773GJ
+$$ C:/Data/Biffo/240424_93Nb_A026b_Daisy_1.9mm/1/pdata/1/assocs
+$$ process C:\Bruker\TopSpin4.0.6\prog\mod\dataserver.exe
+##$MULTDISP= <C:/Data/Biffo/240422_93Nb_A018_Daisy_1.9mm/10/pdata/1>
+##END=

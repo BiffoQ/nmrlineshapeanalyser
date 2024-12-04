@@ -1,0 +1,17 @@
+##TITLE= Parameter file, TOPSPIN		Version 2.1
+##JCAMPDX= 5.0
+##DATATYPE= Parameter Values
+##NPOINTS= 1	$$ modification sequence number
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmrsu
+$$ 2024-05-28 15:07:16.562 +0200  nmrsu@TUD11508
+$$ D:\Tian/data/Tian/nmr/240815_LNS0p45_JLP/1/pdata/1/outd
+$$ process C:\Bruker\TOPSPIN21\prog\mod\edparproc.exe
+##$CURPLOT= <HP LaserJet 4L>
+##$CURPRIN= <$HP LaserJet 4L>
+##$DFORMAT= <normdp>
+##$LAYOUT= <+/layouts.ATP/1D_ws.xwp>
+##$LFORMAT= <normlp>
+##$PFORMAT= <normpl>
+##$SURQMSG= 1
+##END=

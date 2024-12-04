@@ -1,0 +1,38 @@
+##TITLE= Audit trail, TopSpin 4.0.6
+##JCAMPDX= 5.01
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmr
+$$ C:\Data\Biffo/230502_A029_17O_enriched_Iris_3.2mm_probe/2/pdata/1/auditp.txt
+##AUDIT TRAIL=  $$ (NUMBER, WHEN, WHO, WHERE, PROCESS, VERSION, WHAT)
+(   1,<2023-05-02 10:44:33.007 +0000>,<root>,<BladeEpu>,<go4>,<TopSpin 4.0.6>,
+      <acquisition in progress>)
+(   2,<2023-05-02 14:36:13.013 +0200>,<nmr>,<CZC72773GJ>,<proc1d>,<TopSpin 4.0.6>,
+      <Start of raw data processing
+       efp LB = 300 FT_mod = 6 PKNL = 1 PHC0 = 203.3288 PHC1 = 860.8001 TDeff = 3K SI = 128K 
+       data hash MD5: 128K
+       26 E2 EC 73 9B 2A AD 11 71 5E E1 16 3F D8 FB 8F>)
+$$ C:/Users/babdulkadirola/OneDrive - Delft University of Technology/Desktop/Inside Desktop/NMR/NMR_DATA/Biffo/230502_A029_17O_enriched_Iris_3.2mm_probe_to_be_used/2/pdata/1/auditp.txt
+(   3,<2023-05-04 11:40:18.609 +0200>,<DASTUD\babdulkadirola>,<TUD260879>,<cprserver>,<TopSpin 4.1.4>,
+      <changed parameter F1 LB to 250.00>)
+(   4,<2023-05-04 11:40:20.942 +0200>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <Start of raw data processing
+       efp LB = 250 FT_mod = 6 PKNL = 1 PHC0 = 203.3288 PHC1 = 860.8001 TDeff = 3K SI = 128K 
+       data hash MD5: 128K
+       84 22 A0 29 76 0C 5B A6 7D 33 D7 7F AC 82 3F 5D>)
+(   5,<2023-05-04 11:40:46.914 +0200>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -88.84344 PHC1 = -540 
+       data hash MD5: 128K
+       A1 10 E0 AD F1 C4 A6 04 D4 5B 29 75 2F 21 84 2C>)
+$$ C:/Users/babdulkadirola/OneDrive - Delft University of Technology/Desktop/Inside Desktop/PhD_Project/Research Folder/NMR/NMR_DATA/Biffo/230502_A029_17O_enriched_Iris_3.2mm_probe_to_be_used/2/pdata/1/auditp.txt
+(   6,<2024-11-30 13:06:57.069 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <sab NZP = 1 
+       data hash MD5: 128K
+       66 E2 9A 13 7A 2D BB 66 81 F0 27 4E FB B1 E9 A4>)
+(   7,<2024-11-30 13:07:14.773 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -0.803125 PHC1 = 0 
+       data hash MD5: 128K
+       64 49 51 07 A5 1D DC 09 5C 70 C0 AC 7C 81 0B 95>)
+##END=
+
+$$ hash MD5
+$$ 95 38 A2 13 CD 11 24 82 40 96 E2 75 DA 62 FC 6A

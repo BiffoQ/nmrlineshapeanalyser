@@ -1,0 +1,16 @@
+##TITLE= Parameter file, TopSpin 4.0.6
+##JCAMPDX= 5.0
+##DATATYPE= Parameter Values
+##NPOINTS= 1	$$ modification sequence number
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmr
+$$ 2022-01-28 15:40:59.813 +0100  nmr@CZC72773GJ
+$$ C:\Data\Pedro/220128_LAMOX_17O enriched_Daisy/5/pdata/1/outd
+$$ process C:\Bruker\TopSpin4.0.6\prog\mod\edparproc.exe
+##$CURPLOT= <>
+##$CURPRIN= <$>
+##$DFORMAT= <normdp>
+##$LAYOUT= <+/layouts.npt/NPT_79Br_MAS_magicAngle.xwp>
+##$LFORMAT= <normlp>
+##$PFORMAT= <normpl>
+##END=

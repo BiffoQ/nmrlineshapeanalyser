@@ -1,0 +1,11 @@
+##TITLE= Parameter file, TopSpin 4.0.6
+##JCAMPDX= 5.0
+##DATATYPE= Parameter Values
+##NPOINTS= 1	$$ modification sequence number
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmr
+$$ 2023-05-02 12:39:55.467 +0200  nmr@CZC72773GJ
+$$ C:/Data/Biffo/230502_A029_17O_enriched_Iris_3.2mm_probe/2/pdata/1/assocs
+$$ process C:\Bruker\TopSpin4.0.6\prog\mod\dirdata.exe
+##$MULTDISP= <C:/Data/Biffo/230418_17_O_A026_Iris_3.2mm_probe/3/pdata/1|C:/Data/Biffo/230418_17_O_A026_Iris_3.2mm_probe/2/pdata/1>
+##END=

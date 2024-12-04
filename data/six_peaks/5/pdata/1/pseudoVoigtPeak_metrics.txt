@@ -1,0 +1,79 @@
+
+Peak 1 (Position: 334.40 ± 0.19):
+Amplitude: 10.578 ± 0.142
+Width (FWHM): 48.90 ± 0.52 in ppm
+Width (FWHM): 3315.60 ± 35.54 in Hz
+Eta: 0.00 ± 0.07
+Offset: 226.274 ± 725982.062
+Gaussian Area: 550.59 ± 37.77
+Lorentzian Area: 0.00 ± 53.96
+Total Area: 550.59 ± 65.86
+
+--------------------------------------------------
+
+Peak 2 (Position: 430.93 ± 0.14):
+Amplitude: 38.946 ± 0.602
+Width (FWHM): 57.20 ± 0.56 in ppm
+Width (FWHM): 3878.42 ± 38.12 in Hz
+Eta: 0.57 ± 0.03
+Offset: 256.620 ± 2264131.327
+Gaussian Area: 1017.02 ± 63.13
+Lorentzian Area: 1998.51 ± 96.24
+Total Area: 3015.53 ± 115.10
+
+--------------------------------------------------
+
+Peak 3 (Position: 497.18 ± 0.25):
+Amplitude: 19.112 ± 2.619
+Width (FWHM): 35.92 ± 2.30 in ppm
+Width (FWHM): 2435.73 ± 155.70 in Hz
+Eta: 0.46 ± 0.11
+Offset: -335.140 ± 2264131.328
+Gaussian Area: 393.06 ± 97.17
+Lorentzian Area: 498.42 ± 136.20
+Total Area: 891.48 ± 167.31
+
+--------------------------------------------------
+
+Peak 4 (Position: 562.27 ± 5.72):
+Amplitude: 134.079 ± 14.859
+Width (FWHM): 83.51 ± 7.07 in ppm
+Width (FWHM): 5662.60 ± 479.15 in Hz
+Eta: 0.00 ± 0.08
+Offset: 359.218 ± 2264131.328
+Gaussian Area: 11919.32 ± 1921.06
+Lorentzian Area: 0.00 ± 1421.82
+Total Area: 11919.32 ± 2389.99
+
+--------------------------------------------------
+
+Peak 5 (Position: 581.67 ± 0.16):
+Amplitude: 12.030 ± 7.940
+Width (FWHM): 25.17 ± 11.42 in ppm
+Width (FWHM): 1706.34 ± 774.09 in Hz
+Eta: 0.86 ± 0.78
+Offset: -259.597 ± 4234342.569
+Gaussian Area: 43.61 ± 255.11
+Lorentzian Area: 411.18 ± 497.51
+Total Area: 454.79 ± 559.11
+
+--------------------------------------------------
+
+Peak 6 (Position: 623.59 ± 5.03):
+Amplitude: 98.379 ± 17.012
+Width (FWHM): 76.70 ± 2.75 in ppm
+Width (FWHM): 5200.32 ± 186.49 in Hz
+Eta: 0.10 ± 0.06
+Offset: -247.826 ± 5291790.112
+Gaussian Area: 7250.28 ± 1363.62
+Lorentzian Area: 1153.14 ± 721.55
+Total Area: 8403.42 ± 1542.75
+
+--------------------------------------------------
+Peak 1 Percentage is 2.18% ± 0.36%
+Peak 2 Percentage is 11.95% ± 1.45%
+Peak 3 Percentage is 3.53% ± 0.78%
+Peak 4 Percentage is 47.23% ± 10.92%
+Peak 5 Percentage is 1.80% ± 2.23%
+Peak 6 Percentage is 33.30% ± 7.22%
+Overall Percentage is 100.00%

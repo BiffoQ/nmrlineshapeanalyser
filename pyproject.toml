@@ -1,0 +1,67 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "nmrlineshapeanalyser"
+version = "0.1.0"
+description = "ss-NMR peak deconvolution and lineshape analysis"
+readme = "README.md"
+requires-python = ">=3.10, <3.13"
+license = "MIT"
+
+authors = [
+    { name = "Abdulkadir Olatunbosun Biffo", 
+    email = "biffokadir13@gmail.com" }
+]
+
+keywords = ["ss-NMR", "peak deconvolution", "lineshape analysis"]
+
+classifiers = [
+    "Development Status :: 4 - Beta: Feature complete, testing well",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Chemistry",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Scientific/Engineering :: Materials Science",
+    "Topic :: Scientific/Engineering :: Solid State Physics",
+    "Topic :: Scientific/Engineering :: Solid State NMR Spectroscopy",
+    "Topic :: Scientific/Engineering :: Solid State Ionics",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+                "nmrglue: 0.10"
+                "numpy: 1.26.4"
+                "scipy: 1.13.1"
+                "matplotlib: 3.9.0"
+                "pandas: 2.2.2"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "black>=22.0",
+    "isort>=5.0",
+    "mypy>=0.981"
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py38"]
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[tool.mypy]
+ignore_missing_imports = true
+strict = true
+
+[project.urls]
+Homepage = "https://github.com/BiffoQ/nmrlineshapeanalyser"
+Documentation = "https://project.readthedocs.io/"
+Repository = "https://github.com/username/project.git"
