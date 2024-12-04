@@ -57,6 +57,10 @@ ignore_missing_imports = true
 strict = true
 
 [tool.hatch]
+version = "0.1.0"
+envs = {dev = ["pytest", "black", "isort", "mypy"]}
+
+[tool.hatch.build.targets.wheel]
 packages = ["src/nmrlineshapeanalyser"]
 
 [project.urls]
