@@ -103,10 +103,11 @@ class NMRProcessor:
             Tuple containing normalized x and y data
         """
         # Convert to float type to avoid integer division issues
-        y_normalized = y_data.astype(float)
-        y_ground = np.min(y_normalized)
-        y_normalized = y_normalized - y_ground
+        y_data = y_data.astype(float)
+        y_ground = np.min(y_data)
+        y_normalized = y_data - y_ground
         y_amp = np.max(y_normalized)
+        
         
         # Handle the case where all values are the same (y_amp would be 0)
         if y_amp != 0:
