@@ -2,6 +2,11 @@ site_name: nmrlineshapeanalyser
 site_author: Biffo Abdulkadir Olatunbosun
 site_description: >-
   ss-NMR peak shape deconvolution and line shape analysis
+
+# Add these lines to explicitly set the docs and site directories
+docs_dir: docs
+site_dir: site
+
 nav:
   - Home: index.md
   - Installation:
@@ -103,8 +108,29 @@ plugins:
             merge_init_into_class: true
             docstring_options:
               ignore_init_summary: true
+            show_source: true  # Add this to show source code
+            show_root_heading: true  # Add this to show the main heading
+            show_if_no_docstring: true  # Add this to show items without docstrings
   - gen-files:
       scripts:
         - docs/gen_ref_pages.py
   - literate-nav:
       nav_file: SUMMARY.md
+  # Add watch plugin to monitor file changes during development
+  - git-revision-date-localized:
+      enable_creation_date: true
+  - git-committers:
+      repository: BiffoQ/nmrlineshapeanalyser
+      branch: main
+
+# Add paths for better handling of Python modules
+watch:
+  - src/nmrlineshapeanalyser
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/BiffoQ/nmrlineshapeanalyser
+      name: Source Code
+  version:
+    provider: mike

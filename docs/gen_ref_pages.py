@@ -12,10 +12,11 @@ import mkdocs_gen_files
 
 nav = mkdocs_gen_files.Nav()
 
-# Change this line to match your project's package location
-for path in sorted(Path("nmrlineshapeanalyser").rglob("*.py")):  # Changed from "src" to "nmrlineshapeanalyser"
-    module_path = path.relative_to("nmrlineshapeanalyser").with_suffix("")  # Changed here too
-    doc_path = path.relative_to("nmrlineshapeanalyser").with_suffix(".md")  # And here
+# Update path to match your project structure
+for path in sorted(Path("src/nmrlineshapeanalyser").rglob("*.py")):
+    # Adjust the relative_to path to match your structure
+    module_path = path.relative_to("src").with_suffix("")
+    doc_path = path.relative_to("src").with_suffix(".md")
     full_doc_path = Path("reference", doc_path)
 
     parts = tuple(module_path.parts)
@@ -26,7 +27,7 @@ for path in sorted(Path("nmrlineshapeanalyser").rglob("*.py")):  # Changed from 
     nav[parts] = doc_path.as_posix()
 
     with mkdocs_gen_files.open(full_doc_path, "w") as fd:
-        ident = "nmrlineshapeanalyser." + ".".join(parts)  # Added package prefix
+        ident = ".".join(parts)
         fd.write(f"::: {ident}")
 
     mkdocs_gen_files.set_edit_path(full_doc_path, Path("../") / path)

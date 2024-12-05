@@ -22,7 +22,7 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Fetch all history for proper versioning
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -38,21 +38,19 @@ jobs:
           uv pip install --system mkdocstrings[python] mkdocs-gen-files mkdocs-literate-nav
           uv pip install --system "mkdocs-material[imaging]"
           uv pip install --system -e .  # Install the package in editable mode
-          uv pip install --system ".[docs]"  # Install docs dependencies
+          uv pip install --system "mkdocs-git-revision-date-localized-plugin" "mkdocs-git-committers-plugin-2"
 
       - name: Debug directory structure
         run: |
           echo "Current directory structure:"
-          ls -R
-          echo "Python path:"
-          python -c "import sys; print(sys.path)"
+          ls -R docs/
           echo "Package location:"
-          python -c "import nmrlineshapeanalyser; print(nmrlineshapeanalyser.__file__)"
+          python -c "import sys; print('\n'.join(sys.path))"
 
       - name: Build docs
         env:
           JUPYTER_PLATFORM_DIRS: 1
-          PYTHONPATH: ${PYTHONPATH:+$PYTHONPATH:}$PWD
+          PYTHONPATH: ${{ github.workspace }}/src
         run: |
           mkdocs build --verbose
           echo "Content of site directory after build:"
