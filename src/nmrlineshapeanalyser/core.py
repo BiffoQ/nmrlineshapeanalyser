@@ -309,9 +309,10 @@ class NMRProcessor:
         
         return peak_results
 
+    
     def plot_results(self, x_data: np.ndarray, y_data: np.ndarray, 
-                    fitted_data: np.ndarray, peak_metrics: List[Dict],
-                    popt: np.ndarray) -> Tuple[plt.Figure, Tuple[plt.Axes, plt.Axes], List[np.ndarray]]:
+                    fitted_data: np.ndarray,
+                    popt: np.ndarray) -> Tuple[plt.Figure, plt.Axes, List[np.ndarray]]:
         """
         Plot the fitting results with components.
         
@@ -319,14 +320,12 @@ class NMRProcessor:
             x_data (np.ndarray): X-axis data
             y_data (np.ndarray): Y-axis data
             fitted_data (np.ndarray): Fitted curve data
-            peak_metrics (List[Dict]): Peak metrics
             popt (np.ndarray): Optimized parameters
-         
             
         Returns:
             Tuple containing figure, axes, and components
         """
-        fig, (ax1) = plt.subplots(1, 1, figsize=(12, 10))
+        fig, ax1 = plt.subplots(1, 1, figsize=(12, 10))
         
         # Plot normalized data
         ax1.plot(x_data, y_data, 'ok', ms=1, label='Data')
@@ -353,11 +352,7 @@ class NMRProcessor:
         ax1.set_xlabel(f'$^{{{self.number}}} \\ {self.nucleus}$ chemical shift  (ppm)')
         ax1.hlines(0, x_data[0], x_data[-1], colors='blue', linestyles='dashed', alpha=0.5)
         
-        
-        
         plt.tight_layout()
-        
-        self._print_detailed_results(peak_metrics)
         
         return fig, ax1, components
 
@@ -411,8 +406,9 @@ class NMRProcessor:
         """
         self._save_peak_data(filepath, x_data, y_data, fitted_data, components)
         self._save_metrics(filepath, peak_metrics)
-        self._save_plot(filepath, x_data, y_data, fitted_data, peak_metrics, 
+        self._save_plot(filepath, x_data, y_data, fitted_data,
                        popt)
+        self._print_detailed_results(peak_metrics)
 
     def _save_peak_data(self, filepath: str, x_data: np.ndarray, y_data: np.ndarray, 
                        fitted_data: np.ndarray, components: List[np.ndarray]) -> None:
@@ -455,10 +451,10 @@ class NMRProcessor:
             file.write(f'Overall Percentage is {overall_percentage:.2f}%\n')
 
     def _save_plot(self, filepath: str, x_data: np.ndarray, y_data: np.ndarray,
-                   fitted_data: np.ndarray, peak_metrics: List[Dict],
+                   fitted_data: np.ndarray,
                    popt: np.ndarray) -> None:
         """Save the plot to a file."""
-        fig, _, _ = self.plot_results(x_data, y_data, fitted_data, peak_metrics, 
+        fig, _, _ = self.plot_results(x_data, y_data, fitted_data, 
                                     popt)
         fig.savefig(filepath + 'pseudoVoigtPeakFit.png', bbox_inches='tight')
         plt.close(fig)

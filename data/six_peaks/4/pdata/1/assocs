@@ -1,0 +1,11 @@
+##TITLE= Parameter file, TopSpin 4.0.6
+##JCAMPDX= 5.0
+##DATATYPE= Parameter Values
+##NPOINTS= 2	$$ modification sequence number
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmr
+$$ 2023-01-25 08:53:54.960 +0100  nmr@CZC72773GJ
+$$ C:/Data/Pedro/230124_Ba7V0.3Nb3.6Mo1.1O20.05-A025_17O enriched_Daisy/4/pdata/1/assocs
+$$ process C:\Bruker\TopSpin4.0.6\prog\mod\dataserver.exe
+##$MULTDISP= <C:/Data/Pedro/230124_Ba7V0.3Nb3.6Mo1.1O20.05-A025_17O enriched_Daisy/5/pdata/1>
+##END=

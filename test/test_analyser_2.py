@@ -9,7 +9,8 @@ import os
 import shutil
 import tempfile
 import sys
-from nmrlineshapeanalyser.core import NMRProcessor
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from src.nmrlineshapeanalyser.core import NMRProcessor
 from unittest.mock import mock_open
 import coverage
 
@@ -398,6 +399,36 @@ class TestNMRProcessor(unittest.TestCase):
     
 
     
+    def test_plot_results(self):
+        """Test plotting functionality."""
+        # Create test data
+        x_data = np.linspace(0, 10, 100)
+        y_data = np.zeros_like(x_data)
+        fitted_data = np.zeros_like(x_data)
+        popt = np.array([1, 1, 1, 0.5, 0])
+        
+        # Set required attributes
+        self.processor.nucleus = 'O'
+        self.processor.number = '17'
+        
+        # Test plotting - remove metrics parameter since it's not used in plot_results
+        fig, ax1, components = self.processor.plot_results(
+            x_data, y_data, fitted_data, popt
+        )
+        
+        # Verify plot objects
+        self.assertIsNotNone(fig)
+        self.assertIsInstance(ax1, plt.Axes)
+        self.assertIsInstance(components, list)
+        self.assertEqual(len(components), 1)  # One component for single peak
+        
+        # Check if the axes have the correct labels and properties
+        self.assertTrue(ax1.xaxis.get_label_text().startswith('$^{17} \\ O$'))
+        self.assertIsNotNone(ax1.get_legend())
+        
+        plt.close(fig)
+
+
     def test_save_results(self):
         """Test results saving functionality."""
         import matplotlib
@@ -409,7 +440,6 @@ class TestNMRProcessor(unittest.TestCase):
             y_data = np.zeros_like(x_data)
             fitted_data = np.zeros_like(x_data)
             components = [np.zeros_like(x_data)]
-            # self.processor.carrier_freq = 500.0
             metrics = [{
                 'x0': (1, 0.1),
                 'amplitude': (1, 0.1),
@@ -421,86 +451,60 @@ class TestNMRProcessor(unittest.TestCase):
                 'total_area': (2, 0.2)
             }]
             popt = np.array([1, 1, 1, 0.5, 0])
-    
+
             # Create temporary directory for testing
             with tempfile.TemporaryDirectory() as temp_dir:
                 test_filepath = os.path.join(temp_dir, 'test_')
                 
                 # Mock the figure and its savefig method
                 mock_fig = Mock()
-                mock_axes = (Mock(), Mock())
+                mock_axes = Mock()
                 mock_components = [Mock()]
                 
                 # Set up all the required mocks
                 with patch.object(self.processor, 'plot_results', 
-                                  return_value=(mock_fig, mock_axes, mock_components)) as mock_plot, \
-                     patch('builtins.open', mock_open()) as mock_file, \
-                     patch('pandas.DataFrame.to_csv') as mock_to_csv, \
-                     patch.object(mock_fig, 'savefig') as mock_savefig, \
-                     patch('matplotlib.pyplot.close') as mock_close:
-                    
-                    # Call save_results
-                    self.processor.save_results(
-                        test_filepath, x_data, y_data, fitted_data, 
-                        metrics, popt, components
-                    )
-                    
-                    # Verify all the saving methods were called correctly
-                    mock_plot.assert_called_once()
-                    mock_savefig.assert_called_once_with(
-                        test_filepath + 'pseudoVoigtPeakFit.png', 
-                        bbox_inches='tight'
-                    )
-                    mock_close.assert_called_once_with(mock_fig)
-                    
-                    # Verify DataFrame.to_csv was called for peak data
-                    mock_to_csv.assert_called_once_with(
-                        test_filepath + 'peak_data.csv', 
-                        index=False
-                    )
-                    
-                    # Verify metrics file was opened and written
-                    mock_file.assert_called_with(
-                        test_filepath + 'pseudoVoigtPeak_metrics.txt', 
-                        'w'
-                    )
-                    
+                                return_value=(mock_fig, mock_axes, mock_components)) as mock_plot:
+                    with patch('builtins.open', mock_open()) as mock_file:
+                        with patch('pandas.DataFrame.to_csv') as mock_to_csv:
+                            with patch.object(mock_fig, 'savefig') as mock_savefig:
+                                with patch('matplotlib.pyplot.close') as mock_close:
+                                    
+                                    # Call save_results
+                                    self.processor.save_results(
+                                        test_filepath, x_data, y_data, fitted_data, 
+                                        metrics, popt, components
+                                    )
+                                    
+                                    # Verify all the saving methods were called correctly
+                                    # Check if plot_results was called with correct arguments
+                                    mock_plot.assert_called_once_with(
+                                        x_data, y_data, fitted_data, popt
+                                    )
+                                    
+                                    mock_savefig.assert_called_once_with(
+                                        test_filepath + 'pseudoVoigtPeakFit.png', 
+                                        bbox_inches='tight'
+                                    )
+                                    mock_close.assert_called_once_with(mock_fig)
+                                    
+                                    # Verify DataFrame.to_csv was called for peak data
+                                    mock_to_csv.assert_called_once_with(
+                                        test_filepath + 'peak_data.csv', 
+                                        index=False
+                                    )
+                                    
+                                    # Verify metrics file was opened and written
+                                    mock_file.assert_called_with(
+                                        test_filepath + 'pseudoVoigtPeak_metrics.txt', 
+                                        'w'
+                                    )
+                        
         except Exception as e:
             self.fail(f"Test failed with error: {str(e)}")
         
         finally:
             plt.close('all')
-    def test_plot_results(self):
-        """Test plotting functionality."""
-        # Create test data
-        x_data = np.linspace(0, 10, 100)
-        y_data = np.zeros_like(x_data)
-        fitted_data = np.zeros_like(x_data)
-        
-        # self.processor.carrier_freq = 500.0
-        
-        metrics = [{
-            'x0': (1, 0.1),
-            'amplitude': (1, 0.1),
-            'width': (1, 0.1),
-            'eta': (0.5, 0.1),
-            'offset': (0, 0.1),
-            'gaussian_area': (1, 0.1),
-            'lorentzian_area': (1, 0.1),
-            'total_area': (2, 0.2)
-        }]
-        popt = np.array([1, 1, 1, 0.5, 0])
-        
-        # Test plotting
-        fig, ax1, components = self.processor.plot_results(
-            x_data, y_data, fitted_data, metrics, popt
-        )
-        
-        # Verify plot objects
-        self.assertIsNotNone(fig)
-        self.assertEqual(len(components), 1)
-        self.assertTrue(isinstance(ax1, plt.Axes))
-        
+                
 
 if __name__ == '__main__':
     
@@ -515,4 +519,3 @@ if __name__ == '__main__':
     
     cov.html_report(directory='coverage_html')
     
-    # webbrowser.open(os.path.join('coverage_html', 'index.html'))

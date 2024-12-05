@@ -1,0 +1,79 @@
+
+Peak 1 (Position: 380.13 ± 0.13):
+Amplitude: 0.812 ± 0.018
+Width: 26.50 ± 0.23 in ppm
+Width: 1796.58 ± 15.93 in Hz
+Eta: 0.39 ± 0.03
+Offset: -13052.197 ± 16082.991
+Gaussian Area: 13.88 ± 0.80
+Lorentzian Area: 13.30 ± 1.12
+Total Area: 27.19 ± 1.38
+
+--------------------------------------------------
+
+Peak 2 (Position: 404.75 ± 3.30):
+Amplitude: 0.094 ± 0.006
+Width: 41.59 ± 4.87 in ppm
+Width: 2820.28 ± 330.43 in Hz
+Eta: 0.00 ± 0.26
+Offset: 18645.325 ± 6229.361
+Gaussian Area: 4.18 ± 1.21
+Lorentzian Area: 0.00 ± 1.58
+Total Area: 4.18 ± 1.99
+
+--------------------------------------------------
+
+Peak 3 (Position: 501.22 ± 0.07):
+Amplitude: 0.504 ± 0.003
+Width: 25.93 ± 0.18 in ppm
+Width: 1758.14 ± 12.05 in Hz
+Eta: 0.00 ± 0.04
+Offset: 52353.921 ± 6229.361
+Gaussian Area: 13.90 ± 0.56
+Lorentzian Area: 0.00 ± 0.81
+Total Area: 13.90 ± 0.98
+
+--------------------------------------------------
+
+Peak 4 (Position: 547.42 ± 0.03):
+Amplitude: 0.954 ± 0.004
+Width: 23.56 ± 0.09 in ppm
+Width: 1597.35 ± 6.00 in Hz
+Eta: 0.02 ± 0.03
+Offset: 22.813 ± 36.737
+Gaussian Area: 23.51 ± 0.74
+Lorentzian Area: 0.62 ± 1.07
+Total Area: 24.14 ± 1.30
+
+--------------------------------------------------
+
+Peak 5 (Position: 588.24 ± 0.05):
+Amplitude: 0.781 ± 0.003
+Width: 29.54 ± 0.16 in ppm
+Width: 2003.03 ± 10.68 in Hz
+Eta: 0.45 ± 0.03
+Offset: 6005.308 ± 8132.325
+Gaussian Area: 13.51 ± 0.65
+Lorentzian Area: 16.29 ± 0.96
+Total Area: 29.80 ± 1.16
+
+--------------------------------------------------
+
+Peak 6 (Position: 650.20 ± 0.24):
+Amplitude: 0.122 ± 0.003
+Width: 27.34 ± 0.62 in ppm
+Width: 1853.65 ± 42.10 in Hz
+Eta: 0.00 ± 0.12
+Offset: -63975.173 ± 6229.361
+Gaussian Area: 3.56 ± 0.43
+Lorentzian Area: 0.00 ± 0.61
+Total Area: 3.56 ± 0.75
+
+--------------------------------------------------
+Peak 1 Percentage is 26.46% ± 1.58%
+Peak 2 Percentage is 4.07% ± 1.94%
+Peak 3 Percentage is 13.52% ± 1.05%
+Peak 4 Percentage is 23.49% ± 1.47%
+Peak 5 Percentage is 29.00% ± 1.45%
+Peak 6 Percentage is 3.46% ± 0.74%
+Overall Percentage is 100.00%
