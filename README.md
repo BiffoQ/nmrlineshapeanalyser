@@ -27,11 +27,11 @@ pip install nmrlineshapeanalyser
 The following packages are required:
 
 ```bash
-nmrglue >= 0.10
-numpy >= 1.26.4
-scipy >= 1.13.1
+nmrglue 
+numpy >= 1.26.0
+scipy 
 matplotlib >= 3.9.0
-pandas >= 2.2.2
+pandas >= 2.2.0
 ```
 
 You can install these dependencies using pip:
@@ -48,8 +48,8 @@ from nmrlineshapeanalyser.core import NMRProcessor
 
 processor = NMRProcessor()
 
-#Load filepath
-filepath = r"..\data\single_peak\10\pdata\1"
+#Load filepath: always include the '\\'
+filepath = r"..\data\single_peak\10\pdata\1\\"
 
 # Load the data
 
@@ -91,7 +91,7 @@ processor.save_results(filepath, x_data, y_normalized, fitted, metrics, popt, co
 ```
 This should generate the image below.
 
-![Single Peak Fit](data/single_peak/10/pdata/11/pseudoVoigtPeakFit.png)
+![Single Peak Fit](data\single_peak\10\pdata\1\pseudoVoigtPeakFit.png)
 
 
 # Contact
