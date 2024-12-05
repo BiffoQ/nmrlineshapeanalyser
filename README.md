@@ -91,7 +91,7 @@ processor.save_results(filepath, x_data, y_normalized, fitted, metrics, popt, co
 ```
 This should generate the image below.
 
-<img src="data/single_peak/10/pdata/1/PseudoVoigtPeakFit.png" width="200" height="100">
+<img src="data/single_peak/10/pdata/1/PseudoVoigtPeakFit.png" width="300" height="200">
 
 
 # Contact
