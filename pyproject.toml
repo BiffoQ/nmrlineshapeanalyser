@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "nmrlineshapeanalyser"
-version = "0.1.3"
+version = "0.1.8"
 description = "ss-NMR peak deconvolution and lineshape analysis"
 readme = "README.md"
 requires-python = ">=3.10, <3.13"
@@ -30,11 +30,11 @@ classifiers = [
 
 
 dependencies = [
-    "nmrglue",
-    "numpy",
-    "scipy",
-    "matplotlib",
-    "pandas"
+    "nmrglue", 
+    "numpy>=1.26.0",        # Allows patch updates
+    "scipy",        # Allows patch updates
+    "matplotlib>=3.9.0",    # Allows patch updates
+    "pandas>=2.2.0"        # Allows patch updates
 ]
 
 [project.optional-dependencies]
@@ -58,7 +58,7 @@ ignore_missing_imports = true
 strict = true
 
 [tool.hatch]
-version = "0.1.3"
+version = "0.1.8"
 envs = {dev = ["pytest", "black", "isort", "mypy"]}
 
 [tool.hatch.build.targets.wheel]

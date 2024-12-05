@@ -1,0 +1,31 @@
+##TITLE= Audit trail, TopSpin 4.0.6
+##JCAMPDX= 5.01
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmr
+$$ C:\Data\Biffo/240306_Chewbacca_17O_LAMOX_Vanadium/10/pdata/1/auditp.txt
+##AUDIT TRAIL=  $$ (NUMBER, WHEN, WHO, WHERE, PROCESS, VERSION, WHAT)
+(   1,<2024-03-07 05:40:12.843 +0000>,<root>,<BladeEpu>,<go4>,<TopSpin 4.0.6>,
+      <created by zg on 'CAB AV4 500MHZ EXT' (CZC72773GJ) by user 'CZC72773GJ\nmr'
+       started at 2024-03-06 23:51:58.224 +0000, POWCHK enabled, PULCHK disabled,
+       completed at 2024-03-07 05:40:12.842 +0000
+       configuration hash MD5:
+       AA 0C 24 16 EB EA 25 89 30 37 8A C0 44 2A 9C 92
+       double data hash MD5: 20000
+       A6 4C CB 38 F0 70 DB B8 BA 0C 0F A2 4F B6 FC 68>)
+(   2,<2024-03-07 10:33:59.062 +0100>,<nmr>,<CZC72773GJ>,<proc1d>,<TopSpin 4.0.6>,
+      <Start of raw data processing
+       efp LB = 200 FT_mod = 6 PKNL = 1 PHC0 = 23.08526 PHC1 = 1051.652 SI = 32K 
+       data hash MD5: 32K
+       56 C8 E4 63 5C 44 50 83 67 0F BB 35 CA 41 32 1F>)
+(   3,<2024-03-07 10:33:59.093 +0100>,<nmr>,<CZC72773GJ>,<proc1d>,<TopSpin 4.0.6>,
+      <abs n ABSG = 5 
+       data hash MD5: 32K
+       C0 53 BC 5B 26 41 3E D5 05 8B 02 10 ED 8F 40 86>)
+(   4,<2024-03-07 10:34:09.514 +0100>,<nmr>,<CZC72773GJ>,<proc1d>,<TopSpin 4.0.6>,
+      <pk fgphup PHC0 = 3 PHC1 = 0 
+       data hash MD5: 32K
+       04 13 09 52 A4 54 ED 8D D0 A1 59 88 B2 9E 35 D5>)
+##END=
+
+$$ hash MD5
+$$ 30 1A 86 7D 8E 52 86 53 B5 42 A6 C4 46 1E 69 D5

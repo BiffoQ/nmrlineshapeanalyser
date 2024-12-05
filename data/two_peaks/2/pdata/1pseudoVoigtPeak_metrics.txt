@@ -1,0 +1,27 @@
+
+Peak 1 (Position: -576.83 ± 0.02):
+Amplitude: 0.996 ± 0.002
+Width: 13.97 ± 0.04 in ppm
+Width: 1838.20 ± 4.97 in Hz
+Eta: 0.22 ± 0.01
+Offset: 208.596 ± 994425.596
+Gaussian Area: 11.58 ± 0.19
+Lorentzian Area: 4.77 ± 0.28
+Total Area: 16.35 ± 0.34
+
+--------------------------------------------------
+
+Peak 2 (Position: -595.46 ± 0.04):
+Amplitude: 0.396 ± 0.002
+Width: 15.50 ± 0.09 in ppm
+Width: 2038.93 ± 12.48 in Hz
+Eta: 0.00 ± 0.03
+Offset: -208.599 ± 994425.596
+Gaussian Area: 6.53 ± 0.21
+Lorentzian Area: 0.00 ± 0.31
+Total Area: 6.53 ± 0.38
+
+--------------------------------------------------
+Peak 1 Percentage is 71.44% ± 2.15%
+Peak 2 Percentage is 28.56% ± 1.76%
+Overall Percentage is 100.00%

@@ -1,0 +1,15 @@
+20240220
+
+copy from 220406_Chewbacca_17O_LAMOX-Phosporus
+measurement on 20231206 to refresh procedure with LASERMAS
+optimized echo
+calibraitng pulse length - 20220406
+17O MAS
+rotor LAMOX-V 17O with a little bit KBr and BN, 1 mm sample layer, plus BN packed layer by layer up to the brim of the can
+p1=5 us at 500 W (from d1=60s popt 998 expno 14)
+
+Laser Current : 24 A
+cnst31=20kHz
+de=45us
+
+d1=1s
