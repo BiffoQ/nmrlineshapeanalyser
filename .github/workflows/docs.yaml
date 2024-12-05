@@ -37,8 +37,8 @@ jobs:
           uv pip install --system mknotebooks pymdown-extensions mkdocs-material mkdocs-jupyter mkdocs-autorefs
           uv pip install --system mkdocstrings[python] mkdocs-gen-files mkdocs-literate-nav
           uv pip install --system "mkdocs-material[imaging]"
-          uv pip install --system -e .  # Install the package in editable mode
           uv pip install --system "mkdocs-git-revision-date-localized-plugin" "mkdocs-git-committers-plugin-2"
+          uv pip install --system -e .  # Install the package in editable mode
 
       - name: Debug directory structure
         run: |
