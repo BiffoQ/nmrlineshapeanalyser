@@ -66,5 +66,5 @@ packages = ["src/nmrlineshapeanalyser"]
 
 [project.urls]
 Homepage = "https://github.com/BiffoQ/nmrlineshapeanalyser"
-Documentation = "https://project.readthedocs.io/"
+Documentation = "https://biffoq.github.io/nmrlineshapeanalyser/"
 Repository = "https://github.com/Biffo/nmrlineshapeanalyser.git"
