@@ -93,6 +93,27 @@ This should generate the image below.
 
 <img src="data/single_peak/10/pdata/1/pseudoVoigtPeakFit.png" alt="Single Peak Fit" width="50%">
 
+And a cell looking like:
+
+```bash
+Peak Fitting Results:
+===================
+
+Peak 1 (Position: 582.01 ± 0.01):
+Amplitude: 0.993 ± 0.002
+Width: 12.33 ± 0.03 in ppm
+Width: 835.74 ± 2.36 in Hz
+Eta: 1.00 ± 0.01
+Offset: -0.004 ± 0.000
+Gaussian Area: 0.00 ± 0.10
+Lorentzian Area: 19.23 ± 0.16
+Total Area: 19.23 ± 0.19
+--------------------------------------------------
+Peak 1 Percentage is 100.00% ± 1.39%
+Overall Percentage is 100.00% ± 1.39%
+```
+
+
 
 # Contact
 
