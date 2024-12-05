@@ -21,6 +21,8 @@ jobs:
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for proper versioning
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -35,14 +37,31 @@ jobs:
           uv pip install --system mknotebooks pymdown-extensions mkdocs-material mkdocs-jupyter mkdocs-autorefs
           uv pip install --system mkdocstrings[python] mkdocs-gen-files mkdocs-literate-nav
           uv pip install --system "mkdocs-material[imaging]"
-          uv pip install --system "nmrlineshapeanalyser[docs] @ ."
+          uv pip install --system -e .  # Install the package in editable mode
+          uv pip install --system ".[docs]"  # Install docs dependencies
+
+      - name: Debug directory structure
+        run: |
+          echo "Current directory structure:"
+          ls -R
+          echo "Python path:"
+          python -c "import sys; print(sys.path)"
+          echo "Package location:"
+          python -c "import nmrlineshapeanalyser; print(nmrlineshapeanalyser.__file__)"
 
       - name: Build docs
         env:
           JUPYTER_PLATFORM_DIRS: 1
-        run: mkdocs build
+          PYTHONPATH: ${PYTHONPATH:+$PYTHONPATH:}$PWD
+        run: |
+          mkdocs build --verbose
+          echo "Content of site directory after build:"
+          ls -R site/
         id: build_docs
 
       - name: Rebuild and deploy docs
-        run: mkdocs gh-deploy --force
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          mkdocs gh-deploy --force --verbose
         if: github.ref == 'refs/heads/main' && steps.build_docs.outcome == 'success'
