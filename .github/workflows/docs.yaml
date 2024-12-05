@@ -1,3 +1,4 @@
+
 name: docs
 on:
   push:
@@ -31,53 +32,16 @@ jobs:
           cache: pip
           cache-dependency-path: pyproject.toml
 
-      - name: Install pip packages
+       - name: Install pip packages
         run: |
           pip install uv
-          uv pip install --system mknotebooks pymdown-extensions mkdocs-material mkdocs-jupyter mkdocs-autorefs
-          uv pip install --system mkdocstrings[python] mkdocs-gen-files mkdocs-literate-nav
-          uv pip install --system "mkdocs-material[imaging]"
-          uv pip install --system "mkdocs-git-revision-date-localized-plugin" "mkdocs-git-committers-plugin-2"
-          uv pip install --system -e .  # Install the package in editable mode
-
-      - name: Create docs structure
-        run: |
-          mkdir -p docs/reference
-          mkdir -p docs/installation
-          mkdir -p docs/about
-          mkdir -p docs/user_guide
-
-      - name: Debug directory structure
-        run: |
-          echo "Current directory structure:"
-          ls -R docs/
-          echo "Package location:"
-          python -c "import sys; print('\n'.join(sys.path))"
-
-      - name: Debug reference generation
-        run: |
-          mkdir -p docs/reference
-          echo "Python files in src/nmrlineshapeanalyser:"
-          find src/nmrlineshapeanalyser -name "*.py"
-          echo "Contents of docs/reference before generation:"
-          find docs/reference -type f || echo "No files found"
-          python docs/gen_ref_pages.py || echo "Reference generation failed"
-          echo "Contents of docs/reference after script:"
-          find docs/reference -type f || echo "No files found"
+          pip install mknotebooks
+          uv pip install --system "nmrlineshapeanalyser[docs] @ ."
 
       - name: Build docs
-        env:
-          JUPYTER_PLATFORM_DIRS: 1
-          PYTHONPATH: ${{ github.workspace }}/src
-        run: |
-          mkdocs build --verbose
-          echo "Content of site directory after build:"
-          ls -R site/
+        run: mkdocs build
         id: build_docs
 
       - name: Rebuild and deploy docs
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email 'github-actions[bot]@users.noreply.github.com'
-          mkdocs gh-deploy --force --verbose
+        run: mkdocs gh-deploy --force
         if: github.ref == 'refs/heads/main' && steps.build_docs.outcome == 'success'

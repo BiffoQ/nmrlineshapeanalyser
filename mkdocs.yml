@@ -8,7 +8,7 @@ docs_dir: docs
 site_dir: site
 
 nav:
-  - Home: index.md
+  - Home: README.md
   - Installation:
       - installation/install.md
   - User Guide:
@@ -90,10 +90,13 @@ markdown_extensions:
 plugins:
   - search:
       separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
-  - mkdocs-jupyter:
-      ignore_h1_titles: true
-      execute: false
+  - mknotebooks:
+      input_dir: notebooks
+      output_dir: notebooks
+      exclude: ['.*_checkpoint.ipynb']
   - autorefs
+  - social
+  - offline
   - mkdocstrings:
       default_handler: python
       handlers:
@@ -126,11 +129,3 @@ plugins:
 # Add paths for better handling of Python modules
 watch:
   - src/nmrlineshapeanalyser
-
-extra:
-  social:
-    - icon: fontawesome/brands/github
-      link: https://github.com/BiffoQ/nmrlineshapeanalyser
-      name: Source Code
-  version:
-    provider: mike
