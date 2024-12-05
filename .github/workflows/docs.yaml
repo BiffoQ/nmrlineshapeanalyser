@@ -47,6 +47,16 @@ jobs:
           echo "Package location:"
           python -c "import sys; print('\n'.join(sys.path))"
 
+      - name: Debug reference generation
+        run: |
+          echo "Python files in src/nmrlineshapeanalyser:"
+          find src/nmrlineshapeanalyser -name "*.py"
+          echo "Contents of docs/reference after build:"
+          find docs/reference -type f
+          python docs/gen_ref_pages.py
+          echo "Contents of docs/reference after script:"
+          find docs/reference -type f
+
       - name: Build docs
         env:
           JUPYTER_PLATFORM_DIRS: 1
