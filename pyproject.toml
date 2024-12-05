@@ -44,6 +44,17 @@ dev = [
     "isort>=5.0",
     "mypy>=0.981"
 ]
+docs = [
+    "mkdocs-material",
+    "mkdocstrings[python]",
+    "mkdocs-jupyter",
+    "mkdocs-material[imaging]",
+    "mkdocs-gen-files",
+    "mkdocs-literate-nav",
+    "mkdocs-autorefs",
+    "mknotebooks",
+    "pymdown-extensions"
+]
 
 [tool.black]
 line-length = 88

@@ -33,9 +33,13 @@ jobs:
         run: |
           pip install uv
           uv pip install --system mknotebooks pymdown-extensions mkdocs-material mkdocs-jupyter mkdocs-autorefs
+          uv pip install --system mkdocstrings[python] mkdocs-gen-files mkdocs-literate-nav
+          uv pip install --system "mkdocs-material[imaging]"
           uv pip install --system "nmrlineshapeanalyser[docs] @ ."
 
       - name: Build docs
+        env:
+          JUPYTER_PLATFORM_DIRS: 1
         run: mkdocs build
         id: build_docs
 
