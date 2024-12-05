@@ -34,6 +34,7 @@ jobs:
           pip install uv
           pip install mknotebooks
           pip install pymdown-extensions
+          pip install mkdocs-material
           uv pip install --system "nmrlineshapeanalyser[docs] @ ."
 
       - name: Build docs
