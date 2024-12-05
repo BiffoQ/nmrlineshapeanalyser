@@ -40,6 +40,13 @@ jobs:
           uv pip install --system "mkdocs-git-revision-date-localized-plugin" "mkdocs-git-committers-plugin-2"
           uv pip install --system -e .  # Install the package in editable mode
 
+      - name: Create docs structure
+        run: |
+          mkdir -p docs/reference
+          mkdir -p docs/installation
+          mkdir -p docs/about
+          mkdir -p docs/user_guide
+
       - name: Debug directory structure
         run: |
           echo "Current directory structure:"
@@ -49,13 +56,14 @@ jobs:
 
       - name: Debug reference generation
         run: |
+          mkdir -p docs/reference
           echo "Python files in src/nmrlineshapeanalyser:"
           find src/nmrlineshapeanalyser -name "*.py"
-          echo "Contents of docs/reference after build:"
-          find docs/reference -type f
-          python docs/gen_ref_pages.py
+          echo "Contents of docs/reference before generation:"
+          find docs/reference -type f || echo "No files found"
+          python docs/gen_ref_pages.py || echo "Reference generation failed"
           echo "Contents of docs/reference after script:"
-          find docs/reference -type f
+          find docs/reference -type f || echo "No files found"
 
       - name: Build docs
         env:

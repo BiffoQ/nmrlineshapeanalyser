@@ -10,32 +10,34 @@ import mkdocs_gen_files
 
 nav = mkdocs_gen_files.Nav()
 
-# Change path to look in src/nmrlineshapeanalyser
-python_src = Path("src/nmrlineshapeanalyser")
+# Explicitly looking for the two Python files we know exist
+python_files = [
+    "src/nmrlineshapeanalyser/__init__.py",
+    "src/nmrlineshapeanalyser/core.py"
+]
 
-for path in sorted(python_src.rglob("*.py")):
-    # Get the relative path within the package
-    relative_path = path.relative_to(Path("src"))
-    module_path = relative_path.with_suffix("")
-    doc_path = relative_path.with_suffix(".md")
+for path_str in python_files:
+    path = Path(path_str)
+    module_path = path.relative_to("src").with_suffix("")
+    doc_path = path.relative_to("src").with_suffix(".md")
     full_doc_path = Path("reference", doc_path)
 
     parts = tuple(module_path.parts)
 
     if parts[-1] == "__init__":
-        parts = parts[:-1]
-        doc_path = doc_path.with_name("index.md")
-        full_doc_path = full_doc_path.with_name("index.md")
-    elif parts[-1] == "__main__":
-        continue
+        continue  # Skip __init__.py
 
     nav[parts] = doc_path.as_posix()
 
+    # Create the necessary directories
+    full_doc_path.parent.mkdir(parents=True, exist_ok=True)
+
     with mkdocs_gen_files.open(full_doc_path, "w") as fd:
-        # Ensure the package name is included in the import path
-        identifier = "nmrlineshapeanalyser." + ".".join(parts[1:]) if len(parts) > 1 else "nmrlineshapeanalyser"
+        # Write the page content
         fd.write(f"# {parts[-1]}\n\n")
-        fd.write(f"::: {identifier}\n")
+        fd.write(f"::: nmrlineshapeanalyser.{parts[-1]}\n")
+        fd.write(f"    :members:\n")
+        fd.write(f"    :show-inheritance:\n")
 
     mkdocs_gen_files.set_edit_path(full_doc_path, path)
 
