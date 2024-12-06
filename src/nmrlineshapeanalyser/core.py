@@ -28,7 +28,7 @@ class NMRProcessor:
                 ppm_limits (tuple): Range of chemical shifts in dataset
                 fixed_params (list): Parameters fixed during fitting
                 carrier_freq (float): Carrier frequency in MHz
-    """
+        """
     
     def __init__(self):
         """

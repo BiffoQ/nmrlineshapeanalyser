@@ -29,16 +29,22 @@ jobs:
           cache: pip
           cache-dependency-path: pyproject.toml
 
-      - name: Install pip packages
+      - name: Install dependencies
         run: |
-          pip install uv
+          python -m pip install --upgrade pip
+          pip install mkdocs-material
           pip install mknotebooks
-          uv pip install --system "nmrlineshapeanalyser[docs] @ ."
+          pip install mkdocstrings
+          pip install mkdocstrings-python
+          pip install mkdocs-gen-files
+          pip install mkdocs-literate-nav
+          pip install mkdocs-autorefs
+          pip install ".[docs]"
 
       - name: Build docs
         run: mkdocs build
         id: build_docs
 
-      - name: Rebuild and deploy docs
-        run: mkdocs gh-deploy --force
+      - name: Deploy docs
         if: github.ref == 'refs/heads/main' && steps.build_docs.outcome == 'success'
+        run: mkdocs gh-deploy --force
