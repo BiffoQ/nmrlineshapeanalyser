@@ -71,6 +71,10 @@ multi_line_output = 3
 [tool.mypy]
 ignore_missing_imports = true
 strict = true
+namespace_packages = true
+explicit_package_bases = true
+no_implicit_optional = false
+disable_error_code = "annotation-unchecked"
 
 [tool.hatch]
 version = "0.1.9"
@@ -145,9 +149,3 @@ extend-exclude = ["test"]
 pre-summary-newline = true
 black = true
 
-[tool.mypy]
-ignore_missing_imports = true
-namespace_packages = true
-explicit_package_bases = true
-no_implicit_optional = false
-disable_error_code = "annotation-unchecked"
