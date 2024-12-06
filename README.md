@@ -86,7 +86,7 @@ popt, metrics, fitted = processor.fit_peaks(x_data, y_normalized, initial_params
 #Plot and examine the results of the fitting
 fig, axes, components = processor.plot_results(x_data, y_normalized, fitted, popt)
 
-#Save the figure as an svg file and the results as a csv file
+#Save the figure as png file and the results as a csv file
 processor.save_results(filepath, x_data, y_normalized, fitted, metrics, popt, components)
 ```
 This should generate the image below.
