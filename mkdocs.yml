@@ -3,18 +3,15 @@ site_author: Biffo Abdulkadir Olatunbosun
 site_description: >-
   ss-NMR peak shape deconvolution and line shape analysis
 
-# Add these lines to explicitly set the docs and site directories
-docs_dir: docs
-site_dir: site
-
 nav:
-  - Home: README.md
+  - Home: index.md
   - Installation:
       - installation/install.md
   - User Guide:
       - user_guide/example_single_peak.ipynb
       - user_guide/example_of_2_peaks.ipynb
       - user_guide/example_of_6_peaks.ipynb
+      - user_guide/example_of_6_peaks_versII.ipynb
   - Code Documentation: reference/
   - About:
       - about/Contributors.md
@@ -92,7 +89,7 @@ plugins:
       separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
   - mknotebooks:
       input_dir: notebooks
-      output_dir: notebooks
+      output_dir: docs/notebooks
       exclude: ['.*_checkpoint.ipynb']
   - autorefs
   - social
@@ -119,13 +116,3 @@ plugins:
         - docs/gen_ref_pages.py
   - literate-nav:
       nav_file: SUMMARY.md
-  # Add watch plugin to monitor file changes during development
-#   - git-revision-date-localized:
-#       enable_creation_date: true
-#   # - git-committers:
-#   #     repository: BiffoQ/nmrlineshapeanalyser
-#   #     branch: main
-
-# # Add paths for better handling of Python modules
-# watch:
-#   - src/nmrlineshapeanalyser

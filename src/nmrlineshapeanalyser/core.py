@@ -9,12 +9,35 @@ import pandas as pd
 
 class NMRProcessor:
     """
-    A comprehensive class for processing and analyzing NMR data.
-    It combines data loading, region selection, peak fitting, and visualization.
+        A comprehensive processor for Nuclear Magnetic Resonance (NMR) spectroscopic data.
+
+            This class provides functionality for loading, processing, and analyzing NMR data, specifically:
+            - Loading and processing Bruker format NMR data
+            - Selecting and normalizing specific spectral regions
+            - Fitting multiple peaks using Pseudo-Voigt functions
+            - Calculating peak parameters and error estimates
+            - Visualizing results with publication-quality plots
+            - Exporting analysis results in multiple formats
+
+            Attributes:
+                data (np.ndarray): Raw NMR spectral data
+                number (str): Nuclear spin quantum number
+                nucleus (str): Nuclear species (e.g., 'H', 'C', 'N')
+                uc (ng.unit_conversion): Unit conversion object for frequency/ppm
+                ppm (np.ndarray): Chemical shift scale in PPM
+                ppm_limits (tuple): Range of chemical shifts in dataset
+                fixed_params (list): Parameters fixed during fitting
+                carrier_freq (float): Carrier frequency in MHz
     """
     
     def __init__(self):
-        """Initialize the NMR processor with default plot style."""
+        """
+        Initialize the NMR processor with default settings.
+
+        Sets up default plot styling and initializes class attributes to None.
+        Plot styling is configured for publication-quality figures.
+        
+        """
         self.data = None
         self.number = None
         self.nucleus = None
@@ -27,7 +50,12 @@ class NMRProcessor:
 
     @staticmethod
     def set_plot_style() -> None:
-        """Set up the matplotlib plotting style."""
+        """
+            Configure matplotlib plotting parameters for consistent, publication-quality figures.
+
+            Sets font family, sizes, tick parameters, and line widths to create
+            professional-looking plots suitable for publication.
+        """
         mpl.rcParams['font.family'] = "sans-serif"
         plt.rcParams['font.sans-serif'] = ['Arial']
         plt.rcParams['font.size'] = 14
@@ -42,10 +70,20 @@ class NMRProcessor:
 
     def load_data(self, filepath: str) -> None:
         """
-        Load and process Bruker NMR data from the specified filepath.
-        
+        Load and process Bruker format NMR data.
+
         Args:
-            filepath (str): Path to the Bruker data directory
+            filepath (str): Path to the Bruker data directory containing processed data
+
+        Raises:
+            FileNotFoundError: If the specified filepath does not exist
+            ValueError: If the data cannot be properly loaded or processed
+
+        Note:
+            This method extracts key spectral parameters including:
+            - Nuclear species and spin quantum number
+            - Carrier frequency in MHz
+            - Chemical shift scale in PPM
         """
         # Read the Bruker data
         dic, self.data = ng.bruker.read_pdata(filepath)
@@ -69,13 +107,21 @@ class NMRProcessor:
     def select_region(self, ppm_start: float, ppm_end: float) -> Tuple[np.ndarray, np.ndarray]:
         """
         Select a specific region of the NMR spectrum for analysis.
-        
+
         Args:
-            ppm_start (float): Starting chemical shift value
-            ppm_end (float): Ending chemical shift value
-        
+            ppm_start (float): Starting chemical shift value in PPM
+            ppm_end (float): Ending chemical shift value in PPM
+
         Returns:
-            Tuple containing x and y data for the selected region
+            tuple: Containing:
+                - np.ndarray: X-axis data (chemical shift in PPM)
+                - np.ndarray: Y-axis data (signal intensity)
+
+        Raises:
+            ValueError: If no data is loaded or selected region is outside data range
+
+        Note:
+            The selected region is inclusive of both start and end points
         """
         if self.data is None:
             raise ValueError("No data loaded. Call load_data first.")
@@ -93,14 +139,23 @@ class NMRProcessor:
 
     def normalize_data(self, x_data: np.ndarray, y_data: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         """
-        Normalize the data for processing.
-        
+       Normalize spectral data for processing.
+
+        Performs baseline correction and amplitude normalization:
+        1. Subtracts minimum value (baseline correction)
+        2. Divides by maximum value (amplitude normalization)
+
         Args:
-            x_data (np.ndarray): X-axis data
-            y_data (np.ndarray): Y-axis data
-            
+            x_data (np.ndarray): X-axis data (chemical shift)
+            y_data (np.ndarray): Y-axis data (signal intensity)
+
         Returns:
-            Tuple containing normalized x and y data
+            tuple: Containing:
+                - np.ndarray: Original x-axis data
+                - np.ndarray: Normalized y-axis data
+
+        Note:
+            X-axis data is returned unchanged; only y-axis data is normalized
         """
         # Convert to float type to avoid integer division issues
         y_data = y_data.astype(float)
@@ -117,18 +172,34 @@ class NMRProcessor:
 
     @staticmethod
     def pseudo_voigt(x: np.ndarray, x0: float, amp: float, width: float, eta: float) -> np.ndarray:
-        """
-        Calculate the Pseudo-Voigt function.
         
+        """
+        Calculate the Pseudo-Voigt function, a linear combination of Gaussian and Lorentzian profiles.
+
+        The Pseudo-Voigt function is defined as:
+        
+        η * L(x) + (1-η) * G(x)
+        
+        where L(x) is the Lorentzian component and G(x) is the Gaussian component
+
         Args:
             x (np.ndarray): X-axis values
-            x0 (float): Peak center
+            x0 (float): Peak center position
             amp (float): Peak amplitude
             width (float): Peak width (FWHM)
-            eta (float): Mixing parameter (0 for Gaussian, 1 for Lorentzian)
-            
+            eta (float): Mixing parameter (0 for pure Gaussian, 1 for pure Lorentzian)
+
         Returns:
             np.ndarray: Calculated Pseudo-Voigt values
+
+        Note:
+            FWHM (Full Width at Half Maximum) is the same for both Gaussian and 
+            Lorentzian components
+            
+                   sigma = width / (2 * np.sqrt(2 * np.log(2)))
+                   gamma = width / 2
+                   lorentzian = amp * (gamma**2 / ((x - x0)**2 + gamma**2))
+                   gaussian = amp * np.exp(-0.5 * ((x - x0) / sigma)**2)
         """
         sigma = width / (2 * np.sqrt(2 * np.log(2)))
         gamma = width / 2
@@ -167,17 +238,30 @@ class NMRProcessor:
     def fit_peaks(self, x_data: np.ndarray, y_data: np.ndarray, 
                  initial_params: List[float], fixed_x0: Optional[List[bool]] = None) -> Tuple[np.ndarray, List[Dict], np.ndarray]:
         """
-        Fit multiple Pseudo-Voigt peaks to the data.
-        
+        Fit multiple Pseudo-Voigt peaks to the spectral data.
+
+        Performs non-linear least squares fitting using scipy.optimize.curve_fit.
+        Supports fixing peak positions and provides error estimates from the
+        covariance matrix.
+
         Args:
             x_data (np.ndarray): X-axis data
             y_data (np.ndarray): Y-axis data
-            initial_params (List[float]): Initial peak parameters
-            fixed_x0 (Optional[List[bool]]): Which x0 positions to fix
-           
-            
+            initial_params (List[float]): Initial parameters for all peaks
+            fixed_x0 (Optional[List[bool]]): Which peak positions to fix during fitting
+
         Returns:
-            Tuple containing optimized parameters, peak metrics, and fitted data
+            tuple: Containing:
+                - np.ndarray: Optimized parameters
+                - List[Dict]: Peak metrics including errors
+                - np.ndarray: Fitted data
+
+        Raises:
+            ValueError: If number of parameters is incorrect
+
+        Note:
+            For each peak, parameters must be provided in order:
+            [x0, amplitude, width, eta, offset]
         """
         # Input validation
         if len(initial_params) % 5 != 0:
@@ -224,7 +308,17 @@ class NMRProcessor:
 
     def _process_fit_results(self, popt: np.ndarray, initial_params: List[float], 
                            fixed_x0: List[bool]) -> np.ndarray:
-        """Process and organize fitting results."""
+        """
+        Process and organize fitting results into a complete parameter set.
+
+        Args:
+            popt (np.ndarray): Optimized parameters from curve_fit
+            initial_params (List[float]): Initial parameters including fixed values
+            fixed_x0 (List[bool]): Which peak positions were fixed
+
+        Returns:
+            np.ndarray: Complete set of optimized parameters
+        """
         full_popt = []
         param_idx = 0
         n_peaks = len(initial_params) // 5
@@ -243,16 +337,29 @@ class NMRProcessor:
 
     def calculate_peak_metrics(self, popt: np.ndarray, pcov: np.ndarray, 
                              fixed_x0: List[bool]) -> List[Dict]:
-        """
-        Calculate metrics for each fitted peak.
         
+        """
+        
+        Calculate comprehensive metrics for each fitted peak.
+
+        Computes peak parameters and their uncertainties, including:
+        - Peak position, amplitude, width
+        - Gaussian and Lorentzian areas
+        - Total peak area
+        - Error estimates for all parameters
+
         Args:
             popt (np.ndarray): Optimized parameters
-            pcov (np.ndarray): Covariance matrix
-            fixed_x0 (List[bool]): Which x0 positions were fixed
-            
+            pcov (np.ndarray): Covariance matrix from fitting
+            fixed_x0 (List[bool]): Which peak positions were fixed
+
         Returns:
-            List[Dict]: Metrics for each peak
+            List[Dict]: Metrics for each peak including error estimates
+
+        Note:
+            Error estimates are calculated using error propagation from the
+            covariance matrix
+
         """
         n_peaks = len(popt) // 5
         peak_results = []
@@ -314,16 +421,29 @@ class NMRProcessor:
                     fitted_data: np.ndarray,
                     popt: np.ndarray) -> Tuple[plt.Figure, plt.Axes, List[np.ndarray]]:
         """
-        Plot the fitting results with components.
-        
-        Args:
-            x_data (np.ndarray): X-axis data
-            y_data (np.ndarray): Y-axis data
-            fitted_data (np.ndarray): Fitted curve data
-            popt (np.ndarray): Optimized parameters
-            
-        Returns:
-            Tuple containing figure, axes, and components
+            Create publication-quality visualization of fitting results.
+
+                    Generates a plot showing:
+                    - Original data points
+                    - Overall fitted curve
+                    - Individual peak components
+                    - Residuals between data and fit
+                    - Peak positions marked
+
+                    Args:
+                        x_data (np.ndarray): X-axis data
+                        y_data (np.ndarray): Y-axis data
+                        fitted_data (np.ndarray): Fitted curve data
+                        popt (np.ndarray): Optimized parameters
+
+                    Returns:
+                        tuple: Containing:
+                            - plt.Figure: Figure object
+                            - plt.Axes: Axes object
+                            - List[np.ndarray]: Individual peak components
+
+                    Note:
+            Plot styling is controlled by set_plot_style() method
         """
         fig, ax1 = plt.subplots(1, 1, figsize=(12, 10))
         
@@ -357,7 +477,18 @@ class NMRProcessor:
         return fig, ax1, components
 
     def _print_detailed_results(self, peak_metrics: List[Dict]) -> None:
-        """Print detailed fitting results and statistics."""
+        """
+         Print detailed analysis results to console.
+
+        Displays comprehensive information for each peak:
+        - Peak position and error
+        - Width in both PPM and Hz
+        - Gaussian and Lorentzian contributions
+        - Total areas and percentages
+
+        Args:
+            peak_metrics (List[Dict]): List of dictionaries containing peak metrics
+        """
         print("\nPeak Fitting Results:")
         print("===================")
         
@@ -378,7 +509,15 @@ class NMRProcessor:
         self._calculate_and_print_percentages(area_of_peaks)
 
     def _calculate_and_print_percentages(self, area_of_peaks: List[Tuple[float, float]]) -> None:
-        """Calculate and print percentage contributions of each peak."""
+        """
+         Calculate and display percentage contributions of each peak.
+
+        Computes relative contributions of each peak to total spectral area
+        and their associated uncertainties using error propagation.
+
+        Args:
+            area_of_peaks (List[Tuple[float, float]]): List of (area, error) pairs
+        """
         total_area_sum = sum(area[0] for area in area_of_peaks)
         total_area_sum_err = np.sqrt(sum(area[1]**2 for area in area_of_peaks))
         
@@ -398,11 +537,27 @@ class NMRProcessor:
                     fitted_data: np.ndarray, peak_metrics: List[Dict],
                     popt: np.ndarray, components: List[np.ndarray]) -> None:
         """
-        Save all results to files.
-        
-        Args:
-            filepath (str): Base path for saving files
-            Other parameters as in plot_results
+            Save all analysis results to files.
+
+                    Creates three output files:
+                    1. CSV file with peak data and components
+                    2. Text file with detailed metrics
+                    3. PNG file with visualization plot
+
+                    Args:
+                        filepath (str): Base path for saving files
+                        x_data (np.ndarray): X-axis data
+                        y_data (np.ndarray): Y-axis data
+                        fitted_data (np.ndarray): Fitted curve data
+                        peak_metrics (List[Dict]): Peak metrics including errors
+                        popt (np.ndarray): Optimized parameters
+                        components (List[np.ndarray]): Individual peak components
+
+                    Note:
+                        Files are named automatically based on the base filepath:
+                        - peak_data.csv
+                        - pseudoVoigtPeak_metrics.txt
+                        - pseudoVoigtPeakFit.png
         """
         self._save_peak_data(filepath, x_data, y_data, fitted_data, components)
         self._save_metrics(filepath, peak_metrics)
@@ -412,7 +567,22 @@ class NMRProcessor:
 
     def _save_peak_data(self, filepath: str, x_data: np.ndarray, y_data: np.ndarray, 
                        fitted_data: np.ndarray, components: List[np.ndarray]) -> None:
-        """Save peak data to CSV file."""
+        """
+         Save peak data to CSV file.
+
+        Creates a CSV file containing:
+        - X-axis data
+        - Original Y-axis data
+        - Fitted curve
+        - Individual peak components
+
+        Args:
+            filepath (str): Base path for saving file
+            x_data (np.ndarray): X-axis data
+            y_data (np.ndarray): Y-axis data
+            fitted_data (np.ndarray): Fitted curve data
+            components (List[np.ndarray]): Individual peak components
+            """
         df = pd.DataFrame({'x_data': x_data, 'y_data': y_data, 'y_fit': fitted_data})
         
         for i, component in enumerate(components):
@@ -421,7 +591,19 @@ class NMRProcessor:
         df.to_csv(filepath + 'peak_data.csv', index=False)
 
     def _save_metrics(self, filepath: str, peak_metrics: List[Dict]) -> None:
-        """Save peak metrics and percentages to text file."""
+        """
+        Save detailed peak metrics to text file.
+
+        Writes comprehensive analysis results including:
+        - Peak positions and widths
+        - Areas (Gaussian and Lorentzian contributions)
+        - Relative percentages
+        - All associated uncertainties
+
+        Args:
+            filepath (str): Base path for saving file
+            peak_metrics (List[Dict]): Peak metrics including errors
+            """
         with open(filepath + 'pseudoVoigtPeak_metrics.txt', 'w') as file:
             area_of_peaks = []
             for i, metrics in enumerate(peak_metrics, 1):
@@ -453,7 +635,29 @@ class NMRProcessor:
     def _save_plot(self, filepath: str, x_data: np.ndarray, y_data: np.ndarray,
                    fitted_data: np.ndarray,
                    popt: np.ndarray) -> None:
-        """Save the plot to a file."""
+        
+        """        
+        Save visualization plot to PNG file.
+
+        Creates a publication-quality figure showing:
+        - Original data
+        - Fitted curves
+        - Individual components
+        - Residuals
+
+        Args:
+            filepath (str): Base path for saving file
+            x_data (np.ndarray): X-axis data (chemical shift values)
+            y_data (np.ndarray): Y-axis data (original spectral intensities)
+            fitted_data (np.ndarray): The overall fitted curve
+            popt (np.ndarray): Optimized parameters for all peaks
+
+        Note:
+            - The plot is saved as 'pseudoVoigtPeakFit.png'
+            - Plot styling is controlled by set_plot_style() method
+            - The figure is automatically closed after saving to free memory
+            - Figure is saved with tight layout to prevent label clipping"""
+            
         fig, _, _ = self.plot_results(x_data, y_data, fitted_data, 
                                     popt)
         fig.savefig(filepath + 'pseudoVoigtPeakFit.png', bbox_inches='tight')
