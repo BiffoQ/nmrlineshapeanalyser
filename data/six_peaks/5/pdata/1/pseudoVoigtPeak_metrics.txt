@@ -1,79 +1,79 @@
 
-Peak 1 (Position: 334.40 ± 0.19):
-Amplitude: 10.578 ± 0.142
-Width (FWHM): 48.90 ± 0.52 in ppm
-Width (FWHM): 3315.60 ± 35.54 in Hz
-Eta: 0.00 ± 0.07
-Offset: 226.274 ± 725982.062
-Gaussian Area: 550.59 ± 37.77
-Lorentzian Area: 0.00 ± 53.96
-Total Area: 550.59 ± 65.86
+Peak 1 (Position: 335.07 ± 0.19):
+Amplitude: 0.060 ± 0.001
+Width: 47.42 ± 0.55 in ppm
+Width: 3215.12 ± 36.98 in Hz
+Eta: 0.00 ± 0.06
+Offset: -965.720 ± 13452.906
+Gaussian Area: 3.04 ± 0.19
+Lorentzian Area: 0.00 ± 0.27
+Total Area: 3.04 ± 0.33
 
 --------------------------------------------------
 
-Peak 2 (Position: 430.93 ± 0.14):
-Amplitude: 38.946 ± 0.602
-Width (FWHM): 57.20 ± 0.56 in ppm
-Width (FWHM): 3878.42 ± 38.12 in Hz
-Eta: 0.57 ± 0.03
-Offset: 256.620 ± 2264131.327
-Gaussian Area: 1017.02 ± 63.13
-Lorentzian Area: 1998.51 ± 96.24
-Total Area: 3015.53 ± 115.10
+Peak 2 (Position: 431.23 ± 0.19):
+Amplitude: 0.225 ± 0.004
+Width: 57.32 ± 0.60 in ppm
+Width: 3886.79 ± 40.92 in Hz
+Eta: 0.48 ± 0.02
+Offset: -178.649 ± 2760.662
+Gaussian Area: 7.08 ± 0.34
+Lorentzian Area: 9.80 ± 0.50
+Total Area: 16.88 ± 0.61
 
 --------------------------------------------------
 
-Peak 3 (Position: 497.18 ± 0.25):
-Amplitude: 19.112 ± 2.619
-Width (FWHM): 35.92 ± 2.30 in ppm
-Width (FWHM): 2435.73 ± 155.70 in Hz
-Eta: 0.46 ± 0.11
-Offset: -335.140 ± 2264131.328
-Gaussian Area: 393.06 ± 97.17
-Lorentzian Area: 498.42 ± 136.20
-Total Area: 891.48 ± 167.31
+Peak 3 (Position: 497.39 ± 0.25):
+Amplitude: 0.135 ± 0.017
+Width: 38.41 ± 1.91 in ppm
+Width: 2604.37 ± 129.64 in Hz
+Eta: 0.35 ± 0.08
+Offset: 1880.891 ± 3039.696
+Gaussian Area: 3.61 ± 0.67
+Lorentzian Area: 2.83 ± 0.78
+Total Area: 6.44 ± 1.03
 
 --------------------------------------------------
 
-Peak 4 (Position: 562.27 ± 5.72):
-Amplitude: 134.079 ± 14.859
-Width (FWHM): 83.51 ± 7.07 in ppm
-Width (FWHM): 5662.60 ± 479.15 in Hz
-Eta: 0.00 ± 0.08
-Offset: 359.218 ± 2264131.328
-Gaussian Area: 11919.32 ± 1921.06
-Lorentzian Area: 0.00 ± 1421.82
-Total Area: 11919.32 ± 2389.99
+Peak 4 (Position: 580.16 ± 0.46):
+Amplitude: 0.095 ± 0.020
+Width: 31.00 ± 2.67 in ppm
+Width: 2101.75 ± 180.90 in Hz
+Eta: 0.36 ± 0.19
+Offset: -327.977 ± 3039.696
+Gaussian Area: 2.02 ± 0.75
+Lorentzian Area: 1.65 ± 0.95
+Total Area: 3.67 ± 1.21
 
 --------------------------------------------------
 
-Peak 5 (Position: 581.67 ± 0.16):
-Amplitude: 12.030 ± 7.940
-Width (FWHM): 25.17 ± 11.42 in ppm
-Width (FWHM): 1706.34 ± 774.09 in Hz
-Eta: 0.86 ± 0.78
-Offset: -259.597 ± 4234342.569
-Gaussian Area: 43.61 ± 255.11
-Lorentzian Area: 411.18 ± 497.51
-Total Area: 454.79 ± 559.11
+Peak 5 (Position: 553.29 ± 1.75):
+Amplitude: 0.642 ± 0.026
+Width: 72.26 ± 2.27 in ppm
+Width: 4899.37 ± 153.92 in Hz
+Eta: 0.00 ± 0.13
+Offset: -333.249 ± 3039.696
+Gaussian Area: 49.40 ± 6.84
+Lorentzian Area: 0.00 ± 9.37
+Total Area: 49.40 ± 11.60
 
 --------------------------------------------------
 
-Peak 6 (Position: 623.59 ± 5.03):
-Amplitude: 98.379 ± 17.012
-Width (FWHM): 76.70 ± 2.75 in ppm
-Width (FWHM): 5200.32 ± 186.49 in Hz
-Eta: 0.10 ± 0.06
-Offset: -247.826 ± 5291790.112
-Gaussian Area: 7250.28 ± 1363.62
-Lorentzian Area: 1153.14 ± 721.55
-Total Area: 8403.42 ± 1542.75
+Peak 6 (Position: 614.38 ± 1.31):
+Amplitude: 0.724 ± 0.019
+Width: 83.87 ± 1.04 in ppm
+Width: 5686.87 ± 70.58 in Hz
+Eta: 0.00 ± 0.03
+Offset: -75.293 ± 3039.697
+Gaussian Area: 64.62 ± 2.86
+Lorentzian Area: 0.05 ± 3.18
+Total Area: 64.67 ± 4.27
 
 --------------------------------------------------
-Peak 1 Percentage is 2.18% ± 0.36%
-Peak 2 Percentage is 11.95% ± 1.45%
-Peak 3 Percentage is 3.53% ± 0.78%
-Peak 4 Percentage is 47.23% ± 10.92%
-Peak 5 Percentage is 1.80% ± 2.23%
-Peak 6 Percentage is 33.30% ± 7.22%
+Peak 1 Percentage is 2.11% ± 0.29%
+Peak 2 Percentage is 11.71% ± 1.10%
+Peak 3 Percentage is 4.47% ± 0.81%
+Peak 4 Percentage is 2.54% ± 0.87%
+Peak 5 Percentage is 34.29% ± 8.58%
+Peak 6 Percentage is 44.88% ± 4.89%
 Overall Percentage is 100.00%

@@ -1,8 +1,18 @@
-# nmrlineshapeanalyser: ss-NMR peak shape deconvolution and line shape analysis
+# ``nmrlineshapeanalyser``: ss-NMR peak shape deconvolution and line shape analysis made easy
 
-nmrlineshapeanalyser is an open-source Python package designed to make peak deconvolution or line shape analysis easier.
+``nmrlineshapeanalyser`` is an open-source Python package designed to make peak deconvolution or line shape analysis in 1D NMR spectrum easier.
 
 This package is for now only compatible with Bruker's NMR data.
+
+# Why ``nmrlineshapeanalyser``?
+  - it offers an easy and fast processing of either lineshape spectral analysis or peak deconvolution
+  - it requires the path to processed Bruker's data ``data\single_peak\10\pdata\1`` 
+  - for the optimisation, you only need to input the peak position(s) -- it does the rest
+  - it gives you the freedom to decide if you want to either optimise or fix the peak peak position(s) while other peak parameters are refined
+  - it provides you a detailed analysis of the optimised Pseudo-Voigt parameters that describe your peak(s) -- saved in a txt file
+  - for peak deconvolution, it calculates the percentage of each peaks 
+  - it saves fit and data in a CSV file in case you decide to visualise in your preferred software
+  - it saves your fit as a publication-quality png file 
 
 # Key Features
 
@@ -71,10 +81,20 @@ x_data, y_normalized = processor.normalize_data(x_data, y_data)
 initial_params = [
 581, 0.12, 40.51, 0.89, -143.115, 
   ]
+#Specify the number of peaks to be fitted
+
+number_of_peaks = 1
 
 # fixed_x0 controls whether peak positions should be fixed during fitting
 # False means position can vary, True means position is fixed
-fixed_x0 = [False]
+fixed_x0 = [False] * number_of_peaks
+
+# You can alternatively set it up as:
+
+#fixed_x0 = [False] 
+
+#Where the number of False reflects the number of peaks you want to optimise 
+# i.e. [False, False] means you want to optimise two peak positions and so on
 
 #FIt the data
 popt, metrics, fitted = processor.fit_peaks(x_data, y_normalized, initial_params, fixed_x0)
@@ -91,7 +111,7 @@ processor.save_results(filepath, x_data, y_normalized, fitted, metrics, popt, co
 ```
 This should generate the image below.
 
-<img src="data/single_peak/10/pdata/1/pseudoVoigtPeakFit.png" alt="Single Peak Fit" width="50%">
+![Single Peak FIt](data/single_peak/10/pdata/1/pseudoVoigtPeakFit.png)
 
 And a cell looking like:
 

@@ -21,8 +21,8 @@ class NMRProcessor:
 
             Attributes:
                 data (np.ndarray): Raw NMR spectral data
-                number (str): Nuclear spin quantum number
-                nucleus (str): Nuclear species (e.g., 'H', 'C', 'N')
+                number (str): Atomic mass number of probe Nucleus
+                nucleus (str): Probe Nucleus (e.g., 'H', 'C', 'N')
                 uc (ng.unit_conversion): Unit conversion object for frequency/ppm
                 ppm (np.ndarray): Chemical shift scale in PPM
                 ppm_limits (tuple): Range of chemical shifts in dataset
