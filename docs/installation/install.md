@@ -1,6 +1,6 @@
 #Installation
 
-If you have Python and pip installed, you can install nmrlineshapeanalyser with the command below:
+If you have Python and pip installed, you can install ``nmrlineshapeanalyser`` with the command below:
 
 ```bash
 
