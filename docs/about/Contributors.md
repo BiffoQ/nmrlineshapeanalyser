@@ -12,4 +12,6 @@ On a cold morning while enduring the usual Dutch weather, I had a conversation w
 
 So I embarked on a journey to unravel this black box and didn't stop until I discovered how it worked. This journey led to the creation of this package.
 
-I would like to thank the creator [NMRglue](https://github.com/jjhelmus/nmrglue) for making it possible to work directly with [Bruker's](https://www.bruker.com/en.html) folder. Also, a special thanks to the creator(s) of [LMFit's](https://lmfit.github.io/lmfit-py/builtin_models.html) built-in models -- their content was pivotal in understanding the concept of the Pseudo-Voigt function and its parameters.
+# Credits 
+
+I would like to thank the creator [NMRglue](https://github.com/jjhelmus/nmrglue) for making it possible to work directly with [Bruker's](https://www.bruker.com/en.html) folder. Also, a special thanks to the creator(s) of [LMFit's](https://lmfit.github.io/lmfit-py/builtin_models.html) built-in models -- their content was pivotal in understanding the concept of the Pseudo-Voigt function and its parameters. A special shoutout to [matplotlib] (https://matplotlib.org/) and [scipy](https://scipy.org/).
