@@ -1,3 +1,7 @@
+#ignore folder
+dist/
+.pytest_cache/
+
 # Docs
 .cache/
 docs/reference/*
