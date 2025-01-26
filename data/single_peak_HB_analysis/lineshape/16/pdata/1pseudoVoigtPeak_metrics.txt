@@ -1,0 +1,14 @@
+
+Peak 1 (Position: -25.93 ± 0.03):
+Amplitude: 0.915 ± 0.001
+Width: 78.52 ± 0.11 in ppm
+Width: 36952.62 ± 52.45 in Hz
+Eta: 1.00 ± 0.00
+Offset: 0.001 ± 0.000
+Gaussian Area: 0.00 ± 0.29
+Lorentzian Area: 112.88 ± 0.47
+Total Area: 112.88 ± 0.55
+
+--------------------------------------------------
+Peak 1 Percentage is 100.00% ± 0.69%
+Overall Percentage is 100.00%

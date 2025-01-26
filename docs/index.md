@@ -2,7 +2,7 @@
 
 ``nmrlineshapeanalyser`` is an open-source Python package designed to make peak deconvolution or line shape analysis in 1D NMR spectrum easier.
 
-This package is for now only compatible with Bruker's NMR data.
+This package is compatible with Bruker's NMR data and spectrum data saved in a CSV files (see User's guide).
 
 # Why ``nmrlineshapeanalyser``?
   - it offers an easy and fast processing of either lineshape spectral analysis or peak deconvolution

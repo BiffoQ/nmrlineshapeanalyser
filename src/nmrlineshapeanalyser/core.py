@@ -6,6 +6,8 @@ import matplotlib as mpl
 from typing import List, Tuple, Dict, Optional, Union
 import warnings
 import pandas as pd
+import glob
+import os
 
 class NMRProcessor:
     """
@@ -27,7 +29,7 @@ class NMRProcessor:
                 ppm (np.ndarray): Chemical shift scale in PPM
                 ppm_limits (tuple): Range of chemical shifts in dataset
                 fixed_params (list): Parameters fixed during fitting
-                carrier_freq (float): Carrier frequency in MHz
+                larmor_freq (float): Larmor frequency in MHz
         """
     
     def __init__(self):
@@ -45,7 +47,7 @@ class NMRProcessor:
         self.ppm = None
         self.ppm_limits = None
         self.fixed_params = None
-        self.carrier_freq = None
+        self.larmor_freq = None
         self.set_plot_style()
 
     @staticmethod
@@ -82,7 +84,7 @@ class NMRProcessor:
         Note:
             This method extracts key spectral parameters including:
             - Nuclear species and spin quantum number
-            - Carrier frequency in MHz
+            - Larmor frequency in MHz
             - Chemical shift scale in PPM
         """
         # Read the Bruker data
@@ -92,9 +94,9 @@ class NMRProcessor:
         udic = ng.bruker.guess_udic(dic, self.data)
         nuclei = udic[0]['label']
         
-        carrier_freq = udic[0]['obs']
+        obs = udic[0]['obs']
         
-        self.carrier_freq = carrier_freq
+        self.larmor_freq = obs
         # Extract number and nucleus symbols
         self.number = ''.join(filter(str.isdigit, nuclei))
         self.nucleus = ''.join(filter(str.isalpha, nuclei))
@@ -103,6 +105,47 @@ class NMRProcessor:
         self.uc = ng.fileiobase.uc_from_udic(udic, dim=0)
         self.ppm = self.uc.ppm_scale()
         self.ppm_limits = self.uc.ppm_limits()
+        
+    def load_csv(self, filepath: str, atomic_no: str, nucleus: str, larmor_freq: float) -> None:
+        """
+        Load CSV data exported from MNova.
+        
+        Args:
+            filepath (str): Directory path containing the CSV file
+            atomic_no (str): Atomic number of the nucleus
+            nucleus (str): Nuclear symbol
+            larmor_freq (float): Larmor frequency in MHz
+        
+        Raises:
+            FileNotFoundError: If no CSV files are found in the specified directory
+        """
+        # Use proper path joining for the glob pattern
+        csv_files = glob.glob(os.path.join(filepath, '*.csv'))
+        
+        if not csv_files:
+            raise FileNotFoundError(f"No CSV files found in {filepath}")
+        
+        # Load the CSV file found 
+        data = pd.read_csv(csv_files[0])
+        
+        # Verify required columns exist
+        required_columns = ['ppm', 'Intensity']
+        if not all(col in data.columns for col in required_columns):
+            raise ValueError(f"CSV must contain columns: {required_columns}")
+        
+        # Extract data
+        x_data = data['ppm'].values
+        y_data = data['Intensity'].values
+        
+        # Create pseudo-complex data
+        y_data = y_data + 1j * np.zeros_like(y_data)
+        
+        # Store data in class attributes
+        self.ppm = x_data
+        self.data = y_data
+        self.number = str(atomic_no)  # Ensure atomic_no is stored as string
+        self.nucleus = nucleus
+        self.larmor_freq = float(larmor_freq)  # Ensure larmor_freq is stored as float
 
     def select_region(self, ppm_start: float, ppm_end: float) -> Tuple[np.ndarray, np.ndarray]:
         """
@@ -497,7 +540,7 @@ class NMRProcessor:
             print(f"\nPeak {i} (Position: {metrics['x0'][0]:.2f} ± {metrics['x0'][1]:.2f}):")
             print(f"Amplitude: {metrics['amplitude'][0]:.3f} ± {metrics['amplitude'][1]:.3f}")
             print(f"Width: {metrics['width'][0]:.2f} ± {metrics['width'][1]:.2f} in ppm")
-            print(f"Width: {metrics['width'][0]*self.carrier_freq:.2f} ± {metrics['width'][1]*self.carrier_freq:.2f} in Hz")
+            print(f"Width: {metrics['width'][0]*self.larmor_freq:.2f} ± {metrics['width'][1]*self.larmor_freq:.2f} in Hz")
             print(f"Eta: {metrics['eta'][0]:.2f} ± {metrics['eta'][1]:.2f}")
             print(f"Offset: {metrics['offset'][0]:.3f} ± {metrics['offset'][1]:.3f}")
             print(f"Gaussian Area: {metrics['gaussian_area'][0]:.2f} ± {metrics['gaussian_area'][1]:.2f}")
@@ -610,7 +653,7 @@ class NMRProcessor:
                 file.write(f"\nPeak {i} (Position: {metrics['x0'][0]:.2f} ± {metrics['x0'][1]:.2f}):\n")
                 file.write(f"Amplitude: {metrics['amplitude'][0]:.3f} ± {metrics['amplitude'][1]:.3f}\n")
                 file.write(f"Width: {metrics['width'][0]:.2f} ± {metrics['width'][1]:.2f} in ppm\n")
-                file.write(f"Width: {metrics['width'][0]*self.carrier_freq:.2f} ± {metrics['width'][1]*self.carrier_freq:.2f} in Hz\n")
+                file.write(f"Width: {metrics['width'][0]*self.larmor_freq:.2f} ± {metrics['width'][1]*self.larmor_freq:.2f} in Hz\n")
                 file.write(f"Eta: {metrics['eta'][0]:.2f} ± {metrics['eta'][1]:.2f}\n")
                 file.write(f"Offset: {metrics['offset'][0]:.3f} ± {metrics['offset'][1]:.3f}\n")
                 file.write(f"Gaussian Area: {metrics['gaussian_area'][0]:.2f} ± {metrics['gaussian_area'][1]:.2f}\n")

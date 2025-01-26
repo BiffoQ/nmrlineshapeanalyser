@@ -1,0 +1,18 @@
+##TITLE= Audit trail, TopSpin 4.0.6
+##JCAMPDX= 5.01
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= root
+$$ /root/.topspin-BladeEpu/local_acqu/220630-19F-Violet-BIFFO_JZ700-3(Bi0.9Sn0.1F2.9)/36/audita.txt
+##AUDIT TRAIL=  $$ (NUMBER, WHEN, WHO, WHERE, PROCESS, VERSION, WHAT)
+(   1,<2022-06-30 15:26:22.606 +0000>,<root>,<BladeEpu>,<go4>,<TopSpin 4.0.6>,
+      <created by zg on 'CAB AV4 500MHZ EXT' (CZC72773GJ) by user 'CZC72773GJ\nmr'
+       started at 2022-06-30 15:26:00.537 +0000, POWCHK enabled, PULCHK disabled,
+       completed at 2022-06-30 15:26:22.604 +0000
+       configuration hash MD5:
+       8F 70 F4 26 36 64 49 57 06 33 5D 16 46 F6 16 04
+       double data hash MD5: 27272
+       C4 28 5B 2C 8A F3 6D 6F AE E5 57 9E 03 E0 6F EF>)
+##END=
+
+$$ hash MD5
+$$ 9C C0 BC 79 A2 6A 6D C6 87 08 D3 47 C3 A3 10 B4

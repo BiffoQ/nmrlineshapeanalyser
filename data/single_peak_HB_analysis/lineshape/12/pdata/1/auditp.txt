@@ -1,0 +1,32 @@
+##TITLE= Audit trail, TopSpin 4.0.6
+##JCAMPDX= 5.01
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmr
+$$ C:\Data\Biffo/220630-19F-Violet-BIFFO_JZ700-3(Bi0.9Sn0.1F2.9)/12/pdata/1/auditp.txt
+##AUDIT TRAIL=  $$ (NUMBER, WHEN, WHO, WHERE, PROCESS, VERSION, WHAT)
+(   1,<2022-06-30 12:13:04.609 +0000>,<root>,<BladeEpu>,<go4>,<TopSpin 4.0.6>,
+      <created by zg on 'CAB AV4 500MHZ EXT' (CZC72773GJ) by user 'CZC72773GJ\nmr'
+       started at 2022-06-30 11:56:22.637 +0000, POWCHK enabled, PULCHK disabled,
+       completed at 2022-06-30 12:13:04.608 +0000
+       configuration hash MD5:
+       8F 70 F4 26 36 64 49 57 06 33 5D 16 46 F6 16 04
+       double data hash MD5: 27272
+       39 B0 4F 9D E1 3F F4 9E 58 EB A5 16 77 38 53 19>)
+(   2,<2022-06-30 14:14:33.923 +0200>,<nmr>,<CZC72773GJ>,<proc1d>,<TopSpin 4.0.6>,
+      <Start of raw data processing
+       efp LB = 0 FT_mod = 6 PKNL = 1 PHC0 = 54.9 PHC1 = 0 TDeff = 5K SI = 128K 
+       data hash MD5: 128K
+       B3 08 CD C6 73 01 80 47 EA B8 E9 30 2F 31 69 8F>)
+(   3,<2022-06-30 14:14:45.348 +0200>,<nmr>,<CZC72773GJ>,<proc1d>,<TopSpin 4.0.6>,
+      <pk fgphup PHC0 = 4.8 PHC1 = 0 
+       data hash MD5: 128K
+       C3 79 1D AA 59 5A C3 F9 20 5B 19 FD 55 E5 62 93>)
+$$ C:/Users/babdulkadirola/OneDrive - Delft University of Technology/Desktop/Inside Desktop/PhD_Project/BiF3/220630-19F-Violet-BIFFO_JZ700-3(Bi0.9Sn0.1F2.9)/12/pdata/1/auditp.txt
+(   4,<2025-01-23 16:25:10.490 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 51.48637 PHC1 = -92.35 
+       data hash MD5: 128K
+       38 6B C5 AC C7 EC 8B 41 2A 80 2D 86 21 8B 4F F3>)
+##END=
+
+$$ hash MD5
+$$ F9 A9 14 4D 2A 17 DD E8 3A E0 55 93 41 F9 01 D6

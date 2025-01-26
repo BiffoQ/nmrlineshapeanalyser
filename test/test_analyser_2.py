@@ -8,12 +8,13 @@ import matplotlib.pyplot as plt
 import os
 import shutil
 import tempfile
+import glob
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from src.nmrlineshapeanalyser.core import NMRProcessor
 from unittest.mock import mock_open
 import coverage
-
+import pandas as pd
 class TestNMRProcessor(unittest.TestCase):
     """Test suite for NMR Processor class."""
     
@@ -22,8 +23,12 @@ class TestNMRProcessor(unittest.TestCase):
         self.processor = NMRProcessor()
         self.test_data = np.array([1.0, 2.0, 3.0, 4.0, 5.0])
         self.test_ppm = np.array([10.0, 8.0, 6.0, 4.0, 2.0])
-        self.processor.carrier_freq = 500.0
-        self.assertEqual(self.processor.carrier_freq, 500.0, "carrier_freq not set correctly in setUp")
+        self.processor.larmor_freq = 500.0
+        self.larmor_freq = 500.0
+        self.filepath = "dummy/path"
+        self.atomic_no = "1"
+        self.nucleus = "H"
+        self.assertEqual(self.processor.larmor_freq, 500.0, "larmor_freq not set correctly in setUp")
         
         # Close all existing plots
         plt.close('all')
@@ -41,36 +46,54 @@ class TestNMRProcessor(unittest.TestCase):
         except:
             pass
 
-    @patch('nmrglue.bruker.read_pdata')
-    @patch('nmrglue.bruker.guess_udic')
-    def test_load_data(self, mock_guess_udic, mock_read_pdata):
-        """Test data loading functionality."""
-        # Mock the returned values
-        mock_dic = {}
-        mock_data = np.array([1.0, 2.0, 3.0])
-        mock_read_pdata.return_value = (mock_dic, mock_data)
+    @patch('glob.glob')
+    @patch('pandas.read_csv')
+    def test_load_csv(self, mock_read_csv, mock_glob):
+        """Test loading CSV data."""
+        # Mock the glob to return a dummy file path
+        mock_glob.return_value = [os.path.join(self.filepath, 'test.csv')]
         
-        # Mock udic with all required keys
-        mock_udic = [{
-            'label': '17O',
-            'size': 1024,
-            'complex': True,
-            'sw': 100.0,
-            'sf': 500.0,
-            'car': 0.0,
-            'obs': 500.0
-        }]
-        mock_guess_udic.return_value = mock_udic
+        # Create a mock DataFrame
+        mock_data = pd.DataFrame({
+            'ppm': [10, 20, 30],
+            'Intensity': [100, 200, 300]
+        })
+        mock_read_csv.return_value = mock_data
         
-        # Test data loading
-        self.processor.load_data("dummy/path")
-        
+        # Call the method
+        self.processor.load_csv(self.filepath, self.atomic_no, self.nucleus, self.larmor_freq)
         
         # Verify the data was loaded correctly
-        self.assertIsNotNone(self.processor.data) 
-        self.assertEqual(self.processor.nucleus, 'O')
-        self.assertEqual(self.processor.number, '17')
-        self.assertEqual(self.processor.carrier_freq, 500.0)
+        np.testing.assert_array_equal(self.processor.ppm, np.array([10, 20, 30]))
+        np.testing.assert_array_equal(self.processor.data, np.array([100 + 1j*0, 200 + 1j*0, 300 + 1j*0]))
+        self.assertEqual(self.processor.number, self.atomic_no)
+        self.assertEqual(self.processor.nucleus, self.nucleus)
+        self.assertEqual(self.processor.larmor_freq, self.larmor_freq)
+
+    @patch('glob.glob')
+    def test_load_csv_file_not_found(self, mock_glob):
+        """Test loading CSV data when no files are found."""
+        # Mock the glob to return an empty list
+        mock_glob.return_value = []
+        
+        with self.assertRaises(FileNotFoundError):
+            self.processor.load_csv(self.filepath, self.atomic_no, self.nucleus, self.larmor_freq)
+
+    @patch('glob.glob')
+    @patch('pandas.read_csv')
+    def test_load_csv_missing_columns(self, mock_read_csv, mock_glob):
+        """Test loading CSV data with missing columns."""
+        # Mock the glob to return a dummy file path
+        mock_glob.return_value = [os.path.join(self.filepath, 'test.csv')]
+        
+        # Create a mock DataFrame with missing columns
+        mock_data = pd.DataFrame({
+            'ppm': [10, 20, 30]
+        })
+        mock_read_csv.return_value = mock_data
+        
+        with self.assertRaises(ValueError):
+            self.processor.load_csv(self.filepath, self.atomic_no, self.nucleus, self.larmor_freq)        
 
     def test_select_region(self):
         """Test region selection functionality."""

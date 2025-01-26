@@ -1,0 +1,40 @@
+##TITLE= Audit trail, TopSpin 4.0.6
+##JCAMPDX= 5.01
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmr
+$$ C:\Data\Biffo/220630-19F-Violet-BIFFO_JZ700-3(Bi0.9Sn0.1F2.9)/16/pdata/1/auditp.txt
+##AUDIT TRAIL=  $$ (NUMBER, WHEN, WHO, WHERE, PROCESS, VERSION, WHAT)
+(   1,<2022-06-30 12:59:47.423 +0000>,<root>,<BladeEpu>,<go4>,<TopSpin 4.0.6>,
+      <created by zg on 'CAB AV4 500MHZ EXT' (CZC72773GJ) by user 'CZC72773GJ\nmr'
+       started at 2022-06-30 12:54:44.676 +0000, POWCHK enabled, PULCHK disabled,
+       completed at 2022-06-30 12:59:47.422 +0000
+       configuration hash MD5:
+       8F 70 F4 26 36 64 49 57 06 33 5D 16 46 F6 16 04
+       double data hash MD5: 27272
+       EF 30 F1 A8 88 C3 91 9C 70 9E 6D A4 72 7E 5F BC>)
+(   2,<2022-06-30 14:59:10.851 +0200>,<nmr>,<CZC72773GJ>,<proc1d>,<TopSpin 4.0.6>,
+      <Start of raw data processing
+       efp LB = 0 FT_mod = 6 PKNL = 1 PHC0 = 59.7 PHC1 = 0 TDeff = 5K SI = 128K 
+       data hash MD5: 128K
+       1E 2B 1C 88 3A D0 67 0E 7E F8 54 A7 D2 0B 0E 70>)
+(   3,<2022-06-30 14:59:10.914 +0200>,<nmr>,<CZC72773GJ>,<proc1d>,<TopSpin 4.0.6>,
+      <abs n ABSG = 5 
+       data hash MD5: 128K
+       68 55 D9 FF 97 AF D2 F3 F9 8C 7B 37 00 0C 38 B5>)
+$$ C:/Users/babdulkadirola/OneDrive - Delft University of Technology/Desktop/Inside Desktop/PhD_Project/BiF3/220630-19F-Violet-BIFFO_JZ700-3(Bi0.9Sn0.1F2.9)/16/pdata/1/auditp.txt
+(   4,<2025-01-23 16:26:07.518 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 44.33176 PHC1 = -80.3 
+       data hash MD5: 128K
+       3B 65 46 CE E4 77 47 96 AE 9F CA BD 1E 81 BC BE>)
+(   5,<2025-01-23 16:26:20.154 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = 1.9875 PHC1 = 0 
+       data hash MD5: 128K
+       E4 68 EE EE 1E A3 FC 42 70 FC 08 3D C7 CD 03 7D>)
+(   6,<2025-01-23 16:26:31.823 +0100>,<DASTUD\babdulkadirola>,<TUD260879>,<proc1d>,<TopSpin 4.1.4>,
+      <pk fgphup PHC0 = -2.659375 PHC1 = 0 
+       data hash MD5: 128K
+       57 D4 F8 E1 89 7A 06 DF 30 96 AC 99 2D 08 D7 45>)
+##END=
+
+$$ hash MD5
+$$ 54 3D B3 6B D5 52 13 7E 2D 8B 9E C3 44 6D E6 10

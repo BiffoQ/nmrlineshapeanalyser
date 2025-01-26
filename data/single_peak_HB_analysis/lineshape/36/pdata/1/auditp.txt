@@ -1,0 +1,31 @@
+##TITLE= Audit trail, TopSpin 4.0.6
+##JCAMPDX= 5.01
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmr
+$$ C:\Data\Biffo/220630-19F-Violet-BIFFO_JZ700-3(Bi0.9Sn0.1F2.9)/36/pdata/1/auditp.txt
+##AUDIT TRAIL=  $$ (NUMBER, WHEN, WHO, WHERE, PROCESS, VERSION, WHAT)
+(   1,<2022-06-30 15:26:22.606 +0000>,<root>,<BladeEpu>,<go4>,<TopSpin 4.0.6>,
+      <created by zg on 'CAB AV4 500MHZ EXT' (CZC72773GJ) by user 'CZC72773GJ\nmr'
+       started at 2022-06-30 15:26:00.537 +0000, POWCHK enabled, PULCHK disabled,
+       completed at 2022-06-30 15:26:22.604 +0000
+       configuration hash MD5:
+       8F 70 F4 26 36 64 49 57 06 33 5D 16 46 F6 16 04
+       double data hash MD5: 27272
+       C4 28 5B 2C 8A F3 6D 6F AE E5 57 9E 03 E0 6F EF>)
+(   2,<2022-06-30 17:27:43.061 +0200>,<nmr>,<CZC72773GJ>,<proc1d>,<TopSpin 4.0.6>,
+      <Start of raw data processing
+       efp LB = 0 FT_mod = 6 PKNL = 1 PHC0 = 92.8 PHC1 = 0 TDeff = 10K SI = 128K 
+       data hash MD5: 128K
+       BC 7A AC B6 3C 97 27 C5 0B 67 97 E6 5B 73 EE A4>)
+(   3,<2022-06-30 17:27:58.388 +0200>,<nmr>,<CZC72773GJ>,<proc1d>,<TopSpin 4.0.6>,
+      <pk fgphup PHC0 = 21.8 PHC1 = 0 
+       data hash MD5: 128K
+       2B 3F 63 A1 B3 97 87 8E 03 4B EF 1F 27 7C 56 F1>)
+(   4,<2022-06-30 17:28:10.527 +0200>,<nmr>,<CZC72773GJ>,<proc1d>,<TopSpin 4.0.6>,
+      <pk fgphup PHC0 = 0.8 PHC1 = 0 
+       data hash MD5: 128K
+       41 96 97 B3 6D FD 63 06 73 F7 A7 22 AB 99 FF 54>)
+##END=
+
+$$ hash MD5
+$$ 86 D4 C2 5A E6 37 B2 91 BE 92 53 30 82 EC 14 2D
