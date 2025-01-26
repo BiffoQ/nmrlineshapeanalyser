@@ -12,7 +12,7 @@ nav:
       - user_guide/example_of_2_peaks.ipynb
       - user_guide/example_of_6_peaks.ipynb
       - user_guide/example_of_6_peaks_versII.ipynb
-      - user_guide/hendrikson_bray_lineshape_analysis.ipynb
+      - user_guide/hendrickson_bray_lineshape_analysis.ipynb
       - user_guide/working_with_a_csv_file.ipynb
   - Code Documentation: reference/
   - About:
