@@ -1,63 +1,43 @@
 import nmrglue as ng
 import numpy as np
+import scipy
 from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 from typing import List, Tuple, Dict, Optional, Union
 import warnings
 import pandas as pd
+import sys
 import glob
 import os
 
+print(f"nmrglue: {ng.__version__}")
+print(f"numpy: {np.__version__}")
+print(f"scipy: {scipy.__version__}")
+print(f"matplotlib: {mpl.__version__}")
+print(f"pandas: {pd.__version__}")
+
 class NMRProcessor:
     """
-        A comprehensive processor for Nuclear Magnetic Resonance (NMR) spectroscopic data.
-
-            This class provides functionality for loading, processing, and analyzing NMR data, specifically:
-            - Loading and processing Bruker format NMR data
-            - Selecting and normalizing specific spectral regions
-            - Fitting multiple peaks using Pseudo-Voigt functions
-            - Calculating peak parameters and error estimates
-            - Visualizing results with publication-quality plots
-            - Exporting analysis results in multiple formats
-
-            Attributes:
-                data (np.ndarray): Raw NMR spectral data
-                number (str): Atomic mass number of probe Nucleus
-                nucleus (str): Probe Nucleus (e.g., 'H', 'C', 'N')
-                uc (ng.unit_conversion): Unit conversion object for frequency/ppm
-                ppm (np.ndarray): Chemical shift scale in PPM
-                ppm_limits (tuple): Range of chemical shifts in dataset
-                fixed_params (list): Parameters fixed during fitting
-                larmor_freq (float): Larmor frequency in MHz
-        """
+    A comprehensive class for processing and analyzing NMR data.
+    Combines data loading, processing, peak fitting, and visualization.
+    """
     
     def __init__(self):
-        """
-        Initialize the NMR processor with default settings.
-
-        Sets up default plot styling and initializes class attributes to None.
-        Plot styling is configured for publication-quality figures.
-        
-        """
+        """Initialize the NMR processor with default plot style."""
         self.data = None
         self.number = None
         self.nucleus = None
+        self.carrier_freq = None
         self.uc = None
         self.ppm = None
         self.ppm_limits = None
         self.fixed_params = None
-        self.larmor_freq = None
         self.set_plot_style()
 
     @staticmethod
     def set_plot_style() -> None:
-        """
-            Configure matplotlib plotting parameters for consistent, publication-quality figures.
-
-            Sets font family, sizes, tick parameters, and line widths to create
-            professional-looking plots suitable for publication.
-        """
+        """Set up the matplotlib plotting style."""
         mpl.rcParams['font.family'] = "sans-serif"
         plt.rcParams['font.sans-serif'] = ['Arial']
         plt.rcParams['font.size'] = 14
@@ -72,31 +52,21 @@ class NMRProcessor:
 
     def load_data(self, filepath: str) -> None:
         """
-        Load and process Bruker format NMR data.
-
+        Load and process Bruker NMR data from the specified filepath.
+        
         Args:
-            filepath (str): Path to the Bruker data directory containing processed data
-
-        Raises:
-            FileNotFoundError: If the specified filepath does not exist
-            ValueError: If the data cannot be properly loaded or processed
-
-        Note:
-            This method extracts key spectral parameters including:
-            - Nuclear species and spin quantum number
-            - Larmor frequency in MHz
-            - Chemical shift scale in PPM
+            filepath (str): Path to the Bruker data directory
         """
         # Read the Bruker data
         dic, self.data = ng.bruker.read_pdata(filepath)
         
         # Set the spectral parameters
         udic = ng.bruker.guess_udic(dic, self.data)
+        
         nuclei = udic[0]['label']
+        carrier_freq = udic[0]['obs']
+        self.carrier_freq = carrier_freq
         
-        obs = udic[0]['obs']
-        
-        self.larmor_freq = obs
         # Extract number and nucleus symbols
         self.number = ''.join(filter(str.isdigit, nuclei))
         self.nucleus = ''.join(filter(str.isalpha, nuclei))
@@ -105,10 +75,10 @@ class NMRProcessor:
         self.uc = ng.fileiobase.uc_from_udic(udic, dim=0)
         self.ppm = self.uc.ppm_scale()
         self.ppm_limits = self.uc.ppm_limits()
-        
+
     def load_csv(self, filepath: str, atomic_no: str, nucleus: str, larmor_freq: float) -> None:
         """
-        Load CSV data exported from MNova.
+        Load CSV data exported from MNova (columns: 'ppm', 'Intensity').
         
         Args:
             filepath (str): Directory path containing the CSV file
@@ -119,131 +89,55 @@ class NMRProcessor:
         Raises:
             FileNotFoundError: If no CSV files are found in the specified directory
         """
-        # Use proper path joining for the glob pattern
         csv_files = glob.glob(os.path.join(filepath, '*.csv'))
         
         if not csv_files:
             raise FileNotFoundError(f"No CSV files found in {filepath}")
         
-        # Load the CSV file found 
-        data = pd.read_csv(csv_files[0])
+        data = pd.read_csv(csv_files[0], sep='[,\t]', engine='python')
         
-        # Verify required columns exist
         required_columns = ['ppm', 'Intensity']
         if not all(col in data.columns for col in required_columns):
             raise ValueError(f"CSV must contain columns: {required_columns}")
         
-        # Extract data
         x_data = data['ppm'].values
         y_data = data['Intensity'].values
         
-        # Create pseudo-complex data
+        # Create pseudo-complex data to match the Bruker data format
         y_data = y_data + 1j * np.zeros_like(y_data)
         
-        # Store data in class attributes
         self.ppm = x_data
         self.data = y_data
-        self.number = str(atomic_no)  # Ensure atomic_no is stored as string
+        self.number = str(atomic_no)
         self.nucleus = nucleus
-        self.larmor_freq = float(larmor_freq)  # Ensure larmor_freq is stored as float
+        self.carrier_freq = float(larmor_freq)
 
     def select_region(self, ppm_start: float, ppm_end: float) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        Select a specific region of the NMR spectrum for analysis.
-
-        Args:
-            ppm_start (float): Starting chemical shift value in PPM
-            ppm_end (float): Ending chemical shift value in PPM
-
-        Returns:
-            tuple: Containing:
-                - np.ndarray: X-axis data (chemical shift in PPM)
-                - np.ndarray: Y-axis data (signal intensity)
-
-        Raises:
-            ValueError: If no data is loaded or selected region is outside data range
-
-        Note:
-            The selected region is inclusive of both start and end points
-        """
+        """Select a specific region of the NMR spectrum for analysis."""
         if self.data is None:
             raise ValueError("No data loaded. Call load_data first.")
-        
-        if ppm_start > np.max(self.ppm) or ppm_end < np.min(self.ppm):
-            raise ValueError(f"Selected region ({ppm_start}, {ppm_end}) is outside "
-                        f"data range ({np.min(self.ppm)}, {np.max(self.ppm)})")
             
         region_mask = (self.ppm >= ppm_start) & (self.ppm <= ppm_end)
         x_region = self.ppm[region_mask]
         y_real = self.data.real
         y_region = y_real[region_mask]
-        
+
+        if x_region.size == 0:
+            raise ValueError(f"No data found in region {ppm_start} to {ppm_end} ppm.")
+
         return x_region, y_region
 
-    def normalize_data(self, x_data: np.ndarray, y_data: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
-        """
-       Normalize spectral data for processing.
-
-        Performs baseline correction and amplitude normalization:
-        1. Subtracts minimum value (baseline correction)
-        2. Divides by maximum value (amplitude normalization)
-
-        Args:
-            x_data (np.ndarray): X-axis data (chemical shift)
-            y_data (np.ndarray): Y-axis data (signal intensity)
-
-        Returns:
-            tuple: Containing:
-                - np.ndarray: Original x-axis data
-                - np.ndarray: Normalized y-axis data
-
-        Note:
-            X-axis data is returned unchanged; only y-axis data is normalized
-        """
-        # Convert to float type to avoid integer division issues
-        y_data = y_data.astype(float)
+    def normalize_data(self, x_data: np.ndarray, y_data: np.ndarray) -> Tuple[np.ndarray, np.ndarray, float, float]:
+        """Normalize the data for processing to 0-1 range."""
         y_ground = np.min(y_data)
         y_normalized = y_data - y_ground
         y_amp = np.max(y_normalized)
-        
-        
-        # Handle the case where all values are the same (y_amp would be 0)
-        if y_amp != 0:
-            y_normalized /= y_amp
-        
-        return x_data, y_normalized
+        y_normalized = y_normalized / y_amp if y_amp != 0 else np.zeros_like(y_normalized, dtype=float)
+        return x_data, y_normalized, y_amp, y_ground
 
     @staticmethod
     def pseudo_voigt(x: np.ndarray, x0: float, amp: float, width: float, eta: float) -> np.ndarray:
-        
-        """
-        Calculate the Pseudo-Voigt function, a linear combination of Gaussian and Lorentzian profiles.
-
-        The Pseudo-Voigt function is defined as:
-        
-        η * L(x) + (1-η) * G(x)
-        
-        where L(x) is the Lorentzian component and G(x) is the Gaussian component
-
-        Args:
-            x (np.ndarray): X-axis values
-            x0 (float): Peak center position
-            amp (float): Peak amplitude
-            width (float): Peak width (FWHM)
-            eta (float): Mixing parameter (0 for pure Gaussian, 1 for pure Lorentzian)
-
-        Returns:
-            np.ndarray: Calculated Pseudo-Voigt values
-
-        Note:
-            FWHM (Full Width at Half Maximum) is the same for both Gaussian and 
-            Lorentzian components
-            
-                   sigma = width / (2 * np.sqrt(2 * np.log(2)))
-                   gamma = width / 2
-                   lorentzian = amp * (gamma**2 / ((x - x0)**2 + gamma**2))
-                   gaussian = amp * np.exp(-0.5 * ((x - x0) / sigma)**2)
-        """
+        """Calculate the Pseudo-Voigt function."""
         sigma = width / (2 * np.sqrt(2 * np.log(2)))
         gamma = width / 2
         lorentzian = amp * (gamma**2 / ((x - x0)**2 + gamma**2))
@@ -252,88 +146,129 @@ class NMRProcessor:
 
     def pseudo_voigt_multiple(self, x: np.ndarray, *params) -> np.ndarray:
         """
-        Calculate multiple Pseudo-Voigt peaks.
-        
-        Args:
-            x (np.ndarray): X-axis values
-            *params: Variable number of peak parameters
-            
-        Returns:
-            np.ndarray: Sum of all Pseudo-Voigt peaks
+        Calculate multiple Pseudo-Voigt peaks summed on top of a single shared offset.
+        The shared offset is always the last entry in params.
         """
         n_peaks = len(self.fixed_params)
+
+        expected_len = sum(
+            (fixed_x0 is None) + (fixed_amp is None) + (fixed_width is None) + 1
+            for fixed_x0, fixed_amp, fixed_width, _, _ in self.fixed_params
+        ) + 1  # +1 for the shared offset
+        if len(params) != expected_len:
+            raise ValueError(
+                f"Expected {expected_len} parameters for {n_peaks} peak(s), got {len(params)}"
+            )
+
         param_idx = 0
         y = np.zeros_like(x)
-        
+
         for i in range(n_peaks):
-            if self.fixed_params[i][0] is not None:
-                x0 = self.fixed_params[i][0]
-                amp, width, eta, offset = params[param_idx:param_idx + 4]
-                param_idx += 4
-            else:
-                x0, amp, width, eta, offset = params[param_idx:param_idx + 5]
-                param_idx += 5
+            fixed_x0, fixed_amp, fixed_width, _, _ = self.fixed_params[i]
             
-            y += self.pseudo_voigt(x, x0, amp, width, eta) + offset
+            if fixed_x0 is not None:
+                x0 = fixed_x0
+            else:
+                x0 = params[param_idx]
+                param_idx += 1
+            
+            if fixed_amp is not None:
+                amp = fixed_amp
+            else:
+                amp = params[param_idx]
+                param_idx += 1
+            
+            if fixed_width is not None:
+                width = fixed_width
+            else:
+                width = params[param_idx]
+                param_idx += 1
+            
+            eta = params[param_idx]
+            param_idx += 1
+            
+            y += self.pseudo_voigt(x, x0, amp, width, eta)
+        
+        # Single shared offset applied once to the summed peaks
+        offset = params[param_idx]
+        y += offset
         
         return y
 
     def fit_peaks(self, x_data: np.ndarray, y_data: np.ndarray, 
-                 initial_params: List[float], fixed_x0: Optional[List[bool]] = None) -> Tuple[np.ndarray, List[Dict], np.ndarray]:
+                 initial_params: List[float], fixed_x0: Optional[List[bool]] = None,
+                 fixed_amp: Optional[List[bool]] = None, fixed_width: Optional[List[bool]] = None,
+                 y_scale: float = 1.0, y_offset: float = 0.0) -> Tuple[np.ndarray, List[Dict], np.ndarray]:
         """
-        Fit multiple Pseudo-Voigt peaks to the spectral data.
-
-        Performs non-linear least squares fitting using scipy.optimize.curve_fit.
-        Supports fixing peak positions and provides error estimates from the
-        covariance matrix.
-
+        Fit multiple Pseudo-Voigt peaks to the data, sharing a single baseline offset.
+        
         Args:
-            x_data (np.ndarray): X-axis data
-            y_data (np.ndarray): Y-axis data
-            initial_params (List[float]): Initial parameters for all peaks
-            fixed_x0 (Optional[List[bool]]): Which peak positions to fix during fitting
-
-        Returns:
-            tuple: Containing:
-                - np.ndarray: Optimized parameters
-                - List[Dict]: Peak metrics including errors
-                - np.ndarray: Fitted data
-
-        Raises:
-            ValueError: If number of parameters is incorrect
-
-        Note:
-            For each peak, parameters must be provided in order:
-            [x0, amplitude, width, eta, offset]
+            fixed_x0: per-peak flags to fix the peak position at its initial value
+            fixed_amp: per-peak flags to fix the peak amplitude at its initial value
+            fixed_width: per-peak flags to fix the peak width at its initial value
+        
+        Note: all peaks share one fitted offset (baseline), seeded from the mean of
+        the per-peak offsets given in initial_params. The returned popt/peak_metrics
+        report that same shared offset value for every peak.
+        
+        IMPORTANT: Initial offsets should be in normalized scale (0-1), e.g., use 0.0.
         """
-        # Input validation
         if len(initial_params) % 5 != 0:
             raise ValueError("Number of initial parameters must be divisible by 5")
         
-        if fixed_x0 is None:
-            fixed_x0 = [False] * (len(initial_params) // 5)
-            
-        # Setup for fitting
         n_peaks = len(initial_params) // 5
+        
+        if fixed_x0 is None:
+            fixed_x0 = [False] * n_peaks
+        if fixed_amp is None:
+            fixed_amp = [False] * n_peaks
+        if fixed_width is None:
+            fixed_width = [False] * n_peaks
+            
         self.fixed_params = []
         fit_params = []
         lower_bounds = []
         upper_bounds = []
         
-        # Process each peak's parameters
+        # Process each peak's shape parameters (x0, amp, width, eta).
+        # The offset is handled separately below as a single shared parameter.
         for i in range(n_peaks):
             x0, amp, width, eta, offset = initial_params[5*i:5*(i+1)]
             
-            if fixed_x0[i]:
-                self.fixed_params.append((x0, None, None, None, None))
-                fit_params.extend([amp, width, eta, offset])
-                lower_bounds.extend([0, 1, 0, -np.inf])
-                upper_bounds.extend([np.inf, np.inf, 1, np.inf])
-            else:
-                self.fixed_params.append((None, None, None, None, None))
-                fit_params.extend([x0, amp, width, eta, offset])
-                lower_bounds.extend([x0 - width/2, 0, 1, 0, -np.inf])
-                upper_bounds.extend([x0 + width/2, np.inf, np.inf, 1, np.inf])
+            self.fixed_params.append((
+                x0 if fixed_x0[i] else None,
+                amp if fixed_amp[i] else None,
+                width if fixed_width[i] else None,
+                None,
+                None,
+            ))
+            
+            if not fixed_x0[i]:
+                fit_params.append(x0)
+                lower_bounds.append(x0 - width/2)
+                upper_bounds.append(x0 + width/2)
+            
+            if not fixed_amp[i]:
+                fit_params.append(amp)
+                lower_bounds.append(0)
+                upper_bounds.append(np.inf)
+            
+            if not fixed_width[i]:
+                fit_params.append(width)
+                lower_bounds.append(1)
+                upper_bounds.append(np.inf)
+            
+            # eta is always free
+            fit_params.append(eta)
+            lower_bounds.append(0)
+            upper_bounds.append(1)
+        
+        # Single shared offset, appended once at the end, seeded from the
+        # mean of the per-peak offsets in initial_params
+        shared_offset_init = float(np.mean(initial_params[4::5]))
+        fit_params.append(shared_offset_init)
+        lower_bounds.append(-1.0)
+        upper_bounds.append(2.0)
         
         # Perform the fit
         with warnings.catch_warnings():
@@ -343,86 +278,96 @@ class NMRProcessor:
                                  maxfev=10000, method='trf')
         
         # Process results
-        full_popt = self._process_fit_results(popt, initial_params, fixed_x0)
-        peak_metrics = self.calculate_peak_metrics(full_popt, pcov, fixed_x0)
+        full_popt = self._process_fit_results(popt, initial_params, fixed_x0, fixed_amp, fixed_width)
+        peak_metrics = self.calculate_peak_metrics(full_popt, pcov, fixed_x0, fixed_amp, fixed_width)
         fitted_data = self.pseudo_voigt_multiple(x_data, *popt)
         
         return full_popt, peak_metrics, fitted_data
 
     def _process_fit_results(self, popt: np.ndarray, initial_params: List[float], 
-                           fixed_x0: List[bool]) -> np.ndarray:
-        """
-        Process and organize fitting results into a complete parameter set.
-
-        Args:
-            popt (np.ndarray): Optimized parameters from curve_fit
-            initial_params (List[float]): Initial parameters including fixed values
-            fixed_x0 (List[bool]): Which peak positions were fixed
-
-        Returns:
-            np.ndarray: Complete set of optimized parameters
-        """
-        full_popt = []
-        param_idx = 0
+                           fixed_x0: List[bool], fixed_amp: List[bool], 
+                           fixed_width: List[bool]) -> np.ndarray:
+        """Process and organize fitting results, broadcasting the shared offset to every peak."""
         n_peaks = len(initial_params) // 5
+        param_idx = 0
+        peak_shape_params = []
         
         for i in range(n_peaks):
+            x0_init, amp_init, width_init, eta_init, offset_init = initial_params[5*i:5*(i+1)]
+            
             if fixed_x0[i]:
-                x0 = initial_params[5*i]
-                amp, width, eta, offset = popt[param_idx:param_idx + 4]
-                param_idx += 4
+                x0 = x0_init
             else:
-                x0, amp, width, eta, offset = popt[param_idx:param_idx + 5]
-                param_idx += 5
-            full_popt.extend([x0, amp, width, eta, offset])
+                x0 = popt[param_idx]
+                param_idx += 1
+            
+            if fixed_amp[i]:
+                amp = amp_init
+            else:
+                amp = popt[param_idx]
+                param_idx += 1
+            
+            if fixed_width[i]:
+                width = width_init
+            else:
+                width = popt[param_idx]
+                param_idx += 1
+            
+            eta = popt[param_idx]
+            param_idx += 1
+            
+            peak_shape_params.append((x0, amp, width, eta))
+        
+        # Last remaining parameter is the single shared offset
+        shared_offset = popt[param_idx]
+        
+        full_popt = []
+        for x0, amp, width, eta in peak_shape_params:
+            full_popt.extend([x0, amp, width, eta, shared_offset])
         
         return np.array(full_popt)
 
     def calculate_peak_metrics(self, popt: np.ndarray, pcov: np.ndarray, 
-                             fixed_x0: List[bool]) -> List[Dict]:
-        
-        """
-        
-        Calculate comprehensive metrics for each fitted peak.
-
-        Computes peak parameters and their uncertainties, including:
-        - Peak position, amplitude, width
-        - Gaussian and Lorentzian areas
-        - Total peak area
-        - Error estimates for all parameters
-
-        Args:
-            popt (np.ndarray): Optimized parameters
-            pcov (np.ndarray): Covariance matrix from fitting
-            fixed_x0 (List[bool]): Which peak positions were fixed
-
-        Returns:
-            List[Dict]: Metrics for each peak including error estimates
-
-        Note:
-            Error estimates are calculated using error propagation from the
-            covariance matrix
-
-        """
+                             fixed_x0: List[bool], fixed_amp: List[bool], 
+                             fixed_width: List[bool]) -> List[Dict]:
+        """Calculate metrics for each fitted peak, using the shared offset's error for all peaks."""
         n_peaks = len(popt) // 5
-        peak_results = []
-        errors = np.sqrt(np.diag(pcov)) if pcov.size else np.zeros_like(popt)
+        errors = np.sqrt(np.diag(pcov)) if pcov.size else np.zeros(len(popt))
         error_idx = 0
         
+        peak_shape_errors = []
         for i in range(n_peaks):
-            # Extract parameters for current peak
-            x0, amp, width, eta, offset = popt[5*i:5*(i+1)]
-            
-            # Calculate errors based on whether x0 was fixed
             if fixed_x0[i]:
                 x0_err = 0
-                amp_err, width_err, eta_err, offset_err = errors[error_idx:error_idx + 4]
-                error_idx += 4
             else:
-                x0_err, amp_err, width_err, eta_err, offset_err = errors[error_idx:error_idx + 5]
-                error_idx += 5
+                x0_err = errors[error_idx]
+                error_idx += 1
             
-            # Calculate areas and their errors
+            if fixed_amp[i]:
+                amp_err = 0
+            else:
+                amp_err = errors[error_idx]
+                error_idx += 1
+            
+            if fixed_width[i]:
+                width_err = 0
+            else:
+                width_err = errors[error_idx]
+                error_idx += 1
+            
+            eta_err = errors[error_idx]
+            error_idx += 1
+            
+            peak_shape_errors.append((x0_err, amp_err, width_err, eta_err))
+        
+        # Last remaining error entry belongs to the single shared offset
+        offset_err = errors[error_idx] if error_idx < len(errors) else 0
+        
+        peak_results = []
+        for i in range(n_peaks):
+            x0, amp, width, eta, offset = popt[5*i:5*(i+1)]
+            x0_err, amp_err, width_err, eta_err = peak_shape_errors[i]
+            
             sigma = width / (2 * np.sqrt(2 * np.log(2)))
             gamma = width / 2
             
@@ -430,7 +375,6 @@ class NMRProcessor:
             lorentz_area = eta * amp * np.pi * gamma
             total_area = gauss_area + lorentz_area
             
-            # Calculate error propagation
             gauss_area_err = np.sqrt(
                 ((1 - eta) * sigma * np.sqrt(2 * np.pi) * amp_err) ** 2 +
                 (amp * sigma * np.sqrt(2 * np.pi) * eta_err) ** 2 +
@@ -445,7 +389,6 @@ class NMRProcessor:
             
             total_area_err = np.sqrt(gauss_area_err ** 2 + lorentz_area_err ** 2)
             
-            # Store results
             peak_results.append({
                 'x0': (x0, x0_err),
                 'amplitude': (amp, amp_err),
@@ -459,249 +402,113 @@ class NMRProcessor:
         
         return peak_results
 
-    
-    def plot_results(self, x_data: np.ndarray, y_data: np.ndarray, 
+    def plot_results(self, x_data: np.ndarray, y_data: np.ndarray,
                     fitted_data: np.ndarray,
                     popt: np.ndarray) -> Tuple[plt.Figure, plt.Axes, List[np.ndarray]]:
-        """
-            Create publication-quality visualization of fitting results.
-
-                    Generates a plot showing:
-                    - Original data points
-                    - Overall fitted curve
-                    - Individual peak components
-                    - Residuals between data and fit
-                    - Peak positions marked
-
-                    Args:
-                        x_data (np.ndarray): X-axis data
-                        y_data (np.ndarray): Y-axis data
-                        fitted_data (np.ndarray): Fitted curve data
-                        popt (np.ndarray): Optimized parameters
-
-                    Returns:
-                        tuple: Containing:
-                            - plt.Figure: Figure object
-                            - plt.Axes: Axes object
-                            - List[np.ndarray]: Individual peak components
-
-                    Note:
-            Plot styling is controlled by set_plot_style() method
-        """
-        fig, ax1 = plt.subplots(1, 1, figsize=(12, 10))
+        """Plot the fitting results with components (all in normalized 0-1 scale)."""
+        fig, ax1 = plt.subplots(1, 1, figsize=(12, 6))
         
-        # Plot normalized data
         ax1.plot(x_data, y_data, 'ok', ms=1, label='Data')
         ax1.plot(x_data, fitted_data, '-r', lw=2, label='Fit')
         residuals = y_data - fitted_data
         ax1.plot(x_data, residuals-0.05, '-g', lw=2, label='Residuals', alpha=0.5)
         
-        # Plot components
         n_peaks = len(popt) // 5
         components = []
         
         for i in range(n_peaks):
             x0, amp, width, eta, offset = popt[5*i:5*(i+1)]
-            component = self.pseudo_voigt(x_data, x0, amp, width, eta)
+            component = self.pseudo_voigt(x_data, x0, amp, width, eta) + offset
             components.append(component)
             
             ax1.fill(x_data, component, alpha=0.5, label=f'Component {i+1}')
-            ax1.plot(x0, self.pseudo_voigt(np.array([x0]), x0, amp, width, eta), 
-                    'ob', label='Peak Position' if i == 0 else None)
+            peak_height = self.pseudo_voigt(np.array([x0]), x0, amp, width, eta)[0] + offset
+            ax1.plot(x0, peak_height, 'ob', markersize=8, label='Peak Position' if i == 0 else '')
         
         ax1.invert_xaxis()
         ax1.legend(ncol=2, fontsize=10)
-        ax1.set_title('Normalized Scale')
-        ax1.set_xlabel(f'$^{{{self.number}}} \\ {self.nucleus}$ chemical shift  (ppm)')
+        ax1.set_title('NMR Peak Fit (Normalized Scale 0-1)')
+        ax1.set_xlabel(f'$^{{{self.number}}} \\ {self.nucleus}$ chemical shift (ppm)')
+        ax1.set_ylabel('Intensity (normalized 0-1)')
         ax1.hlines(0, x_data[0], x_data[-1], colors='blue', linestyles='dashed', alpha=0.5)
-        
-        plt.tight_layout()
+        ax1.set_ylim(-0.15, 1.15)
         
         return fig, ax1, components
 
     def _print_detailed_results(self, peak_metrics: List[Dict]) -> None:
-        """
-         Print detailed analysis results to console.
-
-        Displays comprehensive information for each peak:
-        - Peak position and error
-        - Width in both PPM and Hz
-        - Gaussian and Lorentzian contributions
-        - Total areas and percentages
-
-        Args:
-            peak_metrics (List[Dict]): List of dictionaries containing peak metrics
-        """
+        """Print detailed fitting results and statistics."""
         print("\nPeak Fitting Results:")
         print("===================")
         
         area_of_peaks = []
         for i, metrics in enumerate(peak_metrics, 1):
             print(f"\nPeak {i} (Position: {metrics['x0'][0]:.2f} ± {metrics['x0'][1]:.2f}):")
-            print(f"Amplitude: {metrics['amplitude'][0]:.3f} ± {metrics['amplitude'][1]:.3f}")
-            print(f"Width: {metrics['width'][0]:.2f} ± {metrics['width'][1]:.2f} in ppm")
-            print(f"Width: {metrics['width'][0]*self.larmor_freq:.2f} ± {metrics['width'][1]*self.larmor_freq:.2f} in Hz")
-            print(f"Eta: {metrics['eta'][0]:.2f} ± {metrics['eta'][1]:.2f}")
-            print(f"Offset: {metrics['offset'][0]:.3f} ± {metrics['offset'][1]:.3f}")
-            print(f"Gaussian Area: {metrics['gaussian_area'][0]:.2f} ± {metrics['gaussian_area'][1]:.2f}")
-            print(f"Lorentzian Area: {metrics['lorentzian_area'][0]:.2f} ± {metrics['lorentzian_area'][1]:.2f}")
-            print(f"Total Area: {metrics['total_area'][0]:.2f} ± {metrics['total_area'][1]:.2f}")
-            print("-" * 50)
+            print(f"  Amplitude: {metrics['amplitude'][0]:.3f} ± {metrics['amplitude'][1]:.3f}")
+            print(f"  Width (FWHM): {metrics['width'][0]:.2f} ± {metrics['width'][1]:.2f} ppm")
+            print(f"  Width (FWHM): {metrics['width'][0]*self.carrier_freq:.2f} ± {metrics['width'][1]*self.carrier_freq:.2f} Hz")
+            print(f"  Carrier Frequency: {self.carrier_freq} MHz")
+            print(f"  Eta: {metrics['eta'][0]:.2f} ± {metrics['eta'][1]:.2f}")
+            print(f"  Offset: {metrics['offset'][0]:.4f} ± {metrics['offset'][1]:.4f}")
+            print(f"  Gaussian Area: {metrics['gaussian_area'][0]:.2f} ± {metrics['gaussian_area'][1]:.2f}")
+            print(f"  Lorentzian Area: {metrics['lorentzian_area'][0]:.2f} ± {metrics['lorentzian_area'][1]:.2f}")
+            print(f"  Total Area: {metrics['total_area'][0]:.2f} ± {metrics['total_area'][1]:.2f}")
             area_of_peaks.append(metrics['total_area'])
 
         self._calculate_and_print_percentages(area_of_peaks)
 
     def _calculate_and_print_percentages(self, area_of_peaks: List[Tuple[float, float]]) -> None:
-        """
-         Calculate and display percentage contributions of each peak.
-
-        Computes relative contributions of each peak to total spectral area
-        and their associated uncertainties using error propagation.
-
-        Args:
-            area_of_peaks (List[Tuple[float, float]]): List of (area, error) pairs
-        """
+        """Calculate and print percentage contributions of each peak."""
         total_area_sum = sum(area[0] for area in area_of_peaks)
         total_area_sum_err = np.sqrt(sum(area[1]**2 for area in area_of_peaks))
         
-        overall_percentage = []
         for i, (area, area_err) in enumerate(area_of_peaks, 1):
             percentage = (area / total_area_sum) * 100
             percentage_err = percentage * np.sqrt((area_err / area) ** 2 + 
                                                (total_area_sum_err / total_area_sum) ** 2)
-            print(f'Peak {i} Percentage is {percentage:.2f}% ± {percentage_err:.2f}%')
-            overall_percentage.append((percentage, percentage_err))
+            print(f'Peak {i} Percentage: {percentage:.2f}% ± {percentage_err:.2f}%')
 
-        overall_percentage_sum = sum(p[0] for p in overall_percentage)
-        overall_percentage_sum_err = np.sqrt(sum(p[1]**2 for p in overall_percentage))
-        print(f'Overall Percentage is {overall_percentage_sum:.2f}% ± {overall_percentage_sum_err:.2f}%')
+        overall_percentage = sum((area[0] / total_area_sum) * 100 for area in area_of_peaks)
+        print(f'Total: {overall_percentage:.2f}%')
 
     def save_results(self, filepath: str, x_data: np.ndarray, y_data: np.ndarray,
                     fitted_data: np.ndarray, peak_metrics: List[Dict],
                     popt: np.ndarray, components: List[np.ndarray]) -> None:
-        """
-            Save all analysis results to files.
-
-                    Creates three output files:
-                    1. CSV file with peak data and components
-                    2. Text file with detailed metrics
-                    3. PNG file with visualization plot
-
-                    Args:
-                        filepath (str): Base path for saving files
-                        x_data (np.ndarray): X-axis data
-                        y_data (np.ndarray): Y-axis data
-                        fitted_data (np.ndarray): Fitted curve data
-                        peak_metrics (List[Dict]): Peak metrics including errors
-                        popt (np.ndarray): Optimized parameters
-                        components (List[np.ndarray]): Individual peak components
-
-                    Note:
-                        Files are named automatically based on the base filepath:
-                        - peak_data.csv
-                        - pseudoVoigtPeak_metrics.txt
-                        - pseudoVoigtPeakFit.png
-        """
+        """Save all results to files."""
         self._save_peak_data(filepath, x_data, y_data, fitted_data, components)
         self._save_metrics(filepath, peak_metrics)
-        self._save_plot(filepath, x_data, y_data, fitted_data,
-                       popt)
+        self._save_plot(filepath, x_data, y_data, fitted_data, popt)
         self._print_detailed_results(peak_metrics)
 
     def _save_peak_data(self, filepath: str, x_data: np.ndarray, y_data: np.ndarray, 
                        fitted_data: np.ndarray, components: List[np.ndarray]) -> None:
-        """
-         Save peak data to CSV file.
-
-        Creates a CSV file containing:
-        - X-axis data
-        - Original Y-axis data
-        - Fitted curve
-        - Individual peak components
-
-        Args:
-            filepath (str): Base path for saving file
-            x_data (np.ndarray): X-axis data
-            y_data (np.ndarray): Y-axis data
-            fitted_data (np.ndarray): Fitted curve data
-            components (List[np.ndarray]): Individual peak components
-            """
+        """Save peak data to CSV file."""
         df = pd.DataFrame({'x_data': x_data, 'y_data': y_data, 'y_fit': fitted_data})
-        
         for i, component in enumerate(components):
             df[f'component_{i+1}'] = component
-        
         df.to_csv(filepath + 'peak_data.csv', index=False)
 
     def _save_metrics(self, filepath: str, peak_metrics: List[Dict]) -> None:
-        """
-        Save detailed peak metrics to text file.
-
-        Writes comprehensive analysis results including:
-        - Peak positions and widths
-        - Areas (Gaussian and Lorentzian contributions)
-        - Relative percentages
-        - All associated uncertainties
-
-        Args:
-            filepath (str): Base path for saving file
-            peak_metrics (List[Dict]): Peak metrics including errors
-            """
+        """Save peak metrics to text file."""
         with open(filepath + 'pseudoVoigtPeak_metrics.txt', 'w') as file:
             area_of_peaks = []
             for i, metrics in enumerate(peak_metrics, 1):
                 file.write(f"\nPeak {i} (Position: {metrics['x0'][0]:.2f} ± {metrics['x0'][1]:.2f}):\n")
                 file.write(f"Amplitude: {metrics['amplitude'][0]:.3f} ± {metrics['amplitude'][1]:.3f}\n")
-                file.write(f"Width: {metrics['width'][0]:.2f} ± {metrics['width'][1]:.2f} in ppm\n")
-                file.write(f"Width: {metrics['width'][0]*self.larmor_freq:.2f} ± {metrics['width'][1]*self.larmor_freq:.2f} in Hz\n")
+                file.write(f"Width (FWHM): {metrics['width'][0]:.2f} ± {metrics['width'][1]:.2f} ppm\n")
+                file.write(f"Width (FWHM): {metrics['width'][0]*self.carrier_freq:.2f} ± {metrics['width'][1]*self.carrier_freq:.2f} Hz\n")
                 file.write(f"Eta: {metrics['eta'][0]:.2f} ± {metrics['eta'][1]:.2f}\n")
-                file.write(f"Offset: {metrics['offset'][0]:.3f} ± {metrics['offset'][1]:.3f}\n")
-                file.write(f"Gaussian Area: {metrics['gaussian_area'][0]:.2f} ± {metrics['gaussian_area'][1]:.2f}\n")
-                file.write(f"Lorentzian Area: {metrics['lorentzian_area'][0]:.2f} ± {metrics['lorentzian_area'][1]:.2f}\n")
-                file.write(f"Total Area: {metrics['total_area'][0]:.2f} ± {metrics['total_area'][1]:.2f}\n")
-                file.write("\n" + "-" * 50 + "\n")
+                file.write(f"Offset: {metrics['offset'][0]:.4f} ± {metrics['offset'][1]:.4f}\n")
+                file.write(f"Total Area: {metrics['total_area'][0]:.2f} ± {metrics['total_area'][1]:.2f}\n\n")
                 area_of_peaks.append(metrics['total_area'])
             
-            # Write percentages
             total_area_sum = sum(area[0] for area in area_of_peaks)
-            total_area_sum_err = np.sqrt(sum(area[1]**2 for area in area_of_peaks))
-            
             for i, (area, area_err) in enumerate(area_of_peaks, 1):
                 percentage = (area / total_area_sum) * 100
-                percentage_err = percentage * np.sqrt((area_err / area) ** 2 + 
-                                                   (total_area_sum_err / total_area_sum) ** 2)
-                file.write(f'Peak {i} Percentage is {percentage:.2f}% ± {percentage_err:.2f}%\n')
-            
-            overall_percentage = sum((area[0] / total_area_sum) * 100 for area in area_of_peaks)
-            file.write(f'Overall Percentage is {overall_percentage:.2f}%\n')
+                file.write(f'Peak {i} Percentage: {percentage:.2f}%\n')
 
     def _save_plot(self, filepath: str, x_data: np.ndarray, y_data: np.ndarray,
-                   fitted_data: np.ndarray,
-                   popt: np.ndarray) -> None:
-        
-        """        
-        Save visualization plot to PNG file.
-
-        Creates a publication-quality figure showing:
-        - Original data
-        - Fitted curves
-        - Individual components
-        - Residuals
-
-        Args:
-            filepath (str): Base path for saving file
-            x_data (np.ndarray): X-axis data (chemical shift values)
-            y_data (np.ndarray): Y-axis data (original spectral intensities)
-            fitted_data (np.ndarray): The overall fitted curve
-            popt (np.ndarray): Optimized parameters for all peaks
-
-        Note:
-            - The plot is saved as 'pseudoVoigtPeakFit.png'
-            - Plot styling is controlled by set_plot_style() method
-            - The figure is automatically closed after saving to free memory
-            - Figure is saved with tight layout to prevent label clipping"""
-            
-        fig, _, _ = self.plot_results(x_data, y_data, fitted_data, 
-                                    popt)
+                   fitted_data: np.ndarray, popt: np.ndarray) -> None:
+        """Save the plot to a file."""
+        fig, _, _ = self.plot_results(x_data, y_data, fitted_data, popt)
         fig.savefig(filepath + 'pseudoVoigtPeakFit.png', bbox_inches='tight')
         plt.close(fig)

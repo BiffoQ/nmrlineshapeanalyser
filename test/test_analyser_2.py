@@ -115,8 +115,8 @@ class TestNMRProcessor(unittest.TestCase):
         # Basic tests
         x_data = np.array([1, 2, 3, 4, 5])
         y_data = np.array([2, 4, 6, 8, 10])
-        x_norm, y_norm = self.processor.normalize_data(x_data, y_data)
-        
+        x_norm, y_norm, y_amp, y_ground = self.processor.normalize_data(x_data, y_data)
+
         assert np.array_equal(x_norm, x_data)
         assert np.min(y_norm) == 0
         assert np.max(y_norm) == 1
@@ -131,7 +131,7 @@ class TestNMRProcessor(unittest.TestCase):
 
         # Test negative values with reversibility
         y_data = np.array([-5, 0, 5])
-        x_norm, y_norm = self.processor.normalize_data(x_data[:3], y_data)
+        x_norm, y_norm, _, _ = self.processor.normalize_data(x_data[:3], y_data)
         y_ground = np.min(y_data)
         y_amp = np.max(y_data) - y_ground
         y_reconstructed = y_norm * y_amp + y_ground
@@ -139,7 +139,7 @@ class TestNMRProcessor(unittest.TestCase):
 
         # Test constant values
         y_data = np.array([5, 5, 5])
-        x_norm, y_norm = self.processor.normalize_data(x_data[:3], y_data)
+        x_norm, y_norm, _, _ = self.processor.normalize_data(x_data[:3], y_data)
         assert np.array_equal(y_norm, np.zeros_like(y_data))
 
         # Test empty arrays
@@ -265,104 +265,73 @@ class TestNMRProcessor(unittest.TestCase):
         np.testing.assert_array_almost_equal(result, expected, decimal=4)
         
     def test_multiple_peaks_no_fixed_params(self):
-        """Test fitting of multiple peaks with no fixed parameters."""
+        """Test fitting of multiple peaks with no fixed parameters, sharing one offset."""
         x = np.linspace(-10, 10, 1000)
-        
-        x0_1, x0_2 = -1.0, 1.0
 
-        self.processor.fixed_params =  [
-                                            (x0_1, None, None, None, None),
-                                            (x0_2, None, None, None, None)
-                                        ]
+        self.processor.fixed_params = [
+            (None, None, None, None, None),
+            (None, None, None, None, None)
+        ]
 
-        params = [1.0, 1.5, 0.3, 0.1, 0.8, 2.0, 0.7, 0.2]
+        # x0_1, amp1, width1, eta1, x0_2, amp2, width2, eta2, shared_offset
+        params = [-1.0, 1.0, 1.5, 0.3, 1.0, 0.8, 2.0, 0.7, 0.2]
 
         y = self.processor.pseudo_voigt_multiple(x, *params)
 
-        # Calculate expected result for first peak
-        sigma1 = params[1] / (2 * np.sqrt(2 * np.log(2)))
-        gamma1 = params[1] / 2
-        lorentzian1 = params[0] * (gamma1**2 / ((x - x0_1)**2 + gamma1**2))
-        gaussian1 = params[0] * np.exp(-0.5 * ((x - x0_1) / sigma1)**2)
-        peak1 = params[2] * lorentzian1 + (1 - params[2]) * gaussian1 + params[3]
-        
-        # Calculate expected result for second peak
-        sigma2 = params[5] / (2 * np.sqrt(2 * np.log(2)))
-        gamma2 = params[5] / 2
-        lorentzian2 = params[4] * (gamma2**2 / ((x - x0_2)**2 + gamma2**2))
-        gaussian2 = params[4] * np.exp(-0.5 * ((x - x0_2) / sigma2)**2)
-        peak2 = params[6] * lorentzian2 + (1 - params[6]) * gaussian2 + params[7]
-        
-        # Total expected result
-        y_exp = peak1 + peak2 - params[3] - params[7]  # Subtract offsets to avoid double counting
+        peak1 = self.processor.pseudo_voigt(x, *params[0:4])
+        peak2 = self.processor.pseudo_voigt(x, *params[4:8])
+        y_exp = peak1 + peak2 + params[-1]  # single shared offset applied once
 
-        residuals = y - y_exp
-        
-        self.assertTrue(np.std(residuals) < 0.1)
-        
+        np.testing.assert_array_almost_equal(y_exp, y, decimal=6)
+
     def test_multiple_peaks_fixed_x0(self):
-        """Test fitting of multiple peaks with fixed x0."""
+        """Test fitting of multiple peaks with one fixed x0, sharing one offset."""
         x = np.linspace(-10, 10, 1000)
-        
+
         fixed_x0 = -1.0
 
         self.processor.fixed_params = [
-                                        (fixed_x0, None, None, None, None),
-                                        (None, None, None, None, None)
-                                    ]
+            (fixed_x0, None, None, None, None),
+            (None, None, None, None, None)
+        ]
 
-        params = [1.0, 1.5, 0.3, 0.1, 1.0, 0.8, 2.0, 0.7, 0.2]
+        # amp1, width1, eta1, x0_2, amp2, width2, eta2, shared_offset
+        params = [1.0, 1.5, 0.3, 1.0, 0.8, 2.0, 0.7, 0.2]
 
         y = self.processor.pseudo_voigt_multiple(x, *params)
 
-        # Calculate expected result for first peak (fixed x0)
-        sigma1 = params[1] / (2 * np.sqrt(2 * np.log(2)))
-        gamma1 = params[1] / 2
-        lorentzian1 = params[0] * (gamma1**2 / ((x - fixed_x0)**2 + gamma1**2))
-        gaussian1 = params[0] * np.exp(-0.5 * ((x - fixed_x0) / sigma1)**2)
-        peak1 = params[2] * lorentzian1 + (1 - params[2]) * gaussian1 + params[3]
-        
-        # Calculate expected result for second peak (unfixed x0)
-        sigma2 = params[6] / (2 * np.sqrt(2 * np.log(2)))
-        gamma2 = params[6] / 2
-        lorentzian2 = params[5] * (gamma2**2 / ((x - params[4])**2 + gamma2**2))
-        gaussian2 = params[5] * np.exp(-0.5 * ((x - params[4]) / sigma2)**2)
-        peak2 = params[7] * lorentzian2 + (1 - params[7]) * gaussian2 + params[8]
-        
-        # Total expected result
-        y_exp = peak1 + peak2 - params[3] - params[8]  # Subtract offsets to avoid double counting
+        peak1 = self.processor.pseudo_voigt(x, fixed_x0, *params[0:3])
+        peak2 = self.processor.pseudo_voigt(x, *params[3:7])
+        y_exp = peak1 + peak2 + params[-1]  # single shared offset applied once
 
-        residuals = y - y_exp
-        
-        self.assertTrue(np.std(residuals) < 0.1)
-        
+        np.testing.assert_array_almost_equal(y_exp, y, decimal=6)
+
     def test_multiple_peaks_mixed_fixed_x0(self):
-        """Test fitting of multiple peaks with mixed fixed and unfixed x0."""
+        """Test fitting of multiple peaks with mixed fixed and unfixed x0, sharing one offset."""
         x = np.linspace(-10, 10, 1000)
 
         self.processor.fixed_params = [(3, None, None, None, None),
                                         (None, None, None, None, None)]
 
-        params = [1, 1, 0.5, 0.1,  # First peak (fixed x0)
-                    7, 0.8, 1.2, 0.3, 0.2]  # Second peak (unfixed x0)
+        # amp1, width1, eta1 (peak1, fixed x0), x0_2, amp2, width2, eta2, shared_offset
+        params = [1, 1, 0.5, 7, 0.8, 1.2, 0.3, 0.2]
 
         y = self.processor.pseudo_voigt_multiple(x, *params)
 
-        # Calculate expected result - each peak includes its own offset
-        peak1 = self.processor.pseudo_voigt(x, 3, 1, 1, 0.5) + 0.1
-        peak2 = self.processor.pseudo_voigt(x, 7, 0.8, 1.2, 0.3) + 0.2
-        
-        y_exp = peak1 + peak2
-        
+        peak1 = self.processor.pseudo_voigt(x, 3, 1, 1, 0.5)
+        peak2 = self.processor.pseudo_voigt(x, 7, 0.8, 1.2, 0.3)
+        y_exp = peak1 + peak2 + params[-1]  # single shared offset applied once
+
         np.testing.assert_array_almost_equal(y_exp, y, decimal=6)
-    
+
     def test_invalid_params_length(self):
         """Test handling of invalid parameters length."""
         x = np.linspace(-10, 10, 1000)
 
         self.processor.fixed_params = [(None, None, None, None, None)] * 2
 
-        params = [3, 1, 1, 0.5, 0.1, 7, 0.8, 1.2, 0.3]  # Missing one parameter
+        # 2 free peaks need 4*2 + 1 = 9 parameters; provide only 8 (missing one)
+        params = [3, 1, 1, 0.5, 7, 0.8, 1.2, 0.3]
 
         with self.assertRaises(ValueError):
             self.processor.pseudo_voigt_multiple(x, *params)
@@ -456,7 +425,9 @@ class TestNMRProcessor(unittest.TestCase):
         """Test results saving functionality."""
         import matplotlib
         matplotlib.use('Agg')
-        
+
+        self.processor.carrier_freq = self.larmor_freq
+
         try:
             # Create test data
             x_data = np.linspace(0, 10, 100)
@@ -534,7 +505,7 @@ if __name__ == '__main__':
     cov = coverage.Coverage()
     cov.start()
     
-    unittest.main(verbosity=2)
+    unittest.main(verbosity=2, exit=False)
     
     cov.stop()
     
