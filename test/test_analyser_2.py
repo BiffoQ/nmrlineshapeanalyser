@@ -264,6 +264,64 @@ class TestNMRProcessor(unittest.TestCase):
         # Use a lower decimal precision due to numerical differences
         np.testing.assert_array_almost_equal(result, expected, decimal=4)
         
+    def test_single_peak_fixed_eta(self):
+        """Test fitting of a single peak with fixed eta."""
+        x = np.linspace(-10, 10, 1000)
+        fixed_eta = 0.7
+
+        # Set up fixed parameters: x0, amp, width free; eta fixed
+        self.processor.fixed_params = [(None, None, None, fixed_eta, None)]
+
+        # Test parameters: x0=3, amp=1, width=1, offset=0.1
+        params = [3, 1, 1, 0.1]
+
+        result = self.processor.pseudo_voigt_multiple(x, *params)
+        expected = self.processor.pseudo_voigt(x, 3, 1, 1, fixed_eta) + 0.1
+
+        np.testing.assert_array_almost_equal(result, expected, decimal=6)
+
+    def test_multiple_peaks_mixed_fixed_eta(self):
+        """Test fitting of multiple peaks with mixed fixed and unfixed eta, sharing one offset."""
+        x = np.linspace(-10, 10, 1000)
+
+        fixed_eta = 0.6
+        self.processor.fixed_params = [
+            (None, None, None, fixed_eta, None),
+            (None, None, None, None, None)
+        ]
+
+        # x0_1, amp1, width1 (peak1, fixed eta), x0_2, amp2, width2, eta2, shared_offset
+        params = [3, 1, 1, 7, 0.8, 1.2, 0.3, 0.2]
+
+        y = self.processor.pseudo_voigt_multiple(x, *params)
+
+        peak1 = self.processor.pseudo_voigt(x, 3, 1, 1, fixed_eta)
+        peak2 = self.processor.pseudo_voigt(x, 7, 0.8, 1.2, 0.3)
+        y_exp = peak1 + peak2 + params[-1]  # single shared offset applied once
+
+        np.testing.assert_array_almost_equal(y_exp, y, decimal=6)
+
+    def test_fit_peaks_fixed_eta(self):
+        """Test that fit_peaks holds eta at its initial value when fixed_eta is True."""
+        x_data = np.linspace(0, 10, 1000)
+        y_data = (self.processor.pseudo_voigt(x_data, 3, 1, 1, 0.7) +
+                 self.processor.pseudo_voigt(x_data, 7, 0.8, 1.2, 0.3))
+        y_data += np.random.normal(0, 0.001, len(x_data))  # Add noise
+
+        initial_params = [
+            3, 1, 1, 0.7, 0,    # First peak, eta seeded at its true value
+            7, 0.8, 1.2, 0.5, 0  # Second peak, eta free
+        ]
+        fixed_eta = [True, False]
+
+        popt, metrics, fitted = self.processor.fit_peaks(
+            x_data, y_data, initial_params, fixed_eta=fixed_eta)
+
+        # First peak's eta must stay exactly at the seeded value, with zero reported error
+        self.assertEqual(metrics[0]['eta'], (0.7, 0))
+        # Second peak's eta should still be fitted freely, close to its true value
+        self.assertAlmostEqual(metrics[1]['eta'][0], 0.3, delta=0.05)
+
     def test_multiple_peaks_no_fixed_params(self):
         """Test fitting of multiple peaks with no fixed parameters, sharing one offset."""
         x = np.linspace(-10, 10, 1000)

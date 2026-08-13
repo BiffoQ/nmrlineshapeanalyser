@@ -152,8 +152,8 @@ class NMRProcessor:
         n_peaks = len(self.fixed_params)
 
         expected_len = sum(
-            (fixed_x0 is None) + (fixed_amp is None) + (fixed_width is None) + 1
-            for fixed_x0, fixed_amp, fixed_width, _, _ in self.fixed_params
+            (fixed_x0 is None) + (fixed_amp is None) + (fixed_width is None) + (fixed_eta is None)
+            for fixed_x0, fixed_amp, fixed_width, fixed_eta, _ in self.fixed_params
         ) + 1  # +1 for the shared offset
         if len(params) != expected_len:
             raise ValueError(
@@ -164,29 +164,32 @@ class NMRProcessor:
         y = np.zeros_like(x)
 
         for i in range(n_peaks):
-            fixed_x0, fixed_amp, fixed_width, _, _ = self.fixed_params[i]
-            
+            fixed_x0, fixed_amp, fixed_width, fixed_eta, _ = self.fixed_params[i]
+
             if fixed_x0 is not None:
                 x0 = fixed_x0
             else:
                 x0 = params[param_idx]
                 param_idx += 1
-            
+
             if fixed_amp is not None:
                 amp = fixed_amp
             else:
                 amp = params[param_idx]
                 param_idx += 1
-            
+
             if fixed_width is not None:
                 width = fixed_width
             else:
                 width = params[param_idx]
                 param_idx += 1
-            
-            eta = params[param_idx]
-            param_idx += 1
-            
+
+            if fixed_eta is not None:
+                eta = fixed_eta
+            else:
+                eta = params[param_idx]
+                param_idx += 1
+
             y += self.pseudo_voigt(x, x0, amp, width, eta)
         
         # Single shared offset applied once to the summed peaks
@@ -195,36 +198,42 @@ class NMRProcessor:
         
         return y
 
-    def fit_peaks(self, x_data: np.ndarray, y_data: np.ndarray, 
+    def fit_peaks(self, x_data: np.ndarray, y_data: np.ndarray,
                  initial_params: List[float], fixed_x0: Optional[List[bool]] = None,
                  fixed_amp: Optional[List[bool]] = None, fixed_width: Optional[List[bool]] = None,
+                 fixed_eta: Optional[List[bool]] = None,
                  y_scale: float = 1.0, y_offset: float = 0.0) -> Tuple[np.ndarray, List[Dict], np.ndarray]:
         """
         Fit multiple Pseudo-Voigt peaks to the data, sharing a single baseline offset.
-        
+
         Args:
             fixed_x0: per-peak flags to fix the peak position at its initial value
             fixed_amp: per-peak flags to fix the peak amplitude at its initial value
             fixed_width: per-peak flags to fix the peak width at its initial value
-        
+            fixed_eta: per-peak flags to fix the Gaussian/Lorentzian mixing parameter
+                (eta) at its initial value. Defaults to all False, i.e. eta is fitted
+                freely for every peak unless explicitly fixed.
+
         Note: all peaks share one fitted offset (baseline), seeded from the mean of
         the per-peak offsets given in initial_params. The returned popt/peak_metrics
         report that same shared offset value for every peak.
-        
+
         IMPORTANT: Initial offsets should be in normalized scale (0-1), e.g., use 0.0.
         """
         if len(initial_params) % 5 != 0:
             raise ValueError("Number of initial parameters must be divisible by 5")
-        
+
         n_peaks = len(initial_params) // 5
-        
+
         if fixed_x0 is None:
             fixed_x0 = [False] * n_peaks
         if fixed_amp is None:
             fixed_amp = [False] * n_peaks
         if fixed_width is None:
             fixed_width = [False] * n_peaks
-            
+        if fixed_eta is None:
+            fixed_eta = [False] * n_peaks
+
         self.fixed_params = []
         fit_params = []
         lower_bounds = []
@@ -239,29 +248,29 @@ class NMRProcessor:
                 x0 if fixed_x0[i] else None,
                 amp if fixed_amp[i] else None,
                 width if fixed_width[i] else None,
-                None,
+                eta if fixed_eta[i] else None,
                 None,
             ))
-            
+
             if not fixed_x0[i]:
                 fit_params.append(x0)
                 lower_bounds.append(x0 - width/2)
                 upper_bounds.append(x0 + width/2)
-            
+
             if not fixed_amp[i]:
                 fit_params.append(amp)
                 lower_bounds.append(0)
                 upper_bounds.append(np.inf)
-            
+
             if not fixed_width[i]:
                 fit_params.append(width)
                 lower_bounds.append(1)
                 upper_bounds.append(np.inf)
-            
-            # eta is always free
-            fit_params.append(eta)
-            lower_bounds.append(0)
-            upper_bounds.append(1)
+
+            if not fixed_eta[i]:
+                fit_params.append(eta)
+                lower_bounds.append(0)
+                upper_bounds.append(1)
         
         # Single shared offset, appended once at the end, seeded from the
         # mean of the per-peak offsets in initial_params
@@ -278,44 +287,47 @@ class NMRProcessor:
                                  maxfev=10000, method='trf')
         
         # Process results
-        full_popt = self._process_fit_results(popt, initial_params, fixed_x0, fixed_amp, fixed_width)
-        peak_metrics = self.calculate_peak_metrics(full_popt, pcov, fixed_x0, fixed_amp, fixed_width)
+        full_popt = self._process_fit_results(popt, initial_params, fixed_x0, fixed_amp, fixed_width, fixed_eta)
+        peak_metrics = self.calculate_peak_metrics(full_popt, pcov, fixed_x0, fixed_amp, fixed_width, fixed_eta)
         fitted_data = self.pseudo_voigt_multiple(x_data, *popt)
-        
+
         return full_popt, peak_metrics, fitted_data
 
-    def _process_fit_results(self, popt: np.ndarray, initial_params: List[float], 
-                           fixed_x0: List[bool], fixed_amp: List[bool], 
-                           fixed_width: List[bool]) -> np.ndarray:
+    def _process_fit_results(self, popt: np.ndarray, initial_params: List[float],
+                           fixed_x0: List[bool], fixed_amp: List[bool],
+                           fixed_width: List[bool], fixed_eta: List[bool]) -> np.ndarray:
         """Process and organize fitting results, broadcasting the shared offset to every peak."""
         n_peaks = len(initial_params) // 5
         param_idx = 0
         peak_shape_params = []
-        
+
         for i in range(n_peaks):
             x0_init, amp_init, width_init, eta_init, offset_init = initial_params[5*i:5*(i+1)]
-            
+
             if fixed_x0[i]:
                 x0 = x0_init
             else:
                 x0 = popt[param_idx]
                 param_idx += 1
-            
+
             if fixed_amp[i]:
                 amp = amp_init
             else:
                 amp = popt[param_idx]
                 param_idx += 1
-            
+
             if fixed_width[i]:
                 width = width_init
             else:
                 width = popt[param_idx]
                 param_idx += 1
-            
-            eta = popt[param_idx]
-            param_idx += 1
-            
+
+            if fixed_eta[i]:
+                eta = eta_init
+            else:
+                eta = popt[param_idx]
+                param_idx += 1
+
             peak_shape_params.append((x0, amp, width, eta))
         
         # Last remaining parameter is the single shared offset
@@ -327,14 +339,14 @@ class NMRProcessor:
         
         return np.array(full_popt)
 
-    def calculate_peak_metrics(self, popt: np.ndarray, pcov: np.ndarray, 
-                             fixed_x0: List[bool], fixed_amp: List[bool], 
-                             fixed_width: List[bool]) -> List[Dict]:
+    def calculate_peak_metrics(self, popt: np.ndarray, pcov: np.ndarray,
+                             fixed_x0: List[bool], fixed_amp: List[bool],
+                             fixed_width: List[bool], fixed_eta: List[bool]) -> List[Dict]:
         """Calculate metrics for each fitted peak, using the shared offset's error for all peaks."""
         n_peaks = len(popt) // 5
         errors = np.sqrt(np.diag(pcov)) if pcov.size else np.zeros(len(popt))
         error_idx = 0
-        
+
         peak_shape_errors = []
         for i in range(n_peaks):
             if fixed_x0[i]:
@@ -342,22 +354,25 @@ class NMRProcessor:
             else:
                 x0_err = errors[error_idx]
                 error_idx += 1
-            
+
             if fixed_amp[i]:
                 amp_err = 0
             else:
                 amp_err = errors[error_idx]
                 error_idx += 1
-            
+
             if fixed_width[i]:
                 width_err = 0
             else:
                 width_err = errors[error_idx]
                 error_idx += 1
-            
-            eta_err = errors[error_idx]
-            error_idx += 1
-            
+
+            if fixed_eta[i]:
+                eta_err = 0
+            else:
+                eta_err = errors[error_idx]
+                error_idx += 1
+
             peak_shape_errors.append((x0_err, amp_err, width_err, eta_err))
         
         # Last remaining error entry belongs to the single shared offset

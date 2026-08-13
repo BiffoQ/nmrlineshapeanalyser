@@ -8,7 +8,7 @@ This package is compatible with Bruker's NMR data and spectrum data saved in a C
   - it offers an easy and fast processing of either lineshape spectral analysis or peak deconvolution
   - it requires the path to processed Bruker's data ``data\single_peak\10\pdata\1`` 
   - for the optimisation, you only need to input the peak position(s) -- it does the rest
-  - it gives you the freedom to decide if you want to either optimise or fix the peak peak position(s) while other peak parameters are refined
+  - it gives you the freedom to decide if you want to either optimise or fix the peak position(s), amplitude, width, or eta (Gaussian/Lorentzian mixing) while the remaining parameters are refined
   - it provides you a detailed analysis of the optimised Pseudo-Voigt parameters that describe your peak(s) -- saved in a txt file
   - for peak deconvolution, it calculates the percentage of each peaks 
   - it saves fit and data in a CSV file in case you decide to visualise in your preferred software
@@ -78,8 +78,9 @@ x_data, y_normalized = processor.normalize_data(x_data, y_data)
 #format of the parameters is [x0, amplitude, width, eta, offset]
 # x0 (position), amplitude, width, eta (mixing parameter), offset
 #x0 has to be close to the peak position
+#offset is shared across all peaks and must be in the normalized 0-1 scale
 initial_params = [
-581, 0.12, 40.51, 0.89, -143.115, 
+581, 0.12, 40.51, 0.89, 0.0, 
   ]
 #Specify the number of peaks to be fitted
 
@@ -96,8 +97,13 @@ fixed_x0 = [False] * number_of_peaks
 #Where the number of False reflects the number of peaks you want to optimise 
 # i.e. [False, False] means you want to optimise two peak positions and so on
 
+# fixed_eta controls whether each peak's eta (Gaussian/Lorentzian mixing) is fixed
+# False means eta is fitted freely (this is the default if fixed_eta is omitted)
+# True fixes it at its initial_params value
+fixed_eta = [False] * number_of_peaks
+
 #FIt the data
-popt, metrics, fitted = processor.fit_peaks(x_data, y_normalized, initial_params, fixed_x0)
+popt, metrics, fitted = processor.fit_peaks(x_data, y_normalized, initial_params, fixed_x0, fixed_eta=fixed_eta)
 
 #popt is the optimized parameters
 #metrics is the metrics of the fitting

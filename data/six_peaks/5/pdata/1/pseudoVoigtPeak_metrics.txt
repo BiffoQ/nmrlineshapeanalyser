@@ -2,7 +2,7 @@
 Peak 1 (Position: 335.07 ± 0.19):
 Amplitude: 0.060 ± 0.001
 Width (FWHM): 47.42 ± 0.54 ppm
-Width (FWHM): 3215.23 ± 36.92 Hz
+Width (FWHM): 3215.22 ± 36.93 Hz
 Eta: 0.00 ± 0.06
 Offset: 0.0020 ± 0.0006
 Total Area: 3.04 ± 0.33
@@ -11,7 +11,7 @@ Total Area: 3.04 ± 0.33
 Peak 2 (Position: 431.23 ± 0.19):
 Amplitude: 0.225 ± 0.004
 Width (FWHM): 57.32 ± 0.60 ppm
-Width (FWHM): 3886.82 ± 40.80 Hz
+Width (FWHM): 3886.81 ± 40.82 Hz
 Eta: 0.48 ± 0.02
 Offset: 0.0020 ± 0.0006
 Total Area: 16.88 ± 0.61
@@ -20,7 +20,7 @@ Total Area: 16.88 ± 0.61
 Peak 3 (Position: 497.39 ± 0.25):
 Amplitude: 0.135 ± 0.017
 Width (FWHM): 38.42 ± 1.90 ppm
-Width (FWHM): 2604.93 ± 129.06 Hz
+Width (FWHM): 2604.81 ± 129.15 Hz
 Eta: 0.35 ± 0.08
 Offset: 0.0020 ± 0.0006
 Total Area: 6.44 ± 1.03
@@ -29,7 +29,7 @@ Total Area: 6.44 ± 1.03
 Peak 4 (Position: 580.16 ± 0.46):
 Amplitude: 0.095 ± 0.020
 Width (FWHM): 31.00 ± 2.67 ppm
-Width (FWHM): 2101.67 ± 181.25 Hz
+Width (FWHM): 2101.69 ± 181.14 Hz
 Eta: 0.36 ± 0.19
 Offset: 0.0020 ± 0.0006
 Total Area: 3.67 ± 1.21
@@ -38,16 +38,16 @@ Total Area: 3.67 ± 1.21
 Peak 5 (Position: 553.29 ± 1.75):
 Amplitude: 0.642 ± 0.026
 Width (FWHM): 72.25 ± 2.27 ppm
-Width (FWHM): 4898.84 ± 153.80 Hz
+Width (FWHM): 4898.95 ± 153.78 Hz
 Eta: 0.00 ± 0.13
 Offset: 0.0020 ± 0.0006
-Total Area: 49.40 ± 11.55
+Total Area: 49.40 ± 11.56
 
 
 Peak 6 (Position: 614.38 ± 1.31):
 Amplitude: 0.724 ± 0.019
 Width (FWHM): 83.87 ± 1.04 ppm
-Width (FWHM): 5686.92 ± 70.39 Hz
+Width (FWHM): 5686.91 ± 70.40 Hz
 Eta: 0.00 ± 0.03
 Offset: 0.0020 ± 0.0006
 Total Area: 64.67 ± 4.26
