@@ -33,7 +33,7 @@ dependencies = [
     "nmrglue", 
     "numpy>=1.26.0",        
     "scipy",    
-    "matplotlib>=3.9.0",   
+    "matplotlib>=3.10.9",   
     "pandas>=2.2.0"       
 ]
 
